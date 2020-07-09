@@ -7,15 +7,15 @@ assignees: ''
 
 ---
 
-**Description**
+**Description**  
 >A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
 
-**Progress**
+**Progress**  
 - [x] @mentions, #refs, [links](), **formatting**, and <del>tags</del> supported
 - [x] this is a complete item
 - [ ] this is an incomplete item
 
-**Question**
+**Question**  
 
-**Additional context**
+**Additional context**  
 Add any other context or screenshots about the feature request here.
