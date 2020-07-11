@@ -16,7 +16,4 @@ public class Theme {
     @ManyToOne
     private Product product;
 
-    public String getThemeType() {
-        return themeType.getThemeType();
-    }
 }

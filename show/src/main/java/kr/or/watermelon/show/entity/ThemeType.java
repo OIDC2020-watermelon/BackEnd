@@ -6,13 +6,8 @@ import lombok.Getter;
 @Getter
 public enum ThemeType {
 
-    HOT_ISSUE("핫이슈"),
-    NEW("신규"),
-    COMMING_SOON("커밍순");
+    HOT_ISSUE,
+    NEW,
+    COMMING_SOON;
 
-    private final String themeType;
-
-    ThemeType(String themeType) {
-        this.themeType = themeType;
-    }
 }
