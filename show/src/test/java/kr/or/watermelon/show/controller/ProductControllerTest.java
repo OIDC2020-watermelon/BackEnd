@@ -1,8 +1,10 @@
 package kr.or.watermelon.show.controller;
 
 import kr.or.watermelon.show.entity.Comment;
+import kr.or.watermelon.show.entity.ThemeType;
 import kr.or.watermelon.show.factory.CommentFactory;
 import kr.or.watermelon.show.factory.PromotionFactory;
+import kr.or.watermelon.show.factory.ThemeFactory;
 import kr.or.watermelon.show.infra.AbstractContainerBaseTest;
 import kr.or.watermelon.show.infra.MockMvcTest;
 import org.junit.jupiter.api.DisplayName;
@@ -28,6 +30,8 @@ public class ProductControllerTest extends AbstractContainerBaseTest {
     CommentFactory commentFactory;
     @Autowired
     PromotionFactory promotionFactory;
+    @Autowired
+    ThemeFactory themeFactory;
 
     @DisplayName("댓글 조회 기능")
     @Test
@@ -63,9 +67,12 @@ public class ProductControllerTest extends AbstractContainerBaseTest {
     @Test
     void getPromotionAndThemeRepresentativeProducts() throws Exception {
         promotionFactory.savePromotions(2);
+        themeFactory.saveThemes(5);
         mockMvc.perform(get("/products/"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.promotion..product",hasSize(2)))
-                .andExpect(jsonPath("$.promotion..promotionImgUrl",hasSize(2)));
+                .andExpect(jsonPath("$.promotion..promotionImgUrl",hasSize(2)))
+                .andExpect(jsonPath("$.themes.length()",equalTo(ThemeType.values().length)))
+                .andExpect(jsonPath("$.themes."+ThemeType.values()[0].name(),hasSize(5)));
     }
 }

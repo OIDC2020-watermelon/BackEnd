@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,9 +31,10 @@ public class ProductController {
     }
 
     @GetMapping("/")
-    public Object getPromotionAndThemeRepresentativeProducts(){
-        HashMap<String, Object> promotionThemeProducts = new HashMap<>();
+    public Map<String,Object> getPromotionAndThemeRepresentativeProducts(){
+        Map<String,Object> promotionThemeProducts = new HashMap<>();
         promotionThemeProducts.put("promotion",productService.getPromotionProducts());
+        promotionThemeProducts.put("themes",productService.getThemeRepresentativeProducts());
         return promotionThemeProducts;
     }
 }
