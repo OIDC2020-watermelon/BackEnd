@@ -5,11 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import java.time.LocalDateTime;
 
 @Entity
@@ -22,6 +24,8 @@ public class Comment {
 
     private Long userId;//TODO 유저POD을 통해 User클래스로 변경해야함
 
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
     private String content;
 
     @CreationTimestamp

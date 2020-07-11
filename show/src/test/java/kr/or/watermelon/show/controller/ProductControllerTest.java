@@ -1,7 +1,11 @@
 package kr.or.watermelon.show.controller;
 
 import kr.or.watermelon.show.entity.Comment;
+import kr.or.watermelon.show.entity.ThemeType;
 import kr.or.watermelon.show.factory.CommentFactory;
+import kr.or.watermelon.show.factory.PromotionFactory;
+import kr.or.watermelon.show.factory.ThemeFactory;
+import kr.or.watermelon.show.infra.AbstractContainerBaseTest;
 import kr.or.watermelon.show.infra.MockMvcTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,12 +22,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 // TODO @RequiredArgsConstructor 왜 Constructor로 Injection이 안될까?
 @MockMvcTest
-public class ProductControllerTest {//extends AbstractContainerBaseTest {
+public class ProductControllerTest extends AbstractContainerBaseTest {
 
     @Autowired
     MockMvc mockMvc;
     @Autowired
     CommentFactory commentFactory;
+    @Autowired
+    PromotionFactory promotionFactory;
+    @Autowired
+    ThemeFactory themeFactory;
 
     @DisplayName("댓글 조회 기능")
     @Test
@@ -53,5 +61,18 @@ public class ProductControllerTest {//extends AbstractContainerBaseTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$",hasSize(2)))
                 .andExpect(jsonPath("$[0].content",equalTo(commentsSaved.get(10).getContent())));
+    }
+
+    @DisplayName("프로모션&테마별 대표 공연 가져오기")
+    @Test
+    void getPromotionAndThemeRepresentativeProducts() throws Exception {
+        promotionFactory.savePromotions(2);
+        themeFactory.saveThemes(5);
+        mockMvc.perform(get("/products/"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.promotion..product",hasSize(2)))
+                .andExpect(jsonPath("$.promotion..promotionImgUrl",hasSize(2)))
+                .andExpect(jsonPath("$.themes.length()",equalTo(ThemeType.values().length)))
+                .andExpect(jsonPath("$.themes."+ThemeType.values()[0].name(),hasSize(5)));
     }
 }
