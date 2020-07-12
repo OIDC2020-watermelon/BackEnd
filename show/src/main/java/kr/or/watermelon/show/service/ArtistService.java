@@ -5,6 +5,8 @@ import kr.or.watermelon.show.entity.Artist;
 import kr.or.watermelon.show.repository.ArtistRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,8 +24,8 @@ public class ArtistService {
         return modelMapper.map(artist, ResArtistDto.class);
     }
 
-    public List<ResArtistDto> searchArtists(String keyword) {
-        List<Artist> artists = artistRepository.findByNameContaining(keyword);
+    public List<ResArtistDto> searchArtists(String keyword, Pageable pageable) {
+        Page<Artist> artists = artistRepository.findByNameContaining(keyword,pageable);
         return artists.stream()
                 .map(p->modelMapper.map(p,ResArtistDto.class))
                 .collect(Collectors.toList());
