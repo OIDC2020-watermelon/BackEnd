@@ -11,8 +11,8 @@ public class PlaceFactory {
 
     private final PlaceRepository placeRepository;
 
-    public Place savePlace() {
-        Place yes24 = Place.builder().name("yes24").build();
+    public Place savePlace(String name) {
+        Place yes24 = Place.builder().name(name).build();
         return placeRepository.save(yes24);
     }
 }

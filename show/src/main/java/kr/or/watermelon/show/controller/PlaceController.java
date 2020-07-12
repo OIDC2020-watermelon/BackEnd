@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/places")
@@ -18,5 +20,10 @@ public class PlaceController {
     @GetMapping("/{placeId}")
     public ResPlaceDto getPlace(@PathVariable Long placeId){
         return placeService.getPlace(placeId);
+    }
+
+    @GetMapping("/search")
+    public List<ResPlaceDto> searchPlaces(String keyword){
+        return placeService.searchPlaces(keyword);
     }
 }

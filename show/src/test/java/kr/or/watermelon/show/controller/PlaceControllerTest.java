@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @MockMvcTest
 public class PlaceControllerTest extends AbstractContainerBaseTest {
@@ -29,9 +30,20 @@ public class PlaceControllerTest extends AbstractContainerBaseTest {
     @DisplayName("공연장 상세정보 가져오기")
     @Test
     void getPlace() throws Exception {
-        Place place=placeFactory.savePlace();
+        Place place=placeFactory.savePlace("yes24");
         mockMvc.perform(get("/places/"+place.getId()))
-                .andExpect(jsonPath("$.name",equalTo(place.getName())));
+                .andExpect(jsonPath("$.name",equalTo("yes24")));
         //TODO 테스트는 직관적일수록 좋으므로 savePlace("yes24")로 변경하면 좋다.
+    }
+
+    @DisplayName("공연장 검색 결과 가져오기")
+    @Test
+    void searchPlace() throws Exception{
+        placeFactory.savePlace("yes24_hall");
+        placeFactory.savePlace("interpark_hall");
+        mockMvc.perform(get("/places/search?keyword=yes24"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()",equalTo(1)))
+                .andExpect(jsonPath("$[0].name",equalTo("yes24_hall")));
     }
 }
