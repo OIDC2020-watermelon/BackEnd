@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
 public class Promotion {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne

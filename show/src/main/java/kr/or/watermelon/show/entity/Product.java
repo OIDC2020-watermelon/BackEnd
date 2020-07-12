@@ -16,7 +16,7 @@ import java.util.List;
 @Entity
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
 public class Product {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
