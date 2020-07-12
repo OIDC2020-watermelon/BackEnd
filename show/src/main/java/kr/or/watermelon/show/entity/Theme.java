@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
 public class Theme {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.ORDINAL)
