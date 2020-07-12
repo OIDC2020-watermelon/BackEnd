@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/artists")
@@ -18,6 +20,11 @@ public class ArtistController {
     @GetMapping("/{artistId}")
     public ResArtistDto getArtist(@PathVariable Long artistId){
         return artistService.getArtist(artistId);
+    }
+
+    @GetMapping("/search")
+    public List<ResArtistDto> searchArtists(String keyword){
+        return artistService.searchArtists(keyword);
     }
 
 }

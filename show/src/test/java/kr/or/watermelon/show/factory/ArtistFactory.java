@@ -11,8 +11,8 @@ public class ArtistFactory {
 
     private final ArtistRepository artistRepository;
 
-    public Artist saveArtist() {
-        Artist tyga = Artist.builder().name("tyga").build();
+    public Artist saveArtist(String name) {
+        Artist tyga = Artist.builder().name(name).build();
         return artistRepository.save(tyga);
     }
 }

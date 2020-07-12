@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class ArtistService {
@@ -17,5 +20,12 @@ public class ArtistService {
     public ResArtistDto getArtist(Long artistId) {
         Artist artist = artistRepository.findById(artistId).orElseThrow(NullPointerException::new);
         return modelMapper.map(artist, ResArtistDto.class);
+    }
+
+    public List<ResArtistDto> searchArtists(String keyword) {
+        List<Artist> artists = artistRepository.findByNameContaining(keyword);
+        return artists.stream()
+                .map(p->modelMapper.map(p,ResArtistDto.class))
+                .collect(Collectors.toList());
     }
 }
