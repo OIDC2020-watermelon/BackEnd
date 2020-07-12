@@ -33,7 +33,6 @@ public class PlaceControllerTest extends AbstractContainerBaseTest {
         Place place=placeFactory.savePlace("yes24");
         mockMvc.perform(get("/places/"+place.getId()))
                 .andExpect(jsonPath("$.name",equalTo("yes24")));
-        //TODO 테스트는 직관적일수록 좋으므로 savePlace("yes24")로 변경하면 좋다.
     }
 
     @DisplayName("공연장 검색 결과 가져오기")
