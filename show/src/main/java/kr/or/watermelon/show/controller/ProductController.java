@@ -1,6 +1,9 @@
 package kr.or.watermelon.show.controller;
 
 import kr.or.watermelon.show.dto.CommentResponse;
+import kr.or.watermelon.show.dto.ReqReleaseStatus;
+import kr.or.watermelon.show.dto.ResProductDto;
+import kr.or.watermelon.show.entity.Category;
 import kr.or.watermelon.show.service.CommentService;
 import kr.or.watermelon.show.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -36,5 +39,11 @@ public class ProductController {
         promotionThemeProducts.put("promotion",productService.getPromotionProducts());
         promotionThemeProducts.put("themes",productService.getThemeRepresentativeProducts());
         return promotionThemeProducts;
+    }
+
+    @GetMapping("/search")
+    public List<ResProductDto> searchProducts(String keyword, ReqReleaseStatus releaseStatus, Category category,
+                                              @PageableDefault(sort = "createdDateTime", direction = Sort.Direction.DESC) Pageable pageable){
+        return productService.searchProducts(keyword,releaseStatus,category,pageable);
     }
 }

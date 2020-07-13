@@ -46,4 +46,12 @@ public class Product {
     @LastModifiedDate
     private LocalDateTime modifiedDateTime;
 
+    private LocalDateTime releaseStartTime;
+
+    private LocalDateTime releaseEndTime;
+
+    private LocalDateTime startShowTime;
+
+    private LocalDateTime endShowTime;
+
 }
