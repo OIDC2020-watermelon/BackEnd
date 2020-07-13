@@ -10,12 +10,12 @@ import java.util.function.Function;
 
 @Component
 @RequiredArgsConstructor
-public class ProductFactory{
+public class ProductFactory {
 
     private final ProductRepository productRepository;
 
 
-    public <T> Product saveProduct(Function<T,Product> f, T t)  {
+    public <T> Product saveProduct(Function<T, Product> f, T t) {
         Product product = f.apply(t);
         productRepository.save(product);
         return product;

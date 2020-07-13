@@ -9,7 +9,7 @@ public class ResThemeDto {
 
     private ResProductDto product;
 
-    public String  getThemeType() {
+    public String getThemeType() {
         return themeType.name();
     }
 }

@@ -25,9 +25,9 @@ public class ArtistService {
     }
 
     public List<ResArtistDto> searchArtists(String keyword, Pageable pageable) {
-        Page<Artist> artists = artistRepository.findByNameContaining(keyword,pageable);
+        Page<Artist> artists = artistRepository.findByNameContaining(keyword, pageable);
         return artists.stream()
-                .map(p->modelMapper.map(p,ResArtistDto.class))
+                .map(p -> modelMapper.map(p, ResArtistDto.class))
                 .collect(Collectors.toList());
     }
 }

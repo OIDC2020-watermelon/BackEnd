@@ -19,7 +19,7 @@ public class ThemeFactory {
     private final ThemeRepository themeRepository;
     private final Theme.ThemeBuilder tBuilder = Theme.builder();
 
-    public List<Theme> saveThemes(int count){
+    public List<Theme> saveThemes(int count) {
         List<Theme> themes = Arrays.stream(ThemeType.values())
                 .map(getThemeTypeListFunction(count))
                 .flatMap(List::stream)

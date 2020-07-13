@@ -21,14 +21,14 @@ public class ArtistController {
     private final ArtistService artistService;
 
     @GetMapping("/{artistId}")
-    public ResArtistDto getArtist(@PathVariable Long artistId){
+    public ResArtistDto getArtist(@PathVariable Long artistId) {
         return artistService.getArtist(artistId);
     }
 
     @GetMapping("/search")
     public List<ResArtistDto> searchArtists(String keyword,
-                                            @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable){
-        return artistService.searchArtists(keyword,pageable);
+                                            @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable) {
+        return artistService.searchArtists(keyword, pageable);
     }
 
 }

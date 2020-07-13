@@ -1,8 +1,8 @@
 package kr.or.watermelon.show.service;
 
+import kr.or.watermelon.show.dto.CommentResponse;
 import kr.or.watermelon.show.entity.Comment;
 import kr.or.watermelon.show.repository.CommentRepository;
-import kr.or.watermelon.show.dto.CommentResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;

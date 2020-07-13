@@ -9,7 +9,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
-public class CommentRepositoryExtImpl extends QuerydslRepositorySupport implements CommentRepositoryExt{
+public class CommentRepositoryExtImpl extends QuerydslRepositorySupport implements CommentRepositoryExt {
 
     public CommentRepositoryExtImpl() {
         super(Comment.class);
@@ -17,7 +17,7 @@ public class CommentRepositoryExtImpl extends QuerydslRepositorySupport implemen
 
     @Override
     public Page<Comment> findAllByProductId(Long productId, Pageable pageable) {
-        QComment comment=QComment.comment;
+        QComment comment = QComment.comment;
         JPQLQuery<Comment> query = from(comment).where(comment.productId.eq(productId));
         JPQLQuery<Comment> pageableQuery = getQuerydsl().applyPagination(pageable, query);
         QueryResults<Comment> fetchResults = pageableQuery.fetchResults();
