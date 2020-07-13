@@ -1,6 +1,6 @@
 package kr.or.watermelon.show.controller;
 
-import kr.or.watermelon.show.dto.CommentResponse;
+import kr.or.watermelon.show.dto.ResCommentDto;
 import kr.or.watermelon.show.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -21,8 +21,8 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping("/products/{id}/comments")
-    public List<CommentResponse> getProductComments(@PathVariable Long id,
-                                                    @PageableDefault(sort = "createdDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
+    public List<ResCommentDto> getProductComments(@PathVariable Long id,
+                                                  @PageableDefault(sort = "createdDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
         return commentService.getCommentsByProductId(id, pageable);
     }
 }
