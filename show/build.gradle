@@ -39,6 +39,8 @@ dependencies {
     compile('org.modelmapper:modelmapper:2.3.0')
     testCompile "org.testcontainers:junit-jupiter:1.14.3"
     testCompile "org.testcontainers:postgresql:1.14.3"
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 }
 
 //querydsl 추가 시작

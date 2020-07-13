@@ -20,9 +20,9 @@ public class PlaceController {
 
     private final PlaceService placeService;
 
-    @GetMapping("/{placeId}")
-    public ResPlaceDto getPlace(@PathVariable Long placeId) {
-        return placeService.getPlace(placeId);
+    @GetMapping("/{id}")
+    public ResPlaceDto getPlace(@PathVariable Long id) {
+        return placeService.getPlace(id);
     }
 
     @GetMapping("/search")
