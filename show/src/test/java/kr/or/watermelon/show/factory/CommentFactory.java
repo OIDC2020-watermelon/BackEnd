@@ -19,9 +19,9 @@ public class CommentFactory {
     @Autowired
     ProductFactory productFactory;
 
-    public List<Comment> saveComments(Function<String, Comment> contentCommentMaker, List<String> contents) {
-        List<Comment> comments = contents.stream()
-                .map(contentCommentMaker)
+    public <T> List<Comment> saveComments(Function<T, Comment> f, List<T> ts) {
+        List<Comment> comments = ts.stream()
+                .map(f)
                 .collect(Collectors.toList());
 
         commentRepository.saveAll(comments);
