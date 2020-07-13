@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,14 +20,6 @@ import java.util.Map;
 public class ProductController {
 
     private final ProductService productService;
-
-    @GetMapping("/")
-    public Map<String, Object> getPromotionAndThemeRepresentativeProducts() {
-        Map<String, Object> promotionThemeProducts = new HashMap<>();
-        promotionThemeProducts.put("promotion", productService.getPromotionProducts());
-        promotionThemeProducts.put("themes", productService.getThemeRepresentativeProducts());
-        return promotionThemeProducts;
-    }
 
     @GetMapping("/search")
     public List<ResProductDto> searchProducts(String keyword, ReqReleaseStatus releaseStatus, Category category,

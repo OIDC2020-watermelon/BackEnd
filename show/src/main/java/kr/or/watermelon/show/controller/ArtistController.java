@@ -20,9 +20,9 @@ public class ArtistController {
 
     private final ArtistService artistService;
 
-    @GetMapping("/{artistId}")
-    public ResArtistDto getArtist(@PathVariable Long artistId) {
-        return artistService.getArtist(artistId);
+    @GetMapping("/{id}")
+    public ResArtistDto getArtist(@PathVariable Long id) {
+        return artistService.getArtist(id);
     }
 
     @GetMapping("/search")
