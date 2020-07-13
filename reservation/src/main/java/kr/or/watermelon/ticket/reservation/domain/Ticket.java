@@ -33,7 +33,7 @@ public class Ticket {
     private Long productId;
 
     @ManyToOne
-    @JoinColumn(name="ID")
+    @JoinColumn(name="TICKET_ID")
     private Reservation reservation;
 
     private void setReservation(Reservation reservation) {
