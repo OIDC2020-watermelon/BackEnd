@@ -12,12 +12,17 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Data @Builder @NoArgsConstructor @AllArgsConstructor
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Comment {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long productId;//TODO Product클래스로 변경해야함
+    @ManyToOne
+    private Product product;
 
     private Long userId;//TODO 유저POD을 통해 User클래스로 변경해야함
 

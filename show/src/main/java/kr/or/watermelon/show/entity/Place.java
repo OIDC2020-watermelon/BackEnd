@@ -11,25 +11,29 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 
 @Entity
-@Data @Builder @NoArgsConstructor @AllArgsConstructor
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Place {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
     private String address;
 
-    @Length(max=20)
+    @Length(max = 20)
     private String telephone;
 
-    @Length(max= UrlLength.WEB_PAGE)
+    @Length(max = UrlLength.WEB_PAGE)
     private String homepage;
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     private String description;
 
-    @Length(max= UrlLength.IMG)
+    @Length(max = UrlLength.IMG)
     private String imgUrl;
 }

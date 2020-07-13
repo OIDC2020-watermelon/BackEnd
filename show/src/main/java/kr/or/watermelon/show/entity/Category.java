@@ -7,5 +7,5 @@ public enum Category {
     CONCERT,
     PLAY,
     CLASSIC_DANCE,
-    EXHIBITION_EVENT;
+    EXHIBITION_EVENT
 }

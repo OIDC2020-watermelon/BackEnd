@@ -42,50 +42,50 @@ public class ProductService {
     public Map<String, List<ResProductDto>> getThemeRepresentativeProducts() {
         List<Theme> themes = themeRepository.findAll();//TODO RAW query쓸지 고민해야함
         Map<String, List<ResProductDto>> themeProducts = themes.stream()
-                .map(t->modelMapper.map(t, ResThemeDto.class))
-                .collect(Collectors.groupingBy(ResThemeDto::getThemeType,Collectors.mapping(ResThemeDto::getProduct,Collectors.toList())));
+                .map(t -> modelMapper.map(t, ResThemeDto.class))
+                .collect(Collectors.groupingBy(ResThemeDto::getThemeType, Collectors.mapping(ResThemeDto::getProduct, Collectors.toList())));
         return themeProducts;
     }
 
     public List<ResProductDto> searchProducts(String keyword, ReqReleaseStatus releaseStatus, Category category, Pageable pageable) {
         LocalDateTime now = LocalDateTime.now();//TODO RAW query로 바꾸자
         Page<Product> products;
-        if(keyword==null&&category==null&&releaseStatus==null){
+        if (keyword == null && category == null && releaseStatus == null) {
             products = productRepository.findAll(pageable);
-        }else if(keyword==null&&releaseStatus==null){
-            products = productRepository.findByCategory(category,pageable);
-        }else if(keyword==null&&category==null){
+        } else if (keyword == null && releaseStatus == null) {
+            products = productRepository.findByCategory(category, pageable);
+        } else if (keyword == null && category == null) {
             products = getProductsWithoutKeywordAndCategory(releaseStatus, pageable, now);
-        }else if(category==null&&releaseStatus==null){
+        } else if (category == null && releaseStatus == null) {
             products = productRepository.findByTitleContaining(keyword, pageable);
-        }else if(keyword==null){
-            products = searchProductsWithoutKeyword(category,releaseStatus,now,pageable);
-        }else if(category==null){
-            products = searchProductsWithoutCategory(keyword,releaseStatus,now,pageable);
-        }else if(releaseStatus==null){
-            products = productRepository.findByTitleContainingAndCategory(keyword,category,pageable);
-        }else{
-            products=searchProductsAll(keyword,releaseStatus,category,pageable);
+        } else if (keyword == null) {
+            products = searchProductsWithoutKeyword(category, releaseStatus, now, pageable);
+        } else if (category == null) {
+            products = searchProductsWithoutCategory(keyword, releaseStatus, now, pageable);
+        } else if (releaseStatus == null) {
+            products = productRepository.findByTitleContainingAndCategory(keyword, category, pageable);
+        } else {
+            products = searchProductsAll(keyword, releaseStatus, category, pageable);
         }
 
-        return products.stream().map(p->modelMapper.map(p,ResProductDto.class)).collect(Collectors.toList());
+        return products.stream().map(p -> modelMapper.map(p, ResProductDto.class)).collect(Collectors.toList());
     }
 
     private Page<Product> searchProductsAll(String keyword, ReqReleaseStatus releaseStatus, Category category, Pageable pageable) {
         LocalDateTime now = LocalDateTime.now();
-        switch (releaseStatus){
+        switch (releaseStatus) {
             case BEFORE_RELEASE:
-                return productRepository.findByTitleContainingAndCategoryAndReleaseStartTimeAfter(keyword, category,now,pageable);
+                return productRepository.findByTitleContainingAndCategoryAndReleaseStartTimeAfter(keyword, category, now, pageable);
             case RELEASE_STARTED:
-                return productRepository.findByTitleContainingAndCategoryAndReleaseStartTimeBeforeAndReleaseEndTimeAfter(keyword, category,now,now,pageable);
+                return productRepository.findByTitleContainingAndCategoryAndReleaseStartTimeBeforeAndReleaseEndTimeAfter(keyword, category, now, now, pageable);
             case RELEASE_ENDED:
-                return productRepository.findByTitleContainingAndCategoryAndReleaseEndTimeBefore(keyword, category,now,pageable);
+                return productRepository.findByTitleContainingAndCategoryAndReleaseEndTimeBefore(keyword, category, now, pageable);
             default:
-                return productRepository.findByTitleContainingAndCategory(keyword, category,pageable);
+                return productRepository.findByTitleContainingAndCategory(keyword, category, pageable);
         }
     }
 
-    private Page<Product> searchProductsWithoutKeyword( Category category, ReqReleaseStatus releaseStatus,LocalDateTime now, Pageable pageable){
+    private Page<Product> searchProductsWithoutKeyword(Category category, ReqReleaseStatus releaseStatus, LocalDateTime now, Pageable pageable) {
         switch (releaseStatus) {
             case BEFORE_RELEASE:
                 return productRepository.findByCategoryAndReleaseStartTimeAfter(category, now, pageable);
@@ -94,7 +94,7 @@ public class ProductService {
             case RELEASE_ENDED:
                 return productRepository.findByCategoryAndReleaseEndTimeBefore(category, now, pageable);
             default:
-                return productRepository.findByCategory(category,pageable);
+                return productRepository.findByCategory(category, pageable);
         }
     }
 
@@ -111,7 +111,7 @@ public class ProductService {
         }
     }
 
-    private Page<Product> searchProductsWithoutCategory(String keyword, ReqReleaseStatus releaseStatus,LocalDateTime now, Pageable pageable){
+    private Page<Product> searchProductsWithoutCategory(String keyword, ReqReleaseStatus releaseStatus, LocalDateTime now, Pageable pageable) {
         switch (releaseStatus) {
             case BEFORE_RELEASE:
                 return productRepository.findByTitleContainingAndReleaseStartTimeAfter(keyword, now, pageable);

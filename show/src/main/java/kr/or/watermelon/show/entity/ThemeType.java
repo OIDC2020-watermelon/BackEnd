@@ -8,6 +8,6 @@ public enum ThemeType {
 
     HOT_ISSUE,
     NEW,
-    COMMING_SOON;
+    COMMING_SOON
 
 }

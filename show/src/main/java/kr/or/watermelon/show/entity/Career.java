@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 public class Career {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private LocalDateTime date;
@@ -17,6 +18,7 @@ public class Career {
     @ManyToOne
     private Artist artist;
 
-    @Lob @Type(type = "org.hibernate.type.TextType")
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
     private String description;
 }

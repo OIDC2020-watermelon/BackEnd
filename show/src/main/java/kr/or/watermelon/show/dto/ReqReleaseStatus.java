@@ -4,6 +4,6 @@ public enum ReqReleaseStatus {
 
     BEFORE_RELEASE,
     RELEASE_STARTED,
-    RELEASE_ENDED;
+    RELEASE_ENDED
 
 }

@@ -14,6 +14,8 @@ public class ResArtistDto {
 
     private LocalDateTime debutDate;
 
+    private List<ResProductDto> products;
+
     private String description;
 
     private Integer height;

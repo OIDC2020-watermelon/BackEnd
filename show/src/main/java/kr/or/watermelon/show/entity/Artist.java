@@ -13,35 +13,45 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Data @Builder @NoArgsConstructor @AllArgsConstructor
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Artist {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Length(max=50)
+    @Length(max = 50)
     private String name;
 
     private LocalDateTime birthDate;
 
     private LocalDateTime debutDate;
 
-    @Lob @Type(type = "org.hibernate.type.TextType")
+    @ManyToMany
+    @JoinTable(name = "product_artist", joinColumns = @JoinColumn(name = "artist_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private List<Product> products;
+
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
     private String description;
 
     private Integer height;
 
     private Integer weight;
 
-    @Length(max=UrlLength.IMG)
+    @Length(max = UrlLength.IMG)
     private String imgUrl;
 
-    @Length(max=UrlLength.WEB_PAGE)
+    @Length(max = UrlLength.WEB_PAGE)
     private String instagramUrl;
 
-    @Length(max=UrlLength.WEB_PAGE)
+    @Length(max = UrlLength.WEB_PAGE)
     private String twitterUrl;
 
-    @Length(max=UrlLength.WEB_PAGE)
+    @Length(max = UrlLength.WEB_PAGE)
     private String facebookUrl;
 
     @OneToMany(mappedBy = "artist")

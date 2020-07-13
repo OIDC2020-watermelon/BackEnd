@@ -25,9 +25,9 @@ public class PlaceService {
     }
 
     public List<ResPlaceDto> searchPlaces(String keyword, Pageable pageable) {
-        Page<Place> places = placeRepository.findByNameContaining(keyword,pageable);
+        Page<Place> places = placeRepository.findByNameContaining(keyword, pageable);
         return places.stream()
-                .map(p->modelMapper.map(p,ResPlaceDto.class))
+                .map(p -> modelMapper.map(p, ResPlaceDto.class))
                 .collect(Collectors.toList());
     }
 }

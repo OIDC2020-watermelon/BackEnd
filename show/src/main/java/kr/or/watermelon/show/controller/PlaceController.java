@@ -21,13 +21,13 @@ public class PlaceController {
     private final PlaceService placeService;
 
     @GetMapping("/{placeId}")
-    public ResPlaceDto getPlace(@PathVariable Long placeId){
+    public ResPlaceDto getPlace(@PathVariable Long placeId) {
         return placeService.getPlace(placeId);
     }
 
     @GetMapping("/search")
     public List<ResPlaceDto> searchPlaces(String keyword,
-                                          @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable){
-        return placeService.searchPlaces(keyword,pageable);
+                                          @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable) {
+        return placeService.searchPlaces(keyword, pageable);
     }
 }

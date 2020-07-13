@@ -14,9 +14,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Data @Builder @NoArgsConstructor @AllArgsConstructor
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Product {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
@@ -27,17 +31,17 @@ public class Product {
     @ManyToOne
     private Place place;
 
+    @OneToMany(mappedBy = "product")
+    private List<Comment> comments;
+
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     private String description;
 
-    @Length(max=8200)
+    @Length(max = 8200)
     private String imgUrl;
 
-    @OneToMany(mappedBy = "product")
-    private List<Theme> theme;
-
-    @Length(max=8200)
+    @Length(max = 8200)
     private String thumbnailImgUrl;
 
     @CreatedDate

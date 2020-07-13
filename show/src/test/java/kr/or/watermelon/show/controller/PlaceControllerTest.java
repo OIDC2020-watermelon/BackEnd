@@ -32,19 +32,19 @@ public class PlaceControllerTest extends AbstractContainerBaseTest {
     @DisplayName("공연장 상세정보 가져오기")
     @Test
     void getPlace() throws Exception {
-        Place place=placeFactory.savePlace("yes24");
-        mockMvc.perform(get("/places/"+place.getId()))
-                .andExpect(jsonPath("$.name",equalTo("yes24")));
+        Place place = placeFactory.savePlace("yes24");
+        mockMvc.perform(get("/places/" + place.getId()))
+                .andExpect(jsonPath("$.name", equalTo("yes24")));
     }
 
     @DisplayName("공연장 검색 결과 가져오기")
     @Test
-    void searchPlaces() throws Exception{
-        placeFactory.savePlaces(3,"yes24");
+    void searchPlaces() throws Exception {
+        placeFactory.savePlaces(3, "yes24");
         placeFactory.savePlace("interpark_hall");
         mockMvc.perform(get("/places/search?keyword=yes24&size=2"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()",equalTo(2)))
+                .andExpect(jsonPath("$.length()", equalTo(2)))
                 .andExpect(jsonPath("$..name", Every.everyItem(containsString("yes24"))));
     }
 }
