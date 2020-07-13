@@ -29,6 +29,11 @@ public class Artist {
 
     private LocalDateTime debutDate;
 
+    @ManyToMany
+    @JoinTable(name = "product_artist", joinColumns = @JoinColumn(name = "artist_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private List<Product> products;
+
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     private String description;

@@ -31,7 +31,7 @@ public class Product {
     @ManyToOne
     private Place place;
 
-    @OneToMany
+    @OneToMany(mappedBy = "product")
     private List<Comment> comments;
 
     @Lob
