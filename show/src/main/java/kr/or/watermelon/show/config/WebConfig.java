@@ -2,6 +2,7 @@ package kr.or.watermelon.show.config;
 
 import kr.or.watermelon.show.converter.CategoryConverter;
 import kr.or.watermelon.show.converter.ReqReleaseStatusConverter;
+import kr.or.watermelon.show.converter.ThemeTypeConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -15,5 +16,6 @@ public class WebConfig implements WebMvcConfigurer {
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new CategoryConverter());
         registry.addConverter(new ReqReleaseStatusConverter());
+        registry.addConverter(new ThemeTypeConverter());
     }
 }
