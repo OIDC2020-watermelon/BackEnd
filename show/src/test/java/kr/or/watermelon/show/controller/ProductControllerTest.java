@@ -2,10 +2,7 @@ package kr.or.watermelon.show.controller;
 
 import kr.or.watermelon.show.entity.Category;
 import kr.or.watermelon.show.entity.Product;
-import kr.or.watermelon.show.entity.ThemeType;
 import kr.or.watermelon.show.factory.ProductFactory;
-import kr.or.watermelon.show.factory.PromotionFactory;
-import kr.or.watermelon.show.factory.ThemeFactory;
 import kr.or.watermelon.show.infra.AbstractContainerBaseTest;
 import kr.or.watermelon.show.infra.MockMvcTest;
 import org.hamcrest.core.Every;
@@ -19,7 +16,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,25 +29,7 @@ public class ProductControllerTest extends AbstractContainerBaseTest {
     @Autowired
     MockMvc mockMvc;
     @Autowired
-    PromotionFactory promotionFactory;
-    @Autowired
-    ThemeFactory themeFactory;
-    @Autowired
     ProductFactory productFactory;
-
-    @DisplayName("프로모션&테마별 대표 공연 가져오기")
-    @Test
-    void getPromotionAndThemeRepresentativeProducts() throws Exception {
-        promotionFactory.savePromotions(2);
-        themeFactory.saveThemes(5);
-
-        mockMvc.perform(get("/products/"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.promotion..product", hasSize(2)))
-                .andExpect(jsonPath("$.promotion..promotionImgUrl", hasSize(2)))
-                .andExpect(jsonPath("$.themes.length()", equalTo(ThemeType.values().length)))
-                .andExpect(jsonPath("$.themes." + ThemeType.values()[0].name(), hasSize(5)));
-    }
 
     @DisplayName("키워드 공연 검색")
     @Test
