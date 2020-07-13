@@ -12,23 +12,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Page<Product> findByTitleContainingAndCategory(String keyword, Category category, Pageable pageable);
 
-    Page<Product> findByTitleContainingAndCategoryAndReleaseStartTimeBefore(String keyword, Category category, LocalDateTime now, Pageable pageable);
-
-    Page<Product> findByTitleContainingAndCategoryAndReleaseEndTimeAfter(String keyword, Category category, LocalDateTime now, Pageable pageable);
-
     Page<Product> findByCategory(Category category, Pageable pageable);
-
-    Page<Product> findByReleaseEndTimeAfter(LocalDateTime now, Pageable pageable);
-
-    Page<Product> findByReleaseStartTimeBefore(LocalDateTime now, Pageable pageable);
-
-    Page<Product> findByCategoryAndReleaseStartTimeBefore(Category category, LocalDateTime now, Pageable pageable);
-
-    Page<Product> findByCategoryAndReleaseEndTimeAfter(Category category, LocalDateTime now, Pageable pageable);
-
-    Page<Product> findByTitleContainingAndReleaseStartTimeBefore(String keyword, LocalDateTime now, Pageable pageable);
-
-    Page<Product> findByTitleContainingAndReleaseEndTimeAfter(String keyword, LocalDateTime now, Pageable pageable);
 
     Page<Product> findByTitleContaining(String keyword, Pageable pageable);
 
@@ -55,4 +39,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findByTitleContainingAndCategoryAndReleaseEndTimeBefore(String keyword, Category category, LocalDateTime now, Pageable pageable);
 
     Page<Product> findByTitleContainingAndCategoryAndReleaseStartTimeAfter(String keyword, Category category, LocalDateTime now, Pageable pageable);
+
 }
