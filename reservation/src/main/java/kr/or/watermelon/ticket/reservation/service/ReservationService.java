@@ -25,7 +25,7 @@ public class ReservationService {
         reservationRepository.save(reservation);
     }
 
-    @Transactional
+    @Transactional 
     public void cancelReservation(Long id) {
         Reservation reservation = reservationRepository.findById(id).orElse(null);
         reservation.setCanceled(true);
