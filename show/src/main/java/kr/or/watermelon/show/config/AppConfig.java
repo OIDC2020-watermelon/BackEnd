@@ -1,6 +1,6 @@
 package kr.or.watermelon.show.config;
 
-import kr.or.watermelon.show.dto.ProductMap;
+import kr.or.watermelon.show.converter.ProductMap;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
