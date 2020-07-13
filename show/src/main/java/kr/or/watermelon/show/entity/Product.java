@@ -41,9 +41,6 @@ public class Product {
     @Length(max = 8200)
     private String imgUrl;
 
-    @OneToMany(mappedBy = "product")
-    private List<Theme> theme;
-
     @Length(max = 8200)
     private String thumbnailImgUrl;
 
