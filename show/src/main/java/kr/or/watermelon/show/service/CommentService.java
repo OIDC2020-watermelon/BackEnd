@@ -2,6 +2,7 @@ package kr.or.watermelon.show.service;
 
 import kr.or.watermelon.show.dto.ResCommentDto;
 import kr.or.watermelon.show.entity.Comment;
+import kr.or.watermelon.show.entity.Product;
 import kr.or.watermelon.show.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -19,8 +20,8 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final ModelMapper modelMapper;
 
-        Page<Comment> comments = commentRepository.findAllByProductId(productId, pageable);
     public List<ResCommentDto> getCommentsByProductId(Long productId, Pageable pageable) {
+        Page<Comment> comments = commentRepository.findAllByProduct(Product.builder().id(productId).build(), pageable);
         List<ResCommentDto> commentResponses = comments.stream()
                 .map(c -> modelMapper.map(c, ResCommentDto.class))
                 .collect(Collectors.toList());

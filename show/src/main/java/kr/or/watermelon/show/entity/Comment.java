@@ -21,7 +21,8 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long productId;//TODO Product클래스로 변경해야함
+    @ManyToOne
+    private Product product;
 
     private Long userId;//TODO 유저POD을 통해 User클래스로 변경해야함
 

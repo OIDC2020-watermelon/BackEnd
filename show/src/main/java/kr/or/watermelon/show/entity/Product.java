@@ -31,6 +31,9 @@ public class Product {
     @ManyToOne
     private Place place;
 
+    @OneToMany
+    private List<Comment> comments;
+
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     private String description;

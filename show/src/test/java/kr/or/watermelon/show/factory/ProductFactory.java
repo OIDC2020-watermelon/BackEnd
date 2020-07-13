@@ -14,10 +14,14 @@ public class ProductFactory {
 
     private final ProductRepository productRepository;
 
-
     public <T> Product saveProduct(Function<T, Product> f, T t) {
         Product product = f.apply(t);
         productRepository.save(product);
+        return product;
+    }
+
+    public Product saveProduct() {
+        Product product = productRepository.save(Product.builder().build());
         return product;
     }
 
