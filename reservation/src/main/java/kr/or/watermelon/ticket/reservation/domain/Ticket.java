@@ -30,6 +30,7 @@ public class Ticket {
 
     private int price;
 
+    @Setter
     private boolean isSold;
 
     @ManyToOne

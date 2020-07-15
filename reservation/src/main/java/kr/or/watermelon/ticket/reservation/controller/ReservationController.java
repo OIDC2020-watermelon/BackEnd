@@ -24,18 +24,6 @@ public class ReservationController {
     @Autowired
     private TicketService ticketService;
 
-    // 예매 리스트
-    @GetMapping("/{userId}")
-    public Page<Reservation> getAll(@PathVariable Long userId) {
-        return reservationService.getAll(userId);
-    }
-
-    // 예매 상세
-    @GetMapping("/{id}")
-    public Reservation getReservation(@PathVariable Long id) {
-        return reservationService.getReservation(id);
-    }
-
     // 예매 하기
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -47,7 +35,19 @@ public class ReservationController {
         int pay = reservation.getPay();
 
         reservationService.addReservation(availableDate, availableTime, pay, userId);
+        ticketService.buyTickets(ticketList);
+    }
 
+    // 예매 리스트
+    @GetMapping("/{userId}")
+    public Page<Reservation> getAll(@PathVariable Long userId) {
+        return reservationService.getAll(userId);
+    }
+
+    // 예매 상세
+    @GetMapping("/{id}")
+    public Reservation getReservation(@PathVariable Long id) {
+        return reservationService.getReservation(id);
     }
 
     // 예매 취소
