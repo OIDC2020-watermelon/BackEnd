@@ -24,9 +24,11 @@ public class Reservation {
 
     private LocalDate reservationDate;
 
-    //private String serialNumber;
+    private String serialNumber;
 
     private boolean isCanceled;
+
+    private LocalDate cancelableDate;
 
     private int pay;
 

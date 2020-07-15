@@ -5,7 +5,10 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,4 +28,10 @@ public class Show {
     private int session;
 
     private Long productId;
+
+    @OneToMany(mappedBy = "reservation")
+    private List<Reservation> reservations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "ticket")
+    private List<Ticket> tickets = new ArrayList<>();
 }

@@ -12,31 +12,39 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class Ticket {
+    enum Grade {
+        VIP, S,
+    }
+
     @Id
     @GeneratedValue
     private Long id;
 
     private String seatNumber;
 
+    private Grade grade;
+
+    private int row;
+
+    private int column;
+
     private int price;
 
     private boolean isSold;
-
-    private String name;
-
-    private LocalDate startAt;
-
-    private LocalDate endAt;
-
-    private LocalDate cancelableDate;
-
-    private Long productId;
 
     @ManyToOne
     @JoinColumn(name="TICKET_ID")
     private Reservation reservation;
 
+    @ManyToOne
+    @JoinColumn(name="SHOW_ID")
+    private Show show;
+
     private void setReservation(Reservation reservation) {
         this.reservation = reservation;
     }
+    private void setShow(Show show) {
+        this.show = show;
+    }
 }
+
