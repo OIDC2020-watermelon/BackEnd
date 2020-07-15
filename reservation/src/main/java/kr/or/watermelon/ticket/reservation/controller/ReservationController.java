@@ -1,7 +1,9 @@
 package kr.or.watermelon.ticket.reservation.controller;
 
 import kr.or.watermelon.ticket.reservation.domain.Reservation;
+import kr.or.watermelon.ticket.reservation.domain.Ticket;
 import kr.or.watermelon.ticket.reservation.service.ReservationService;
+import kr.or.watermelon.ticket.reservation.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,17 +11,23 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+
 @CrossOrigin
 @RequestMapping(value = "/api/reservation")
 @RestController
 public class ReservationController {
     @Autowired
     private ReservationService reservationService;
+    @Autowired
+    private TicketService ticketService;
 
     // 예매 리스트
-    @GetMapping
-    public Page<Reservation> getAll(@PageableDefault Pageable pageable) {
-        return reservationService.getAll(pageable);
+    @GetMapping("/{userId}")
+    public Page<Reservation> getAll(@PathVariable Long userId) {
+        return reservationService.getAll(userId);
     }
 
     // 예매 상세
@@ -31,8 +39,15 @@ public class ReservationController {
     // 예매 하기
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addReservation(@RequestBody Reservation reservation) {
-        reservationService.addReservation(reservation);
+    public void addReservation(@RequestBody Reservation reservation,
+                               @RequestBody List<Ticket> ticketList,
+                               @RequestBody Long userId) {
+        LocalDate availableDate = reservation.getAvailableDate();
+        LocalTime availableTime = reservation.getAvailableTime();
+        int pay = reservation.getPay();
+
+        reservationService.addReservation(availableDate, availableTime, pay, userId);
+
     }
 
     // 예매 취소

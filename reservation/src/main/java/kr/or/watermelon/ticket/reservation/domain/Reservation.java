@@ -1,12 +1,13 @@
 package kr.or.watermelon.ticket.reservation.domain;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +23,13 @@ public class Reservation {
     @GeneratedValue
     private Long id;
 
-    private LocalDate reservationDate;
+    private LocalDate availableDate;
+
+    private LocalTime availableTime;
 
     private String serialNumber;
 
+    @ColumnDefault("false")
     private boolean isCanceled;
 
     private LocalDate cancelableDate;
@@ -34,6 +38,14 @@ public class Reservation {
 
     private Long userId;
 
-    @OneToMany(mappedBy = "reservation")
+    @CreatedDate
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    @ManyToOne
+    @JoinColumn(name="SHOW_ID")
+    private Show show;
+
+    @OneToMany(mappedBy = "ticket")
     private List<Ticket> tickets = new ArrayList<>();
 }
