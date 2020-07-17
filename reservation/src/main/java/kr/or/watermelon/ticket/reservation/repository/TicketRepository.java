@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
-    @Query(value = "select ticket from Ticket ticket where ticket.product_id = :productId")
-    List<Ticket> findAllByProductId(@Param("productId") Long productId);
+    @Query(value = "select ticket from Ticket ticket where ticket.show_id = :showId")
+    List<Ticket> findAllByShowId(@Param("showId") Long showId);
 }

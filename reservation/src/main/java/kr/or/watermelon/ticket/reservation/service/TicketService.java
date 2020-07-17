@@ -11,11 +11,11 @@ public class TicketService {
     @Autowired
     private TicketRepository ticketRepository;
 
-    public List<Ticket> getTickets(Long productId) {
-        return ticketRepository.findAllByProductId(productId);
+    public List<Ticket> getAll(Long showId) {
+        return ticketRepository.findAllByShowId(showId);
     }
 
-    public void buyTickets(List<Ticket> ticketList, Reservation reservation) {
+    public void buy(List<Ticket> ticketList, Reservation reservation) {
         ticketList.forEach(ticket -> {
             ticket.setSold(true);
             ticket.setReservation(reservation);
@@ -23,8 +23,10 @@ public class TicketService {
         ticketRepository.saveAll(ticketList);
     }
 
-    public void cancelTickets(List<Ticket> ticketList) {
+    public List<Ticket> cancel(List<Ticket> ticketList) {
         ticketList.forEach(ticket -> ticket.setSold(false));
-        ticketRepository.saveAll(ticketList);
+        List<Ticket> canceledTickets = ticketRepository.saveAll(ticketList);
+
+        return canceledTickets;
     }
 }

@@ -14,8 +14,8 @@ public class TicketController {
     @Autowired
     private TicketService ticketService;
 
-    @GetMapping("/{productId}")
-    public List<Ticket> getTickets(@PathVariable Long productId) {
-        return ticketService.getTickets(productId);
+    @GetMapping("/{showId}")
+    public List<Ticket> getAll(@PathVariable Long showId) {
+        return ticketService.getAll(showId);
     }
 }

@@ -19,29 +19,29 @@ public class ReservationService {
         return reservationRepository.findByUserId(userId);
     }
 
-    public Reservation getReservation(Long reservationId) {
+    public Reservation getOne(Long reservationId) {
         return reservationRepository.findById(reservationId).orElse(null);
     }
 
     @Transactional
-    public Reservation addReservation(ReservationDto reservationDto, Long userId) {
+    public Reservation add(ReservationDto reservationDto, Long userId) {
         String serialNumber = UUID.randomUUID().toString().replaceAll("-", "");
-        LocalDate cancelableDate = availableDate.minusDays(3);
+        LocalDate cancelableDate = reservationDto.getAvailableDate().minusDays(3);
 
         Reservation reservation = Reservation.builder()
-                                    .name(name)
-                                    .availableDate(availableDate)
-                                    .availableTime(availableTime)
+                                    .name(reservationDto.getName())
+                                    .availableDate(reservationDto.getAvailableDate())
+                                    .availableTime(reservationDto.getAvailableTime())
                                     .serialNumber(serialNumber)
                                     .cancelableDate(cancelableDate)
-                                    .pay(pay)
+                                    .pay(reservationDto.getPay())
                                     .userId(userId)
                                     .build();
 
         return reservationRepository.save(reservation);
     }
 
-    public Reservation cancelReservation(Long reservationId) {
+    public Reservation cancel(Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId).orElse(null);
         reservation.setCanceled(true);
 
