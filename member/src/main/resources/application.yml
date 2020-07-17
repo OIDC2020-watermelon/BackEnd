@@ -5,7 +5,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/userdb?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
     username: root
-    password: admin12345
+    password: your password here
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database: mysql
@@ -18,15 +18,15 @@ spring:
     encoding: UTF-8
 
   jwt:
-    secret: govlepel@$&
+    secret: jwt secret key
 
   social:
     kakao:
-      client_id: ab8785b7a2bf1392b79f98e0266ae60e # 앱생성시 받은 REST API 키
-      redirect: /social/login/kakao
+      client_id: your key here # 앱생성시 받은 REST API 키
+      redirect: your redirect uri here
       url:
         login: https://kauth.kakao.com/oauth/authorize
         token: https://kauth.kakao.com/oauth/token
         profile: https://kapi.kakao.com/v2/user/me
   url:
-    base: http://localhost:8080
+    base: your url here
