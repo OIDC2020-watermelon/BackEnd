@@ -1,5 +1,6 @@
 package kr.or.watermelon.ticket.reservation.controller;
 
+import kr.or.watermelon.ticket.reservation.controller.dto.ReservationDto;
 import kr.or.watermelon.ticket.reservation.domain.Reservation;
 import kr.or.watermelon.ticket.reservation.domain.Ticket;
 import kr.or.watermelon.ticket.reservation.service.ReservationService;
@@ -25,15 +26,10 @@ public class ReservationController {
     // 예매 하기
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addReservation(@RequestBody Reservation reservation,
+    public void addReservation(@RequestBody ReservationDto reservationDto,
                                @RequestBody List<Ticket> ticketList,
                                @RequestBody Long userId) {
-        LocalDate availableDate = reservation.getAvailableDate();
-        LocalTime availableTime = reservation.getAvailableTime();
-        int pay = reservation.getPay();
-        String name = reservation.getName();
-
-        Reservation newReservation = reservationService.addReservation(availableDate, availableTime, pay, userId, name);
+        Reservation newReservation = reservationService.addReservation(reservationDto, userId);
         ticketService.buyTickets(ticketList, newReservation);
     }
 
@@ -53,7 +49,8 @@ public class ReservationController {
     @DeleteMapping("/{id}")
     public void cancelReservation(@PathVariable Long reservationId) {
         Reservation reservation = reservationService.cancelReservation(reservationId);
-        List<Ticket> tickets = reservation.getTickets();
 
+        List<Ticket> tickets = reservation.getTickets();
+        cenceledTickets = ticketService.
     }
 }

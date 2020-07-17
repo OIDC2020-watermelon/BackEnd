@@ -23,5 +23,8 @@ public class TicketService {
         ticketRepository.saveAll(ticketList);
     }
 
-
+    public void cancelTickets(List<Ticket> ticketList) {
+        ticketList.forEach(ticket -> ticket.setSold(false));
+        ticketRepository.saveAll(ticketList);
+    }
 }
