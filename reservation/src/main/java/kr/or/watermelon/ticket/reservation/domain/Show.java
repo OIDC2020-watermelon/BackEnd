@@ -29,9 +29,6 @@ public class Show {
 
     private Long productId;
 
-    @OneToMany(mappedBy = "reservation")
-    private List<Reservation> reservations = new ArrayList<>();
-
     @OneToMany(mappedBy = "ticket")
     private List<Ticket> tickets = new ArrayList<>();
 }

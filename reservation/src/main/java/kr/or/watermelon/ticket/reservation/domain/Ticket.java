@@ -1,6 +1,7 @@
 package kr.or.watermelon.ticket.reservation.domain;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -20,6 +21,8 @@ public class Ticket {
     @GeneratedValue
     private Long id;
 
+    private String name;
+
     private String seatNumber;
 
     private Grade grade;
@@ -31,20 +34,21 @@ public class Ticket {
     private int price;
 
     @Setter
+    @ColumnDefault("0")
     private boolean isSold;
 
     @ManyToOne
-    @JoinColumn(name="TICKET_ID")
+    @JoinColumn(name="RESERVATION_ID")
     private Reservation reservation;
 
     @ManyToOne
     @JoinColumn(name="SHOW_ID")
     private Show show;
 
-    private void setReservation(Reservation reservation) {
+    public void setReservation(Reservation reservation) {
         this.reservation = reservation;
     }
-    private void setShow(Show show) {
+    public void setShow(Show show) {
         this.show = show;
     }
 }

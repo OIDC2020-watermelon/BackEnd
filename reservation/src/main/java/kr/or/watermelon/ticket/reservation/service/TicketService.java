@@ -1,5 +1,6 @@
 package kr.or.watermelon.ticket.reservation.service;
 
+import kr.or.watermelon.ticket.reservation.domain.Reservation;
 import kr.or.watermelon.ticket.reservation.domain.Ticket;
 import kr.or.watermelon.ticket.reservation.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,13 @@ public class TicketService {
         return ticketRepository.findAllByProductId(productId);
     }
 
-    public void buyTickets(List<Ticket> ticketList) {
-        ticketList.forEach(ticket -> ticket.setSold(true));
+    public void buyTickets(List<Ticket> ticketList, Reservation reservation) {
+        ticketList.forEach(ticket -> {
+            ticket.setSold(true);
+            ticket.setReservation(reservation);
+        });
         ticketRepository.saveAll(ticketList);
     }
+
+
 }

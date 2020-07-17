@@ -23,13 +23,15 @@ public class Reservation {
     @GeneratedValue
     private Long id;
 
+    private String name;
+
     private LocalDate availableDate;
 
     private LocalTime availableTime;
 
     private String serialNumber;
 
-    @ColumnDefault("false")
+    @ColumnDefault("0")
     private boolean isCanceled;
 
     private LocalDate cancelableDate;
@@ -41,10 +43,6 @@ public class Reservation {
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
-
-    @ManyToOne
-    @JoinColumn(name="SHOW_ID")
-    private Show show;
 
     @OneToMany(mappedBy = "ticket")
     private List<Ticket> tickets = new ArrayList<>();

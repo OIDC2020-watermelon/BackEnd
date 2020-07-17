@@ -6,8 +6,6 @@ import kr.or.watermelon.ticket.reservation.service.ReservationService;
 import kr.or.watermelon.ticket.reservation.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,9 +31,10 @@ public class ReservationController {
         LocalDate availableDate = reservation.getAvailableDate();
         LocalTime availableTime = reservation.getAvailableTime();
         int pay = reservation.getPay();
+        String name = reservation.getName();
 
-        reservationService.addReservation(availableDate, availableTime, pay, userId);
-        ticketService.buyTickets(ticketList);
+        Reservation newReservation = reservationService.addReservation(availableDate, availableTime, pay, userId, name);
+        ticketService.buyTickets(ticketList, newReservation);
     }
 
     // 예매 리스트
@@ -46,13 +45,15 @@ public class ReservationController {
 
     // 예매 상세
     @GetMapping("/{id}")
-    public Reservation getReservation(@PathVariable Long id) {
-        return reservationService.getReservation(id);
+    public Reservation getReservation(@PathVariable Long reservationId) {
+        return reservationService.getReservation(reservationId);
     }
 
     // 예매 취소
     @DeleteMapping("/{id}")
-    public void cancelReservation(@PathVariable Long id) {
-        reservationService.cancelReservation(id);
+    public void cancelReservation(@PathVariable Long reservationId) {
+        Reservation reservation = reservationService.cancelReservation(reservationId);
+        List<Ticket> tickets = reservation.getTickets();
+
     }
 }
