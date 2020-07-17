@@ -7,11 +7,10 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
+@Data
 public class Ticket {
     enum Grade {
         VIP, S,
