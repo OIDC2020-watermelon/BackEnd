@@ -43,6 +43,9 @@ public class Artist {
     private Integer weight;
 
     @Length(max = UrlLength.IMG)
+    private String thumbnailImgUrl;
+
+    @Length(max = UrlLength.IMG)
     private String imgUrl;
 
     @Length(max = UrlLength.WEB_PAGE)

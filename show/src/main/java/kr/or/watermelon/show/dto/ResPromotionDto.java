@@ -5,6 +5,8 @@ import lombok.Data;
 @Data
 public class ResPromotionDto {
 
+    private Integer productId;
+
     private String promotionImgUrl;
 
 }
