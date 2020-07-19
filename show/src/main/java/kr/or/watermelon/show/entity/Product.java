@@ -27,9 +27,6 @@ public class Product {
 
     private String title;
 
-    @OneToMany(mappedBy = "product")
-    private List<Comment> comments;
-
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     private String description;
@@ -60,6 +57,14 @@ public class Product {
 
     @ManyToOne
     private Place place;
+
+    @ManyToMany(mappedBy = "products")
+    @Builder.Default
+    private List<Artist> artists = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product")
+    @Builder.Default
+    private List<Comment> comments = new ArrayList<>();
 
     public List<String> getArtistNames() {
         return artists.stream()
