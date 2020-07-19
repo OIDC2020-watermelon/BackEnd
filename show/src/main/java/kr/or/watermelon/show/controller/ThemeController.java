@@ -1,6 +1,8 @@
 package kr.or.watermelon.show.controller;
 
 import kr.or.watermelon.show.dto.ResProductDto;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import kr.or.watermelon.show.entity.ThemeType;
 import kr.or.watermelon.show.service.ThemeService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Api(tags = {"테마API"})
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/")
@@ -24,6 +27,7 @@ public class ThemeController {
     @GetMapping("/products/themes/{themeType}")
     public List<ResProductDto> getProductsByTheme(@PathVariable ThemeType themeType,
                                                   @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable) {
+    @ApiOperation(value = "[메인페이지(p21)]: 테마별 상품 리스트 가져오기")
         return themeService.getProductsByTheme(themeType, pageable);
     }
 }
