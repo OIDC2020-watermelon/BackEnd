@@ -7,7 +7,7 @@ import lombok.Data;
 public class ResThemeDto {
     private ThemeType themeType;
 
-    private ResProductDto product;
+    private ResProductForListDto product;
 
     public String getThemeType() {
         return themeType.name();

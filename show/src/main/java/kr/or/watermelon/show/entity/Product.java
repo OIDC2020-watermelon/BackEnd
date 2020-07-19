@@ -61,4 +61,9 @@ public class Product {
     @ManyToOne
     private Place place;
 
+    public List<String> getArtistNames() {
+        return artists.stream()
+                .map(a -> a.getName())
+                .collect(Collectors.toList());
+    }
 }
