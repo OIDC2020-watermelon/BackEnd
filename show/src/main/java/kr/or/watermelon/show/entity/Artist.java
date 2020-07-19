@@ -10,7 +10,9 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -32,7 +34,8 @@ public class Artist {
     @ManyToMany
     @JoinTable(name = "product_artist", joinColumns = @JoinColumn(name = "artist_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private List<Product> products;
+    @Builder.Default
+    private List<Product> products = new ArrayList<>();
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
@@ -41,6 +44,9 @@ public class Artist {
     private Integer height;
 
     private Integer weight;
+
+    @Length(max = UrlLength.IMG)
+    private String thumbnailImgUrl;
 
     @Length(max = UrlLength.IMG)
     private String imgUrl;
@@ -55,6 +61,12 @@ public class Artist {
     private String facebookUrl;
 
     @OneToMany(mappedBy = "artist")
-    private List<Career> careers;
+    @Builder.Default
+    private List<Career> careers = new ArrayList<>();
 
+    public List<String> getProductTitles() {
+        return products.stream()
+                .map(p -> p.getTitle())
+                .collect(Collectors.toList());
+    }
 }

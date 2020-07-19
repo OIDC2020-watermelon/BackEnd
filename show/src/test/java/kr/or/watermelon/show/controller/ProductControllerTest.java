@@ -11,9 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
 import java.util.function.Function;
 
 import static org.hamcrest.Matchers.containsString;
@@ -22,7 +19,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-// TODO @RequiredArgsConstructor 왜 Constructor로 Injection이 안될까?
 @MockMvcTest
 public class ProductControllerTest extends AbstractContainerBaseTest {
 
@@ -56,22 +52,5 @@ public class ProductControllerTest extends AbstractContainerBaseTest {
         mockMvc.perform(get("/products/search?category=concert"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", is(2)));
-    }
-
-    @DisplayName("판매 시기 별 공연 검색")
-    @Test
-    void searchProductsByReleaseDate() throws Exception {
-        Function<List<LocalDateTime>, Product> categoryProductMaker = (a) -> Product.builder()
-                .releaseStartTime(a.get(0))
-                .releaseEndTime(a.get(1))
-                .build();
-        LocalDateTime date = LocalDateTime.now();
-        productFactory.saveProduct(categoryProductMaker, Arrays.asList(date.minusDays(2), date.minusDays(1)));
-        productFactory.saveProduct(categoryProductMaker, Arrays.asList(date.minusDays(1), date.plusDays(1)));
-        productFactory.saveProduct(categoryProductMaker, Arrays.asList(date.plusDays(1), date.plusDays(2)));
-
-        mockMvc.perform(get("/products/search?releaseStatus=BEFORE_RELEASE"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()", is(1)));
     }
 }

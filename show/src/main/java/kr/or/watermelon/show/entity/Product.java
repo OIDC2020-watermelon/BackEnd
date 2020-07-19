@@ -11,7 +11,9 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -25,18 +27,11 @@ public class Product {
 
     private String title;
 
-    @Enumerated(EnumType.ORDINAL)
-    private Category category;
-
-    @ManyToOne
-    private Place place;
-
-    @OneToMany(mappedBy = "product")
-    private List<Comment> comments;
-
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     private String description;
+
+    private Integer runningTime;
 
     @Length(max = 8200)
     private String imgUrl;
@@ -54,8 +49,26 @@ public class Product {
 
     private LocalDateTime releaseEndTime;
 
-    private LocalDateTime startShowTime;
+    @Enumerated(EnumType.ORDINAL)
+    private Category category;
 
-    private LocalDateTime endShowTime;
+    @Enumerated(EnumType.ORDINAL)
+    private RRatedType rRated;
 
+    @ManyToOne
+    private Place place;
+
+    @ManyToMany(mappedBy = "products")
+    @Builder.Default
+    private List<Artist> artists = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product")
+    @Builder.Default
+    private List<Comment> comments = new ArrayList<>();
+
+    public List<String> getArtistNames() {
+        return artists.stream()
+                .map(a -> a.getName())
+                .collect(Collectors.toList());
+    }
 }

@@ -16,4 +16,7 @@ public class ResPlaceDto {
     private String description;
 
     private String imgUrl;
+
+    private String thumbnailImgUrl;
+
 }

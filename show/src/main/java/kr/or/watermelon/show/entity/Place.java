@@ -36,4 +36,7 @@ public class Place {
 
     @Length(max = UrlLength.IMG)
     private String imgUrl;
+
+    @Length(max = UrlLength.IMG)
+    private String thumbnailImgUrl;
 }

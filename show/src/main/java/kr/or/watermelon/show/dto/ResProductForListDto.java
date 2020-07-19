@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-public class ResProductDto {
+public class ResProductForListDto {
 
     private Long id;
 
@@ -20,19 +20,14 @@ public class ResProductDto {
 
     private RRatedType rRated;
 
-    private String imgUrl;
-
-    private LocalDateTime createdDateTime;
-
-    private LocalDateTime modifiedDateTime;
+    private String thumbnailImgUrl;
 
     private LocalDateTime releaseStartTime;
 
     private LocalDateTime releaseEndTime;
 
-    private ResPlaceDto place;
+    private String place;
 
-    private List<ResArtistDto> artists;
-
+    private List<String> artists;
 
 }

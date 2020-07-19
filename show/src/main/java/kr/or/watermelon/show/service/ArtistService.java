@@ -1,6 +1,7 @@
 package kr.or.watermelon.show.service;
 
 import kr.or.watermelon.show.dto.ResArtistDto;
+import kr.or.watermelon.show.dto.ResArtistForListDto;
 import kr.or.watermelon.show.entity.Artist;
 import kr.or.watermelon.show.repository.ArtistRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +25,10 @@ public class ArtistService {
         return modelMapper.map(artist, ResArtistDto.class);
     }
 
-    public List<ResArtistDto> searchArtists(String keyword, Pageable pageable) {
+    public List<ResArtistForListDto> searchArtists(String keyword, Pageable pageable) {
         Page<Artist> artists = artistRepository.findByNameContaining(keyword, pageable);
         return artists.stream()
-                .map(p -> modelMapper.map(p, ResArtistDto.class))
+                .map(p -> modelMapper.map(p, ResArtistForListDto.class))
                 .collect(Collectors.toList());
     }
 }
