@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,8 +27,8 @@ public class PlaceController {
     }
 
     @GetMapping("/search")
-    public List<ResPlaceDto> searchPlaces(String keyword,
     @ApiOperation(value = "[공연검색페이지(p26)]:공연장 검색 리스트 가져오기")
+    public List<ResPlaceDto> searchPlaces(@RequestParam(defaultValue = "") String keyword,
                                           @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable) {
         return placeService.searchPlaces(keyword, pageable);
     }
