@@ -57,4 +57,9 @@ public class Artist {
     @OneToMany(mappedBy = "artist")
     private List<Career> careers;
 
+    public List<String> getProductTitles() {
+        return products.stream()
+                .map(p -> p.getTitle())
+                .collect(Collectors.toList());
+    }
 }
