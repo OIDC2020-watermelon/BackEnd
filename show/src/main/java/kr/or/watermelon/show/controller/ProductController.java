@@ -30,5 +30,10 @@ public class ProductController {
         return productService.searchProducts(keyword, category, pageable);
     }
 
+
+    @GetMapping("/")
+    @ApiOperation(value = "[공연검색페이지(p27):전체 공연 리스트 다 가져오기")
+    public List<ResProductForListDto> getAllProducts() {
+        return productService.getProducts();
     }
 }
