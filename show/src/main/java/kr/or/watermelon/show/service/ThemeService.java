@@ -1,6 +1,6 @@
 package kr.or.watermelon.show.service;
 
-import kr.or.watermelon.show.dto.ResProductDto;
+import kr.or.watermelon.show.dto.ResProductForListDto;
 import kr.or.watermelon.show.entity.Theme;
 import kr.or.watermelon.show.entity.ThemeType;
 import kr.or.watermelon.show.repository.ThemeRepository;
@@ -20,10 +20,10 @@ public class ThemeService {
     private final ThemeRepository themeRepository;
     private final ModelMapper modelMapper;
 
-    public List<ResProductDto> getProductsByTheme(ThemeType themeType, Pageable pageable) {
+    public List<ResProductForListDto> getProductsByTheme(ThemeType themeType, Pageable pageable) {
         Page<Theme> themes = themeRepository.findByThemeType(themeType, pageable);
         return themes.stream()
-                .map(t -> modelMapper.map(t.getProduct(), ResProductDto.class))
+                .map(t -> modelMapper.map(t.getProduct(), ResProductForListDto.class))
                 .collect(Collectors.toList());
     }
 }
