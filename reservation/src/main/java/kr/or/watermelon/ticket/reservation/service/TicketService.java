@@ -13,10 +13,6 @@ public class TicketService {
     @Autowired
     private TicketRepository ticketRepository;
 
-    //public List<Ticket> getAll(Long showId) {
-    //    return ticketRepository.findAllByShowId(showId);
-    //}
-
     public void buy(List<Ticket> ticketList, Reservation reservation) {
         ticketList.forEach(ticket -> {
             ticket.setSold(true);
@@ -30,5 +26,13 @@ public class TicketService {
         List<Ticket> canceledTickets = ticketRepository.saveAll(ticketList);
 
         return canceledTickets;
+    }
+
+    public List<Ticket> getListByPerformance(Long performanceId) {
+        return ticketRepository.findAllByPerformanceId(performanceId);
+    }
+
+    public List<Ticket> getListByReservation(Long reservationId) {
+        return ticketRepository.findAllByRerservationId(reservationId);
     }
 }
