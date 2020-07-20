@@ -3,7 +3,7 @@ package kr.or.watermelon.show.dto;
 import lombok.Data;
 
 @Data
-public class ResPlaceDto {
+public class PlaceDto {
 
     private String name;
 
@@ -18,5 +18,6 @@ public class ResPlaceDto {
     private String imgUrl;
 
     private String thumbnailImgUrl;
+
 
 }

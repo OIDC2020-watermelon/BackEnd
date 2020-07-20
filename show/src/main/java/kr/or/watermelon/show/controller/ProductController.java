@@ -1,8 +1,10 @@
 package kr.or.watermelon.show.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import kr.or.watermelon.show.dto.ResProductForListDto;
+import kr.or.watermelon.show.dto.ProductForListDto;
 import kr.or.watermelon.show.entity.Category;
 import kr.or.watermelon.show.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -25,15 +27,18 @@ public class ProductController {
 
     @GetMapping("/search")
     @ApiOperation(value = "[공연예매페이지(p22):공연 리스트 가져오기")
-    public List<ResProductForListDto> searchProducts(String keyword, Category category,
-                                                     @PageableDefault(sort = "createdDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
-        return productService.searchProducts(keyword, category, pageable);
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "category", allowableValues = "CONCERT,PLAY,CLASSIC_DANCE,EXHIBITION_EVENT"),
+    })
+    public List<ProductForListDto> searchProductsReleased(String keyword, Category category,
+                                                          @PageableDefault(sort = "createdDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
+        return productService.searchProductsReleased(keyword, category, pageable);
     }
 
 
     @GetMapping("/")
     @ApiOperation(value = "[공연검색페이지(p27):전체 공연 리스트 다 가져오기")
-    public List<ResProductForListDto> getAllProducts() {
+    public List<ProductForListDto> getAllProducts() {
         return productService.getProducts();
     }
 }

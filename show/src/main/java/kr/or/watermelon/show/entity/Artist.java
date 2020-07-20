@@ -27,6 +27,9 @@ public class Artist {
     @Length(max = 50)
     private String name;
 
+    @Enumerated(EnumType.ORDINAL)
+    private Occupation occupation;
+
     private LocalDateTime birthDate;
 
     private LocalDateTime debutDate;

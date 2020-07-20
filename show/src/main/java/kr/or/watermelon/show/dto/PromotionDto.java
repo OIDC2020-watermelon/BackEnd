@@ -3,7 +3,7 @@ package kr.or.watermelon.show.dto;
 import lombok.Data;
 
 @Data
-public class ResPromotionDto {
+public class PromotionDto {
 
     private Integer productId;
 
