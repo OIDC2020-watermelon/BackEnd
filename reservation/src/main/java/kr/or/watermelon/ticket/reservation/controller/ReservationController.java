@@ -37,7 +37,7 @@ public class ReservationController {
     // 예매 리스트
     @ApiOperation(value="예매 리스트", notes="사용자가 예매한 목록을 조회합니다.")
     @GetMapping("/{userId}")
-    public List<Reservation> getAll(@PathVariable Long userId) {
+    public List<Reservation> getList(@PathVariable Long userId) {
         return reservationService.getAll(userId);
     }
 

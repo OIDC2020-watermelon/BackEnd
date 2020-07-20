@@ -18,4 +18,6 @@ public class TicketController {
 //    public List<Ticket> getAll(@PathVariable Long showId) {
 //        return ticketService.getAll(showId);
 //    }
+
+    // 예약 별 티켓
 }
