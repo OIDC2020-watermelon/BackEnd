@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,14 +24,15 @@ public class ProductService {
 
     public List<ProductForListDto> searchProductsReleased(String keyword, Category category, Pageable pageable) {
         Page<Product> products;
+        LocalDateTime now = LocalDateTime.now();
         if (keyword == null && category == null) {
-            products = productRepository.findAll(pageable);
+            products = productRepository.findByReleaseStartTimeBeforeAndReleaseEndTimeAfter(now, now, pageable);
         } else if (keyword == null) {
-            products = productRepository.findByCategory(category, pageable);
+            products = productRepository.findByCategoryAndReleaseStartTimeBeforeAndReleaseEndTimeAfter(category, now, now, pageable);
         } else if (category == null) {
-            products = productRepository.findByTitleContaining(keyword, pageable);
+            products = productRepository.findByTitleContainingAndReleaseStartTimeBeforeAndReleaseEndTimeAfter(keyword, now, now, pageable);
         } else {
-            products = productRepository.findByTitleContainingAndCategory(keyword, category, pageable);
+            products = productRepository.findByTitleContainingAndCategoryAndReleaseStartTimeBeforeAndReleaseEndTimeAfter(keyword, category, now, now, pageable);
         }
 
         return products.stream()
