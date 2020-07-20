@@ -1,24 +1,22 @@
 package kr.or.watermelon.show.dto;
 
-import kr.or.watermelon.show.entity.Category;
-import kr.or.watermelon.show.entity.RRatedType;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-public class ResProductForListDto {
+public class ProductForListDto {
 
     private Long id;
 
     private String title;
 
-    private Category category;
+    private String category;
 
     private Integer runningTime;
 
-    private RRatedType rRated;
+    private String rRated;
 
     private String thumbnailImgUrl;
 

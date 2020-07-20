@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-public class ResArtistDto {
+public class ArtistDto {
 
     private String name;
 
@@ -14,7 +14,7 @@ public class ResArtistDto {
 
     private LocalDateTime debutDate;
 
-    private List<ResProductDto> products;
+    private List<CurtProductDto> products;
 
     private String description;
 
@@ -30,5 +30,5 @@ public class ResArtistDto {
 
     private String facebookUrl;
 
-    private List<ResCareerDto> careers;
+    private List<CareerDto> careers;
 }

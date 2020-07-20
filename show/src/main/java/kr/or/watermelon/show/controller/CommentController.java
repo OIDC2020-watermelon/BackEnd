@@ -2,7 +2,7 @@ package kr.or.watermelon.show.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import kr.or.watermelon.show.dto.ResCommentDto;
+import kr.or.watermelon.show.dto.CommentDto;
 import kr.or.watermelon.show.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -25,8 +25,8 @@ public class CommentController {
 
     @GetMapping("/products/{id}/comments")
     @ApiOperation(value = "[공연상세보기페이지(p30)]:상품ID에 대한 댓글 리스트 가져오기")
-    public List<ResCommentDto> getProductComments(@PathVariable Long id,
-                                                  @PageableDefault(sort = "createdDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
+    public List<CommentDto> getProductComments(@PathVariable Long id,
+                                               @PageableDefault(sort = "createdDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
         return commentService.getCommentsByProductId(id, pageable);
     }
 }

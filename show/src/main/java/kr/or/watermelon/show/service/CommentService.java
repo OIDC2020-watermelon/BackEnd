@@ -1,6 +1,6 @@
 package kr.or.watermelon.show.service;
 
-import kr.or.watermelon.show.dto.ResCommentDto;
+import kr.or.watermelon.show.dto.CommentDto;
 import kr.or.watermelon.show.entity.Comment;
 import kr.or.watermelon.show.entity.Product;
 import kr.or.watermelon.show.repository.CommentRepository;
@@ -20,10 +20,10 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final ModelMapper modelMapper;
 
-    public List<ResCommentDto> getCommentsByProductId(Long productId, Pageable pageable) {
+    public List<CommentDto> getCommentsByProductId(Long productId, Pageable pageable) {
         Page<Comment> comments = commentRepository.findAllByProduct(Product.builder().id(productId).build(), pageable);
-        List<ResCommentDto> commentResponses = comments.stream()
-                .map(c -> modelMapper.map(c, ResCommentDto.class))
+        List<CommentDto> commentResponses = comments.stream()
+                .map(c -> modelMapper.map(c, CommentDto.class))
                 .collect(Collectors.toList());
         return commentResponses;
     }
