@@ -10,6 +10,8 @@ public class ArtistDto {
 
     private String name;
 
+    private String occupation;
+
     private LocalDateTime birthDate;
 
     private LocalDateTime debutDate;
