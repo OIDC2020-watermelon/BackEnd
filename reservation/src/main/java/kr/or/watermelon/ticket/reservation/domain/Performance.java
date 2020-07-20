@@ -2,23 +2,19 @@ package kr.or.watermelon.ticket.reservation.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Show {
+public class Performance {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private LocalDate startAt;
@@ -29,6 +25,7 @@ public class Show {
 
     private Long productId;
 
-    @OneToMany(mappedBy = "ticket")
+    @Builder.Default
+    @OneToMany(mappedBy = "performance")
     private List<Ticket> tickets = new ArrayList<>();
 }

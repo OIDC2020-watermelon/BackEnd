@@ -4,18 +4,19 @@ import kr.or.watermelon.ticket.reservation.controller.dto.ReservationDto;
 import kr.or.watermelon.ticket.reservation.domain.Reservation;
 import kr.or.watermelon.ticket.reservation.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
 
+@Service
 public class ReservationService {
     @Autowired
     private ReservationRepository reservationRepository;
 
-    public Page<Reservation> getAll(Long userId) {
+    public List<Reservation> getAll(Long userId) {
         return reservationRepository.findByUserId(userId);
     }
 

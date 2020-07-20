@@ -8,7 +8,6 @@ import kr.or.watermelon.ticket.reservation.domain.Ticket;
 import kr.or.watermelon.ticket.reservation.service.ReservationService;
 import kr.or.watermelon.ticket.reservation.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -38,7 +37,7 @@ public class ReservationController {
     // 예매 리스트
     @ApiOperation(value="예매 리스트", notes="사용자가 예매한 목록을 조회합니다.")
     @GetMapping("/{userId}")
-    public Page<Reservation> getAll(@PathVariable Long userId) {
+    public List<Reservation> getAll(@PathVariable Long userId) {
         return reservationService.getAll(userId);
     }
 

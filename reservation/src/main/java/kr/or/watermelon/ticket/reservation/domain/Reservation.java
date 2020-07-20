@@ -12,15 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class Reservation {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -44,6 +42,7 @@ public class Reservation {
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "ticket")
+    @Builder.Default
+    @OneToMany(mappedBy = "reservation")
     private List<Ticket> tickets = new ArrayList<>();
 }

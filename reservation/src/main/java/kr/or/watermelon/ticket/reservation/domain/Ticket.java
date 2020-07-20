@@ -4,7 +4,6 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Builder
@@ -17,38 +16,35 @@ public class Ticket {
     }
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String name;
 
     private String seatNumber;
 
     private Grade grade;
 
-    private int row;
+    private int rowNum;
 
-    private int column;
+    private int colNum;
 
     private int price;
 
-    @Setter
     @ColumnDefault("0")
     private boolean isSold;
 
     @ManyToOne
-    @JoinColumn(name="RESERVATION_ID")
+    @JoinColumn(name="reservation_id", insertable = false, updatable = false)
     private Reservation reservation;
 
     @ManyToOne
-    @JoinColumn(name="SHOW_ID")
-    private Show show;
+    @JoinColumn(name="performance_id", insertable = false, updatable = false)
+    private Performance performance;
 
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
     }
-    public void setShow(Show show) {
-        this.show = show;
+    public void setPerformance(Performance performance) {
+        this.performance = performance;
     }
 }
 
