@@ -1,7 +1,5 @@
 package kr.or.watermelon.member.controller.common;
 
-import com.google.gson.Gson;
-import kr.or.watermelon.member.repo.UserJpaRepo;
 import kr.or.watermelon.member.service.social.KakaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
