@@ -10,7 +10,7 @@ spring:
   jpa:
     database: mysql
     dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-    properties.hibernate.hbm2ddl.auto: create
+    properties.hibernate.hbm2ddl.auto: update # 개발 환경 create-drop
     showSql: true
 
   messages:
