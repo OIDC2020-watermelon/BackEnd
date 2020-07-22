@@ -71,12 +71,13 @@ public class SignController {
                                               @ApiParam(value = "소셜 access_token", required = true) @RequestParam String accessToken) {
 
         KakaoProfile profile = kakaoService.getKakaoProfile(accessToken);
-        Optional<User> user = userJpaRepo.findByUidAndProvider(String.valueOf(profile.getKakao_account().getEmail()), provider);
+        KakaoProfile.Kakao_account account = profile.getKakao_account();
+        Optional<User> user = userJpaRepo.findByUidAndProvider(String.valueOf(account.getEmail()), provider);
         if (user.isPresent()) {
-            User presentUser = userJpaRepo.findByUidAndProvider(String.valueOf(profile.getId()), provider).orElseThrow(CUserNotFoundException::new);
+            User presentUser = userJpaRepo.findByUidAndProvider(String.valueOf(account.getEmail()), provider).orElseThrow(CUserNotFoundException::new);
             return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(presentUser.getId()), presentUser.getRoles()));
         } else {
-            KakaoProfile.Kakao_account account = profile.getKakao_account();
+
             User inUser = User.builder()
                     .uid(String.valueOf(account.getEmail()))
                     .ageRange(String.valueOf(account.getAge_range()))
