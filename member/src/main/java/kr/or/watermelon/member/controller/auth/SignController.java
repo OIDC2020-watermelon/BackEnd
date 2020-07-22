@@ -1,5 +1,8 @@
 package kr.or.watermelon.member.controller.auth;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import kr.or.watermelon.member.advice.exception.CEmailSigninFailedException;
 import kr.or.watermelon.member.advice.exception.CUserNotFoundException;
 import kr.or.watermelon.member.config.security.JwtTokenProvider;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.Optional;
 
+@Api(tags = {"1. Sign"})
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/auth")
@@ -28,8 +32,10 @@ public class SignController {
     private final PasswordEncoder passwordEncoder;
     private final KakaoService kakaoService;
 
+    @ApiOperation(value = "로그인", notes = "이메일 회원 로그인을 한다.")
     @PostMapping(value = "/signin")
-    public SingleResult<String> signin(String email, String password) {
+    public SingleResult<String> signin(@ApiParam(value = "회원ID: 이메일", required = true) @RequestParam String email,
+                                       @ApiParam(value = "비밀번호", required = true) @RequestParam String password) {
 
         User user = userJpaRepo.findByUid(email).orElseThrow(CEmailSigninFailedException::new);
         if (!passwordEncoder.matches(password, user.getPassword()))
@@ -38,8 +44,14 @@ public class SignController {
         return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getId()), user.getRoles()));
     }
 
+    @ApiOperation(value = "가입", notes = "회원가입을 한다.")
     @PostMapping(value = "/signup")
-    public CommonResult signup(String email, String password, String name, String phoneNo, String dateOfBirth, String gender) {
+    public CommonResult signup(@ApiParam(value = "회원ID: 이메일", required = true) @RequestParam String email,
+                               @ApiParam(value = "비밀번호", required = true) @RequestParam String password,
+                               @ApiParam(value = "이름", required = true) @RequestParam String name,
+                               @ApiParam(value = "폰 번호", required = true) @RequestParam String phoneNo,
+                               @ApiParam(value = "생년월일", required = true) @RequestParam String dateOfBirth,
+                               @ApiParam(value = "성별", required = true) @RequestParam String gender) {
 
         userJpaRepo.save(User.builder()
                 .uid(email)
@@ -53,8 +65,10 @@ public class SignController {
         return responseService.getSuccessResult();
     }
 
+    @ApiOperation(value = "소셜 계정 로그인 / 소셜 계정 회원가입", notes = "가입된 회원의 경우 소셜 계정으로 로그인을 한다 / 그렇지 않은 경우 소셜 계정으로 회원가입을 한다.")
     @PostMapping(value = "/signin/{provider}")
-    public SingleResult<String> loginProvider(String provider, String accessToken) {
+    public SingleResult<String> loginProvider(@ApiParam(value = "서비스 제공자 provider", required = true, defaultValue = "kakao") @PathVariable String provider,
+                                              @ApiParam(value = "소셜 access_token", required = true) @RequestParam String accessToken) {
 
         KakaoProfile profile = kakaoService.getKakaoProfile(accessToken);
         Optional<User> user = userJpaRepo.findByUidAndProvider(String.valueOf(profile.getKakao_account().getEmail()), provider);
