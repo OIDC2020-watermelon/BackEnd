@@ -1,6 +1,9 @@
 package kr.or.watermelon.member.service.social;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import kr.or.watermelon.member.advice.exception.CCommunicationException;
 import kr.or.watermelon.member.model.social.KakaoProfile;
 import kr.or.watermelon.member.model.social.RetKakaoAuth;
@@ -30,6 +33,9 @@ public class KakaoService {
     @Value("${spring.social.kakao.redirect}")
     private String kakaoRedirect;
 
+    /**
+     * 카카오 플랫폼에서 사용자 정보를 요청한다.
+     **/
     public KakaoProfile getKakaoProfile(String accessToken) {
         // Set header : Content-type: application/x-www-form-urlencoded
         HttpHeaders headers = new HttpHeaders();
@@ -38,6 +44,8 @@ public class KakaoService {
 
         // Set http entity
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(null, headers);
+
+        JsonParser parser = new JsonParser();
         try {
             // Request profile
             ResponseEntity<String> response = restTemplate.postForEntity(env.getProperty("spring.social.kakao.url.profile"), request, String.class);
@@ -49,6 +57,9 @@ public class KakaoService {
         throw new CCommunicationException();
     }
 
+    /**
+    * 카카오 플랫폼에서 사용자 토큰을 발급받는다.
+    **/
     public RetKakaoAuth getKakaoTokenInfo(String code) {
         // Set header : Content-type: application/x-www-form-urlencoded
         HttpHeaders headers = new HttpHeaders();

@@ -1,6 +1,7 @@
 package kr.or.watermelon.member.controller.common;
 
 import com.google.gson.Gson;
+import kr.or.watermelon.member.repo.UserJpaRepo;
 import kr.or.watermelon.member.service.social.KakaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,14 +13,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * 프론트 없이 development 때 사용: 소셜 로그인 화면 & 토큰 받기
+ */
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/social/login")
 public class SocialController {
 
     private final Environment env;
-    private final RestTemplate restTemplate;
-    private final Gson gson;
     private final KakaoService kakaoService;
 
     @Value("${spring.url.base}")
