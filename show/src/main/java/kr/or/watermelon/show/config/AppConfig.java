@@ -1,5 +1,7 @@
 package kr.or.watermelon.show.config;
 
+import kr.or.watermelon.show.converter.ArtistForListMapper;
+import kr.or.watermelon.show.converter.ProductForListMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +11,8 @@ public class AppConfig {
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
+        modelMapper.addMappings(new ProductForListMapper());
+        modelMapper.addMappings(new ArtistForListMapper());
         return modelMapper;
     }
 }

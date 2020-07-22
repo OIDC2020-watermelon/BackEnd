@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class ResCareerDto {
+public class CareerDto {
 
     private LocalDateTime date;
 

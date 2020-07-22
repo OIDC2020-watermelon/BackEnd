@@ -1,22 +1,24 @@
 package kr.or.watermelon.show.dto;
 
-import kr.or.watermelon.show.entity.Category;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
-public class ResProductDto {
+public class ProductDto {
+
+    private Long id;
 
     private String title;
 
-    private Category category;
+    private String category;
 
-    private ResPlaceDto place;
+    private Integer runningTime;
+
+    private String rRated;
 
     private String imgUrl;
-
-    private String thumbnailImgUrl;
 
     private LocalDateTime createdDateTime;
 
@@ -26,9 +28,9 @@ public class ResProductDto {
 
     private LocalDateTime releaseEndTime;
 
-    private LocalDateTime startShowTime;
+    private PlaceDto place;
 
-    private LocalDateTime endShowTime;
+    private List<ArtistForListDto> artists;
 
 
 }
