@@ -31,4 +31,4 @@ spring:
         profile: https://kapi.kakao.com/v2/user/me
 
   url:
-    base: http://27.96.135.244/:8080  # http://localhost/:8080
+    base: http://27.96.135.244:8080  # http://localhost/:8080
