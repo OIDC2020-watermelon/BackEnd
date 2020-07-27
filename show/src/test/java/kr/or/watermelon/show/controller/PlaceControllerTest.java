@@ -2,7 +2,6 @@ package kr.or.watermelon.show.controller;
 
 import kr.or.watermelon.show.entity.Place;
 import kr.or.watermelon.show.factory.PlaceFactory;
-import kr.or.watermelon.show.factory.ThemeFactory;
 import kr.or.watermelon.show.infra.AbstractContainerBaseTest;
 import kr.or.watermelon.show.infra.MockMvcTest;
 import org.hamcrest.core.Every;
@@ -10,6 +9,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Collections;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
@@ -26,23 +27,23 @@ public class PlaceControllerTest extends AbstractContainerBaseTest {
     PlaceController placeController;
     @Autowired
     PlaceFactory placeFactory;
-    @Autowired
-    ThemeFactory themeFactory;
 
     @DisplayName("공연장 상세정보 가져오기")
     @Test
     void getPlace() throws Exception {
-        Place place = placeFactory.savePlace("yes24");
-        mockMvc.perform(get("/places/" + place.getId()))
+        Place yes24 = placeFactory.saveItem(Place.builder()::name, "yes24");
+
+        mockMvc.perform(get("/places/" + yes24.getId()))
                 .andExpect(jsonPath("$.name", equalTo("yes24")));
     }
 
     @DisplayName("공연장 검색 결과 가져오기")
     @Test
     void searchPlaces() throws Exception {
-        placeFactory.savePlaces(3, "yes24");
-        placeFactory.savePlace("interpark_hall");
-        mockMvc.perform(get("/places/search?keyword=yes24&size=2"))
+        placeFactory.saveItems(Place.builder()::name, Collections.nCopies(2, "yes24"));
+        placeFactory.saveItem(Place.builder()::name, "interpark_hall");
+
+        mockMvc.perform(get("/places/search?keyword=yes24"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", equalTo(2)))
                 .andExpect(jsonPath("$..name", Every.everyItem(containsString("yes24"))));

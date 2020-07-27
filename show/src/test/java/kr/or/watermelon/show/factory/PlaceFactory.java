@@ -1,31 +1,28 @@
 package kr.or.watermelon.show.factory;
 
+import kr.or.watermelon.show.entity.CustomBuilder;
 import kr.or.watermelon.show.entity.Place;
 import kr.or.watermelon.show.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.function.Function;
 
-//TODO 팩토리들 추상화해서 하나로 합쳐서 사용하기
 @Component
 @RequiredArgsConstructor
 public class PlaceFactory {
 
     private final PlaceRepository placeRepository;
+    private final Factory factory;
 
-    public Place savePlace(String name) {
-        Place yes24 = Place.builder().name(name).build();
-        return placeRepository.save(yes24);
+    public <T> List<Place> saveItems(Function<T, CustomBuilder> func, List<T> args) {
+        List<Place> places = (List<Place>) factory.makeItems(func, args);
+        return placeRepository.saveAll(places);
     }
 
-    public List<Place> savePlaces(int count, String name) {
-        List<Place> places = Stream.generate(() -> Place.builder().name(name).build())
-                .limit(count)
-                .collect(Collectors.toList());
-        placeRepository.saveAll(places);
-        return places;
+    public <T> Place saveItem(Function<T, CustomBuilder> func, T arg) {
+        Place place = (Place) factory.makeItem(func, arg);
+        return placeRepository.save(place);
     }
 }

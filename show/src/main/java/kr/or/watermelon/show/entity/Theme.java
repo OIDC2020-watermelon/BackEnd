@@ -23,4 +23,6 @@ public class Theme {
     @ManyToOne
     private Product product;
 
+    public static class ThemeBuilder implements CustomBuilder {
+    }
 }

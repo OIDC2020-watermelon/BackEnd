@@ -1,7 +1,6 @@
 package kr.or.watermelon.show.controller;
 
 import kr.or.watermelon.show.entity.Category;
-import kr.or.watermelon.show.entity.Product;
 import kr.or.watermelon.show.factory.ProductFactory;
 import kr.or.watermelon.show.infra.AbstractContainerBaseTest;
 import kr.or.watermelon.show.infra.MockMvcTest;
@@ -11,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.function.Function;
+import java.util.Arrays;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
@@ -30,10 +29,8 @@ public class ProductControllerTest extends AbstractContainerBaseTest {
     @DisplayName("키워드 공연 검색")
     @Test
     void searchProductsByKeyword() throws Exception {
-        Function<String, Product> titleProductMaker = (s) -> Product.builder().title(s).build();
-        productFactory.saveProduct(titleProductMaker, "iu-concert1");
-        productFactory.saveProduct(titleProductMaker, "iu-concert2");
-        productFactory.saveProduct(titleProductMaker, "cl-concert");
+        productFactory.saveItems(ProductFactory.getReservableProductBuilder()::title,
+                Arrays.asList("iu-concert1", "iu-concert2", "g-dragon-concert"));
 
         mockMvc.perform(get("/products/search?keyword=iu"))
                 .andExpect(status().isOk())
@@ -44,10 +41,8 @@ public class ProductControllerTest extends AbstractContainerBaseTest {
     @DisplayName("카테고리 공연 검색")
     @Test
     void searchProductsByCategory() throws Exception {
-        Function<Category, Product> categoryProductMaker = (c) -> Product.builder().category(c).build();
-        productFactory.saveProduct(categoryProductMaker, Category.CONCERT);
-        productFactory.saveProduct(categoryProductMaker, Category.CONCERT);
-        productFactory.saveProduct(categoryProductMaker, Category.PLAY);
+        productFactory.saveItems(ProductFactory.getReservableProductBuilder()::category,
+                Arrays.asList(Category.CONCERT, Category.CONCERT, Category.CLASSIC_DANCE));
 
         mockMvc.perform(get("/products/search?category=concert"))
                 .andExpect(status().isOk())

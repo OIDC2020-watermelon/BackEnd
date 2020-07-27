@@ -24,4 +24,7 @@ public class Promotion {
     @Length(max = 8200)
     private String promotionImgUrl;
 
+
+    public static class PromotionBuilder implements CustomBuilder {
+    }
 }
