@@ -1,0 +1,28 @@
+- db 서버 접속 후 설정 파일 변경하기
+vi /etc/mysql/my.cnf
+
+
+- 아래의 내용 추가
+[client]
+default-character-set=utf8
+
+[mysql]
+default-character-set=utf8
+
+[mysqld]
+collation-server = utf8_unicode_ci
+init-connect='SET NAMES utf8'
+character-set-server = utf8
+기존에 만들었던 DB, 테이블도 변경
+ALTER DATABASE [DB명] DEFAULT CHARACTER SET utf8;
+
+
+- mysql 종료 후 재시작
+service mysql stop
+service mysql start
+혹은
+service mysql restart
+
+
+- mysql 실행 후 인코딩 설정 확인
+status
