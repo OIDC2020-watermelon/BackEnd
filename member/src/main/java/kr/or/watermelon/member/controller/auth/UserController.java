@@ -25,7 +25,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 jwt token", required = true, dataType = "String", paramType = "header")
     })
-    @ApiOperation(value = "회원 단건 조회", notes = "인증받은 사용의 아이디(email)로 회원을 조회한다")
+    @ApiOperation(value = "회원 단건 조회", notes = "인증받은 사용자의 아이디(email)로 회원을 조회한다")
     @GetMapping(value = "/user")
     public SingleResult<String> findUser() {
         // SecurityContext에서 인증받은 회원의 정보를 얻어온다.
@@ -45,20 +45,28 @@ public class UserController {
                                      @ApiParam(value = "모바일 번호", required = true) @RequestParam String phoneNo,
                                      @ApiParam(value = "생년월일", required = true) @RequestParam String dateOfBirth,
                                      @ApiParam(value = "성별", required = true) @RequestParam String gender) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userJpaRepo.findByUid(email).orElseThrow(CUserNotFoundException::new);
+        long id = user.getId();
+        userJpaRepo.deleteById(id);
 
-        User user = userJpaRepo.save(User.builder()
+        User modifiedUser = userJpaRepo.save(User.builder()
+                .id(id)
+                .uid(email)
                 .name(name)
                 .phoneNo(phoneNo)
                 .dateOfBirth(dateOfBirth)
                 .gender(gender)
                 .build());
-        return responseService.getSingleResult(user.toString());
+
+        return responseService.getSingleResult(modifiedUser.toString());
     }
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 jwt token", required = true, dataType = "String", paramType = "header")
     })
-    @ApiOperation(value = "회원 삭제 (회원 탈퇴)", notes = "인증받은 사용의 아이디(email)로 회원정보를 삭제한다")
+    @ApiOperation(value = "회원 삭제 (회원 탈퇴)", notes = "인증받은 사용자의 아이디(email)로 회원정보를 삭제한다")
     @DeleteMapping(value = "/user")
     public CommonResult delete(
             @ApiParam(value = "회원번호", required = true) @PathVariable long id) {
