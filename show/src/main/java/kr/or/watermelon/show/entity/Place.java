@@ -44,4 +44,7 @@ public class Place {
     public String toString() {
         return this.name;
     }
+
+    public static class PlaceBuilder implements CustomBuilder {
+    }
 }

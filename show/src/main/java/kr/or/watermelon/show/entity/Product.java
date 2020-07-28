@@ -71,4 +71,7 @@ public class Product {
                 .map(a -> a.getName())
                 .collect(Collectors.toList());
     }
+
+    public static class ProductBuilder implements CustomBuilder {
+    }
 }

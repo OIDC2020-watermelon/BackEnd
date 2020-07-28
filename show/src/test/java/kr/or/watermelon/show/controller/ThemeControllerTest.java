@@ -1,5 +1,6 @@
 package kr.or.watermelon.show.controller;
 
+import kr.or.watermelon.show.entity.Product;
 import kr.or.watermelon.show.entity.Theme;
 import kr.or.watermelon.show.entity.ThemeType;
 import kr.or.watermelon.show.factory.ProductFactory;
@@ -14,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
 
 import static org.hamcrest.Matchers.hasKey;
 import static org.hamcrest.Matchers.hasSize;
@@ -37,9 +37,9 @@ public class ThemeControllerTest extends AbstractContainerBaseTest {
     @DisplayName("테마별 공연 리스트 가져오기")
     @Test
     void getProductsByTheme() throws Exception {
+        Product product = productFactory.saveItem(Product.builder()::title, "");
         List<ThemeType> themeTypes = Arrays.asList(ThemeType.NEW, ThemeType.NEW, ThemeType.COMMING_SOON);
-        Function<ThemeType, Theme> themeMaker = (t) -> Theme.builder().product(productFactory.saveProduct()).themeType(t).build();
-        List<Theme> themes = themeFactory.saveThemes(themeMaker, themeTypes);
+        themeFactory.saveItems(Theme.builder().product(product)::themeType, themeTypes);
 
         mockMvc.perform(get("/products/themes/NEW"))
                 .andExpect(status().isOk())

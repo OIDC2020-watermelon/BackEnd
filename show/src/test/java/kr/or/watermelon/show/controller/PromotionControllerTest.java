@@ -11,7 +11,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -29,12 +28,12 @@ public class PromotionControllerTest extends AbstractContainerBaseTest {
     @Autowired
     PromotionFactory promotionFactory;
 
+
     @DisplayName("프로모션 리스트 가져오기")
     @Test
     void getPromotions() throws Exception {
         List<String> promotionImgUrls = Arrays.asList("promotion_img_url_1", "promotion_img_url_2");
-        Function<String, Promotion> promotionMaker = (url) -> Promotion.builder().promotionImgUrl(url).build();
-        List<Promotion> promotions = promotionFactory.savePromotions(promotionMaker, promotionImgUrls);
+        promotionFactory.savePromotions(Promotion.builder()::promotionImgUrl, promotionImgUrls);
 
         mockMvc.perform(get("/promotions/"))
                 .andExpect(status().isOk())

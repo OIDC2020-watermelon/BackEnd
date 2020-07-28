@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Artist {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -71,5 +72,8 @@ public class Artist {
         return products.stream()
                 .map(p -> p.getTitle())
                 .collect(Collectors.toList());
+    }
+
+    public static class ArtistBuilder implements CustomBuilder {
     }
 }

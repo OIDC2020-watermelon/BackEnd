@@ -1,28 +1,28 @@
 package kr.or.watermelon.show.factory;
 
+import kr.or.watermelon.show.entity.CustomBuilder;
 import kr.or.watermelon.show.entity.Promotion;
 import kr.or.watermelon.show.repository.PromotionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class PromotionFactory {
 
     private final PromotionRepository promotionRepository;
+    private final Factory factory;
 
-    public <T> List<Promotion> savePromotions(Function<T, Promotion> f, List<T> ts) {
-        List<Promotion> promotions = ts.stream()
-                .map(f)
-                .collect(Collectors.toList());
+    public <T> List<Promotion> savePromotions(Function<T, CustomBuilder> func, List<T> args) {
+        List<Promotion> promotions = (List<Promotion>) factory.makeItems(func, args);
+        return promotionRepository.saveAll(promotions);
+    }
 
-        promotionRepository.saveAll(promotions);
-        Collections.reverse(promotions);
-        return promotions;
+    public <T> Promotion saveItem(Function<T, CustomBuilder> func, T arg) {
+        Promotion promotion = (Promotion) factory.makeItem(func, arg);
+        return promotionRepository.save(promotion);
     }
 }
