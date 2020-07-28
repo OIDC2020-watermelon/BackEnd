@@ -41,19 +41,19 @@ public class SignController {
         if (!passwordEncoder.matches(password, user.getPassword()))
             throw new CEmailSigninFailedException();
 
-        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getId()), user.getRoles()));
+        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getUid()), user.getRoles()));
     }
 
     @ApiOperation(value = "가입", notes = "회원가입을 한다.")
     @PostMapping(value = "/signup")
-    public CommonResult signup(@ApiParam(value = "회원ID: 이메일", required = true) @RequestParam String email,
+    public SingleResult<String> signup(@ApiParam(value = "회원ID: 이메일", required = true) @RequestParam String email,
                                @ApiParam(value = "비밀번호", required = true) @RequestParam String password,
                                @ApiParam(value = "이름", required = true) @RequestParam String name,
-                               @ApiParam(value = "폰 번호", required = true) @RequestParam String phoneNo,
+                               @ApiParam(value = "모바일 번호", required = true) @RequestParam String phoneNo,
                                @ApiParam(value = "생년월일", required = true) @RequestParam String dateOfBirth,
                                @ApiParam(value = "성별", required = true) @RequestParam String gender) {
 
-        userJpaRepo.save(User.builder()
+        User newUser = userJpaRepo.save(User.builder()
                 .uid(email)
                 .password(passwordEncoder.encode(password))
                 .name(name)
@@ -62,7 +62,7 @@ public class SignController {
                 .gender(gender)
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build());
-        return responseService.getSuccessResult();
+        return responseService.getSingleResult(newUser.toString());
     }
 
     @ApiOperation(value = "소셜 계정 로그인 / 소셜 계정 회원가입", notes = "가입된 회원의 경우 소셜 계정으로 로그인을 한다 / 그렇지 않은 경우 소셜 계정으로 회원가입을 한다.")
@@ -75,7 +75,7 @@ public class SignController {
         Optional<User> user = userJpaRepo.findByUidAndProvider(String.valueOf(account.getEmail()), provider);
         if (user.isPresent()) {
             User presentUser = userJpaRepo.findByUidAndProvider(String.valueOf(account.getEmail()), provider).orElseThrow(CUserNotFoundException::new);
-            return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(presentUser.getId()), presentUser.getRoles()));
+            return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(presentUser.getUid()), presentUser.getRoles()));
         } else {
 
             User inUser = User.builder()

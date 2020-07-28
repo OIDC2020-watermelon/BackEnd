@@ -16,58 +16,59 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = {"2. User"})
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/v1")
+@RequestMapping(value = "/auth")
 public class UserController {
 
     private final UserJpaRepo userJpaRepo;
     private final ResponseService responseService; // 결과를 처리할 Service
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 jwt token", required = true, dataType = "String", paramType = "header")
     })
-    @ApiOperation(value = "회원 리스트 조회", notes = "모든 회원을 조회한다")
-    @GetMapping(value = "/users")
-    public ListResult<User> findAllUser() {
-        // 결과데이터가 여러건인경우 getListResult를 이용해서 결과를 출력한다.
-        return responseService.getListResult(userJpaRepo.findAll());
-    }
-
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
-    @ApiOperation(value = "회원 단건 조회", notes = "회원번호(id)로 회원을 조회한다")
+    @ApiOperation(value = "회원 단건 조회", notes = "인증받은 사용의 아이디(email)로 회원을 조회한다")
     @GetMapping(value = "/user")
-    public SingleResult<User> findUser() {
+    public SingleResult<String> findUser() {
         // SecurityContext에서 인증받은 회원의 정보를 얻어온다.
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
+        User user = userJpaRepo.findByUid(email).orElseThrow(CUserNotFoundException::new);
         // 결과데이터가 단일건인경우 getSingleResult를 이용해서 결과를 출력한다.
-            return responseService.getSingleResult(userJpaRepo.findByUid(email).orElseThrow(CUserNotFoundException::new));
+        return responseService.getSingleResult(user.toString());
     }
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 jwt token", required = true, dataType = "String", paramType = "header")
     })
-    @ApiOperation(value = "회원 수정", notes = "회원정보를 수정한다")
+    @ApiOperation(value = "회원 수정", notes = "인증받은 사용자의 회원 정보를 수정한다")
     @PutMapping(value = "/user")
-    public SingleResult<User> modify(
-            @ApiParam(value = "회원번호", required = true) @RequestParam long id,
-            @ApiParam(value = "회원이름", required = true) @RequestParam String name) {
-        User user = User.builder()
-                .id(id)
+    public SingleResult<String> modify(@ApiParam(value = "회원 이름", required = true) @RequestParam String name,
+                                     @ApiParam(value = "모바일 번호", required = true) @RequestParam String phoneNo,
+                                     @ApiParam(value = "생년월일", required = true) @RequestParam String dateOfBirth,
+                                     @ApiParam(value = "성별", required = true) @RequestParam String gender) {
+
+        User user = userJpaRepo.save(User.builder()
                 .name(name)
-                .build();
-        return responseService.getSingleResult(userJpaRepo.save(user));
+                .phoneNo(phoneNo)
+                .dateOfBirth(dateOfBirth)
+                .gender(gender)
+                .build());
+        return responseService.getSingleResult(user.toString());
     }
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 jwt token", required = true, dataType = "String", paramType = "header")
     })
-    @ApiOperation(value = "회원 삭제", notes = "회원번호(id)로 회원정보를 삭제한다")
-    @DeleteMapping(value = "/user/{id}")
+    @ApiOperation(value = "회원 삭제 (회원 탈퇴)", notes = "인증받은 사용의 아이디(email)로 회원정보를 삭제한다")
+    @DeleteMapping(value = "/user")
     public CommonResult delete(
             @ApiParam(value = "회원번호", required = true) @PathVariable long id) {
-        userJpaRepo.deleteById(id);
+
+        // SecurityContext에서 인증받은 회원의 정보를 얻어온다.
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userJpaRepo.findByUid(email).orElseThrow(CUserNotFoundException::new);
+
+        userJpaRepo.deleteById(user.getId());
         // 성공 결과 정보만 필요한경우 getSuccessResult()를 이용하여 결과를 출력한다.
         return responseService.getSuccessResult();
     }
