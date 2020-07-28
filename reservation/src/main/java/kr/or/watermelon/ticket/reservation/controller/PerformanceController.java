@@ -23,5 +23,7 @@ public class PerformanceController {
         return performanceService.getList(productId);
     }
 
+    // 공연 만들기 (+티켓도 같이)
 
+    // 공연 삭제
 }
