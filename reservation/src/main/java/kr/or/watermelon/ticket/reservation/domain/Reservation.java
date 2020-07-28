@@ -25,7 +25,7 @@ public class Reservation {
 
     private LocalDate availableDate;
 
-    private LocalTime availableTime;
+    private LocalTime startAt;
 
     private String serialNumber;
 
@@ -42,7 +42,7 @@ public class Reservation {
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "reservation")
-    private List<Ticket> tickets = new ArrayList<>();
+//    @Builder.Default
+//    @OneToMany(mappedBy = "reservation")
+//    private List<Ticket> tickets = new ArrayList<>();
 }

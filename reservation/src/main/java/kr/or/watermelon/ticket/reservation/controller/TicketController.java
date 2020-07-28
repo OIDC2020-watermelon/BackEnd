@@ -18,14 +18,14 @@ public class TicketController {
     private TicketService ticketService;
 
     @ApiOperation(value="공연별 티켓 리스트", notes="해당 performance에 맞는 티켓(좌석) 리스트를 조회합니다.")
-    @GetMapping("/{performanceId}")
+    @GetMapping("/performance/{performanceId}")
     public List<Ticket> getListByPerformance(@PathVariable Long performanceId) {
         return ticketService.getListByPerformance(performanceId);
     }
 
     // 예약 별 티켓
     @ApiOperation(value="예약별 티켓  리스트", notes = "해당 예약에 맞는 티켓(좌석) 리스트를 조회합니다.")
-    @GetMapping("/{reservationId}")
+    @GetMapping("/reservation/{reservationId}")
     public List<Ticket> getListByReservation(@PathVariable Long reservationId) {
         return ticketService.getListByReservation(reservationId);
     }

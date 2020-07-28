@@ -4,8 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalTime;
 
 @Entity
 @Builder
@@ -17,15 +16,17 @@ public class Performance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate startAt;
+    private LocalDate availableDate;
 
-    private LocalDate endAt;
+    private LocalTime startAt;
+
+    private int duration;
 
     private int session;
 
     private Long productId;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "performance")
-    private List<Ticket> tickets = new ArrayList<>();
+//    @Builder.Default
+//    @OneToMany(mappedBy = "performance")
+//    private List<Ticket> tickets = new ArrayList<>();
 }
