@@ -1,14 +1,17 @@
 package kr.or.watermelon.ticket.reservation.service;
 
+import kr.or.watermelon.ticket.reservation.domain.Ticket;
 import kr.or.watermelon.ticket.reservation.dto.ReservationDto;
 import kr.or.watermelon.ticket.reservation.domain.Reservation;
 import kr.or.watermelon.ticket.reservation.repository.ReservationRepository;
+import kr.or.watermelon.ticket.reservation.repository.TicketRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -17,6 +20,8 @@ import java.util.stream.Collectors;
 public class ReservationService {
     @Autowired
     private ReservationRepository reservationRepository;
+    @Autowired
+    private TicketRepository ticketRepository;
     @Autowired
     private ModelMapper modelMapper;
 
@@ -49,6 +54,15 @@ public class ReservationService {
                                     .build();
 
         Reservation newReservation = reservationRepository.save(reservation);
+        List<Ticket> tickets = ticketRepository.findAllById(Arrays.asList(reservationInfo.getTicketList()));
+
+        tickets.forEach(ticket -> {
+            ticket.setSold(true);
+            ticket.setReservation(reservation);
+        });
+
+        ticketRepository.saveAll(tickets);
+
         return modelMapper.map(newReservation, ReservationDto.Response.class);
     }
 

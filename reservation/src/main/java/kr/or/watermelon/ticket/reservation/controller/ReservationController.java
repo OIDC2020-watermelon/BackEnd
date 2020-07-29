@@ -28,7 +28,7 @@ public class ReservationController {
     @ResponseStatus(HttpStatus.CREATED)
     public ReservationDto.Response add(@RequestBody ReservationDto.Info reservationInfo) {
         ReservationDto.Response newReservation = reservationService.add(reservationInfo);
-        ticketService.buy(reservationInfo.getTicketList(), newReservation);
+        //ticketService.buy(reservationInfo.getTicketList(), newReservation.getId());
         return newReservation;
     }
 
@@ -47,10 +47,9 @@ public class ReservationController {
     @ApiOperation(value="예매 취소", notes="예매를 취소합니다.")
     @DeleteMapping("/{reservationId}")
     public ReservationDto.Response cancel(@PathVariable Long reservationId) {
-        ReservationDto.Response reservation = reservationService.cancel(reservationId);
-        List<Ticket> tickets = ticketService.getListByReservation(reservationId);
-        ticketService.cancel(tickets);
+        ReservationDto.Response reservationDto = reservationService.cancel(reservationId);
+        ticketService.cancel(reservationId);
 
-        return reservation;
+        return reservationDto;
     }
 }

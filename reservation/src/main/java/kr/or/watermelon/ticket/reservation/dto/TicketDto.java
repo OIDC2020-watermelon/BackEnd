@@ -1,11 +1,10 @@
 package kr.or.watermelon.ticket.reservation.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
-@Getter
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class TicketDto {
     enum Grade {
@@ -19,4 +18,6 @@ public class TicketDto {
     private int colNum;
     private int price;
     private boolean isSold;
+    private Long performanceId;
+    private Long reservationId;
 }

@@ -33,11 +33,12 @@ public class Ticket {
     private boolean isSold;
 
     @ManyToOne
-    @JoinColumn(name="reservation_id", insertable = false, updatable = false)
+    @JoinColumn(name="reservation_id")
+
     private Reservation reservation;
 
     @ManyToOne
-    @JoinColumn(name="performance_id", insertable = false, updatable = false)
+    @JoinColumn(name="performance_id")
     private Performance performance;
 
     public void setReservation(Reservation reservation) {
