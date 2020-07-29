@@ -3,6 +3,7 @@ package kr.or.watermelon.ticket.reservation.service;
 import kr.or.watermelon.ticket.reservation.domain.Ticket;
 import kr.or.watermelon.ticket.reservation.dto.ReservationDto;
 import kr.or.watermelon.ticket.reservation.domain.Reservation;
+import kr.or.watermelon.ticket.reservation.dto.ReservationInfoDto;
 import kr.or.watermelon.ticket.reservation.repository.ReservationRepository;
 import kr.or.watermelon.ticket.reservation.repository.TicketRepository;
 import org.modelmapper.ModelMapper;
@@ -25,21 +26,21 @@ public class ReservationService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public List<ReservationDto.Response> getAll(Long userId) {
+    public List<ReservationDto> getAll(Long userId) {
         List<Reservation> reservations = reservationRepository.findByUserId(userId);
         return reservations
                 .stream()
-                .map(reservation -> modelMapper.map(reservation, ReservationDto.Response.class))
+                .map(reservation -> modelMapper.map(reservation, ReservationDto.class))
                 .collect(Collectors.toList());
     }
 
-    public ReservationDto.Response getOne(Long reservationId) {
+    public ReservationDto getOne(Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId).orElse(null);
-        return modelMapper.map(reservation, ReservationDto.Response.class);
+        return modelMapper.map(reservation, ReservationDto.class);
     }
 
     @Transactional
-    public ReservationDto.Response add(ReservationDto.Info reservationInfo) {
+    public ReservationDto add(ReservationInfoDto reservationInfo) {
         String serialNumber = UUID.randomUUID().toString().replaceAll("-", "");
         LocalDate cancelableDate = reservationInfo.getAvailableDate().minusDays(3);
 
@@ -54,6 +55,7 @@ public class ReservationService {
                                     .build();
 
         Reservation newReservation = reservationRepository.save(reservation);
+
         List<Ticket> tickets = ticketRepository.findAllById(Arrays.asList(reservationInfo.getTicketList()));
 
         tickets.forEach(ticket -> {
@@ -63,13 +65,13 @@ public class ReservationService {
 
         ticketRepository.saveAll(tickets);
 
-        return modelMapper.map(newReservation, ReservationDto.Response.class);
+        return modelMapper.map(newReservation, ReservationDto.class);
     }
 
-    public ReservationDto.Response cancel(Long reservationId) {
+    public ReservationDto cancel(Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId).orElse(null);
         reservation.setCanceled(true);
         Reservation canceledReservation = reservationRepository.save(reservation);
-        return modelMapper.map(canceledReservation, ReservationDto.Response.class);
+        return modelMapper.map(canceledReservation, ReservationDto.class);
     }
 }

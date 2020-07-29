@@ -1,7 +1,10 @@
 package kr.or.watermelon.ticket.reservation.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -10,8 +13,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PerformanceDto {
-    private Long id;
+public class PerformanceInfoDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDate availableDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss", timezone = "Asia/Seoul")
@@ -19,4 +21,6 @@ public class PerformanceDto {
     private int duration;
     private int session;
     private Long productId;
+    private int vipPrice;
+    private int sPrice;
 }

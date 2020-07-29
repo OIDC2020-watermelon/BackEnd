@@ -11,15 +11,13 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Data
 public class Ticket {
-    enum Grade {
+    public enum Grade {
         VIP, S,
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String seatNumber;
 
     private Grade grade;
 

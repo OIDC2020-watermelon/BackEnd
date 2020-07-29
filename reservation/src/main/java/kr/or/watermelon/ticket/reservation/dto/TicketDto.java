@@ -12,7 +12,6 @@ public class TicketDto {
     }
 
     private Long id;
-    private String seatNumber;
     private Grade grade;
     private int rowNum;
     private int colNum;

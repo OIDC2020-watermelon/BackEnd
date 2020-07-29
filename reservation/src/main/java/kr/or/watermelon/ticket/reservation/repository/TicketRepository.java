@@ -10,4 +10,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     List<Ticket> findByPerformanceId(Long performanceId);
 
     List<Ticket> findByReservationId(Long reservationId);
+
+    void deleteByPerformanceId(Long performanceId);
 }
