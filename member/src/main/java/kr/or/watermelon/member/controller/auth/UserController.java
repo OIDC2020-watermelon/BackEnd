@@ -25,7 +25,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 jwt token", required = true, dataType = "String", paramType = "header")
     })
-    @ApiOperation(value = "회원 단건 조회", notes = "인증받은 사용자의 아이디(email)로 회원을 조회한다")
+    @ApiOperation(value = "회원 단건 조회", notes = "인증받은 사용자의 회원 정보를 조회한다")
     @GetMapping(value = "/user")
     public SingleResult<String> findUser() {
         // SecurityContext에서 인증받은 회원의 정보를 얻어온다.
@@ -39,7 +39,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 jwt token", required = true, dataType = "String", paramType = "header")
     })
-    @ApiOperation(value = "회원 수정", notes = "인증받은 사용자의 회원 정보 중 하나의 정보를 수정한다 (수정된 정보 하나씩 반영)")
+    @ApiOperation(value = "회원 수정", notes = "인증받은 사용자의 회원 정보 중 하나의 정보를 수정한다")
     @PutMapping(value = "/user")
     public SingleResult<String> modify(@ApiParam(value = "회원 이름", required = true) @RequestParam String name,
                                      @ApiParam(value = "모바일 번호", required = true) @RequestParam String phoneNo,
@@ -50,16 +50,12 @@ public class UserController {
         User user = userJpaRepo.findByUid(email).orElseThrow(CUserNotFoundException::new);
 
         if (!user.getName().equals(name)) {
-            System.out.println(name);
             user.setName(name);
         } else if (!user.getPhoneNo().equals(phoneNo)) {
-            System.out.println(phoneNo);
             user.setPhoneNo(phoneNo);
         } else if (!user.getDateOfBirth().equals(dateOfBirth)) {
-            System.out.println(dateOfBirth);
             user.setDateOfBirth(dateOfBirth);
         } else if (!user.getGender().equals(gender)) {
-            System.out.println(gender);
             user.setGender(gender);
         }
 
@@ -70,10 +66,9 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 jwt token", required = true, dataType = "String", paramType = "header")
     })
-    @ApiOperation(value = "회원 삭제 (회원 탈퇴)", notes = "인증받은 사용자의 아이디(email)로 회원정보를 삭제한다")
+    @ApiOperation(value = "회원 삭제 (회원 탈퇴)", notes = "인증받은 사용자의 회원 정보를 삭제한다")
     @DeleteMapping(value = "/user")
-    public CommonResult delete(
-            @ApiParam(value = "회원번호", required = true) @PathVariable long id) {
+    public CommonResult delete() {
 
         // SecurityContext에서 인증받은 회원의 정보를 얻어온다.
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
