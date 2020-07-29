@@ -39,7 +39,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 jwt token", required = true, dataType = "String", paramType = "header")
     })
-    @ApiOperation(value = "회원 수정", notes = "인증받은 사용자의 회원 정보를 수정한다")
+    @ApiOperation(value = "회원 수정", notes = "인증받은 사용자의 회원 정보 중 하나의 정보를 수정한다 (수정된 정보 하나씩 반영)")
     @PutMapping(value = "/user")
     public SingleResult<String> modify(@ApiParam(value = "회원 이름", required = true) @RequestParam String name,
                                      @ApiParam(value = "모바일 번호", required = true) @RequestParam String phoneNo,
@@ -48,18 +48,22 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         User user = userJpaRepo.findByUid(email).orElseThrow(CUserNotFoundException::new);
-        long id = user.getId();
-        userJpaRepo.deleteById(id);
 
-        User modifiedUser = userJpaRepo.save(User.builder()
-                .id(id)
-                .uid(email)
-                .name(name)
-                .phoneNo(phoneNo)
-                .dateOfBirth(dateOfBirth)
-                .gender(gender)
-                .build());
+        if (!user.getName().equals(name)) {
+            System.out.println(name);
+            user.setName(name);
+        } else if (!user.getPhoneNo().equals(phoneNo)) {
+            System.out.println(phoneNo);
+            user.setPhoneNo(phoneNo);
+        } else if (!user.getDateOfBirth().equals(dateOfBirth)) {
+            System.out.println(dateOfBirth);
+            user.setDateOfBirth(dateOfBirth);
+        } else if (!user.getGender().equals(gender)) {
+            System.out.println(gender);
+            user.setGender(gender);
+        }
 
+        User modifiedUser = userJpaRepo.save(user);
         return responseService.getSingleResult(modifiedUser.toString());
     }
 
