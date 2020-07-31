@@ -1,13 +1,11 @@
 package kr.or.watermelon.member.controller.auth;
 
-import kr.or.watermelon.member.advice.exception.CUserNotFoundException;
-import kr.or.watermelon.member.entity.User;
+import kr.or.watermelon.member.dto.UserDto;
 import kr.or.watermelon.member.model.response.CommonResult;
-import kr.or.watermelon.member.model.response.ListResult;
 import kr.or.watermelon.member.model.response.SingleResult;
-import kr.or.watermelon.member.repo.UserJpaRepo;
 import kr.or.watermelon.member.service.ResponseService;
 import io.swagger.annotations.*;
+import kr.or.watermelon.member.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/auth")
 public class UserController {
 
-    private final UserJpaRepo userJpaRepo;
+    private final UserService userService;
     private final ResponseService responseService; // 결과를 처리할 Service
 
     @ApiImplicitParams({
@@ -27,13 +25,12 @@ public class UserController {
     })
     @ApiOperation(value = "회원 단건 조회", notes = "인증받은 사용자의 회원 정보를 조회한다")
     @GetMapping(value = "/user")
-    public SingleResult<String> findUser() {
+    public SingleResult<UserDto> findUser() {
         // SecurityContext에서 인증받은 회원의 정보를 얻어온다.
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        User user = userJpaRepo.findByUid(email).orElseThrow(CUserNotFoundException::new);
         // 결과데이터가 단일건인경우 getSingleResult를 이용해서 결과를 출력한다.
-        return responseService.getSingleResult(user.toString());
+        return responseService.getSingleResult(userService.findUser(email));
     }
 
     @ApiImplicitParams({
@@ -41,26 +38,10 @@ public class UserController {
     })
     @ApiOperation(value = "회원 수정", notes = "인증받은 사용자의 회원 정보 중 하나의 정보를 수정한다")
     @PutMapping(value = "/user")
-    public SingleResult<String> modify(@ApiParam(value = "회원 이름", required = true) @RequestParam String name,
-                                     @ApiParam(value = "모바일 번호", required = true) @RequestParam String phoneNo,
-                                     @ApiParam(value = "생년월일", required = true) @RequestParam String dateOfBirth,
-                                     @ApiParam(value = "성별", required = true) @RequestParam String gender) {
+    public SingleResult<UserDto> modify(@RequestBody UserDto userDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        User user = userJpaRepo.findByUid(email).orElseThrow(CUserNotFoundException::new);
-
-        if (!user.getName().equals(name)) {
-            user.setName(name);
-        } else if (!user.getPhoneNo().equals(phoneNo)) {
-            user.setPhoneNo(phoneNo);
-        } else if (!user.getDateOfBirth().equals(dateOfBirth)) {
-            user.setDateOfBirth(dateOfBirth);
-        } else if (!user.getGender().equals(gender)) {
-            user.setGender(gender);
-        }
-
-        User modifiedUser = userJpaRepo.save(user);
-        return responseService.getSingleResult(modifiedUser.toString());
+        return responseService.getSingleResult(userService.modify(email, userDto));
     }
 
     @ApiImplicitParams({
@@ -69,13 +50,9 @@ public class UserController {
     @ApiOperation(value = "회원 삭제 (회원 탈퇴)", notes = "인증받은 사용자의 회원 정보를 삭제한다")
     @DeleteMapping(value = "/user")
     public CommonResult delete() {
-
         // SecurityContext에서 인증받은 회원의 정보를 얻어온다.
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        User user = userJpaRepo.findByUid(email).orElseThrow(CUserNotFoundException::new);
-
-        userJpaRepo.deleteById(user.getId());
+        userService.delete(authentication.getName());
         // 성공 결과 정보만 필요한경우 getSuccessResult()를 이용하여 결과를 출력한다.
         return responseService.getSuccessResult();
     }
