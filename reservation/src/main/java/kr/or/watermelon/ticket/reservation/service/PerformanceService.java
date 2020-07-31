@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +31,7 @@ public class PerformanceService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public PerformanceDto add(PerformanceInfoDto performanceInfo) {
         Performance performance = Performance.builder()
                                     .availableDate(performanceInfo.getAvailableDate())
@@ -83,6 +85,7 @@ public class PerformanceService {
         return modelMapper.map(newPerformance, PerformanceDto.class);
     }
 
+    @Transactional
     public void delete(Long performanceId) {
         performanceRepository.deleteById(performanceId);
     }

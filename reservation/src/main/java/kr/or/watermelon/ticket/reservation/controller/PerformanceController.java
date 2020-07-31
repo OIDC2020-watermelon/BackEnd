@@ -43,7 +43,7 @@ public class PerformanceController {
     @ApiOperation(value = "공연 삭제", notes = "공연을 삭제하고 해당 공연의 티켓(좌석)을 삭제합니다.")
     @DeleteMapping("/{performanceId}")
     public void delete(@PathVariable Long performanceId) {
-        performanceService.delete(performanceId);
         ticketService.delete(performanceId);
+        performanceService.delete(performanceId);
     }
 }

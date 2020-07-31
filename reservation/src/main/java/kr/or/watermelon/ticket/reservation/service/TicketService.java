@@ -49,7 +49,8 @@ public class TicketService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public void delete(Long performanceId) {
-        ticketRepository.deleteByPerformanceId(performanceId);
+        ticketRepository.deleteALlByPerformanceId(performanceId);
     }
 }
