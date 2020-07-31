@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @Entity // jpa entity임을 알립니다.
 @Getter // user 필드값의 getter를 자동으로 생성합니다.
 @Setter // user 필드값의 setter를 자동으로 생성합니다.
+@ToString
 @NoArgsConstructor // 인자없는 생성자를 자동으로 생성합니다.
 @AllArgsConstructor // 인자를 모두 갖춘 생성자를 자동으로 생성합니다.
 @Table(name = "user") // 'user' 테이블과 매핑됨을 명시
@@ -82,19 +83,12 @@ public class User implements UserDetails {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", uid='" + uid + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", phoneNo='" + phoneNo + '\'' +
-                ", dateOfBirth='" + dateOfBirth + '\'' +
-                ", ageRange='" + ageRange + '\'' +
-                ", gender='" + gender + '\'' +
-                ", provider='" + provider + '\'' +
-                ", roles=" + roles +
-                '}';
+    // 수정시 데이터 처리
+    public User setUpdate(String name, String phoneNo, String dateOfBirth, String gender) {
+        this.name = name;
+        this.phoneNo = phoneNo;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        return this;
     }
 }
