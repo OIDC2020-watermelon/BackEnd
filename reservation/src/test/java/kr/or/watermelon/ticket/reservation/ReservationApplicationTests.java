@@ -1,13 +1,13 @@
-package kr.or.watermelon.show;
+package kr.or.watermelon.ticket.reservation;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ShowApplicationTests {
+class ReservationApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+	@Test
+	void contextLoads() {
+	}
 
 }
