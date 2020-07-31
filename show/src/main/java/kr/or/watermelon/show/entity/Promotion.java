@@ -1,0 +1,30 @@
+package kr.or.watermelon.show.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
+
+import javax.persistence.*;
+
+@Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Promotion {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToOne
+    private Product product;
+
+    @Length(max = 8200)
+    private String promotionImgUrl;
+
+
+    public static class PromotionBuilder implements CustomBuilder {
+    }
+}
