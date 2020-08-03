@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
+import javax.persistence.Column;
+import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,8 @@ import java.util.List;
 @ApiModel(value = "UserDto", description = "사용자")
 public class UserDto {
 
+    @ApiModelProperty(value = "아이디(이메일)")
+    private String uid;
     @ApiModelProperty(value = "이름")
     private String name;
     @ApiModelProperty(value = "모바일 번호")
