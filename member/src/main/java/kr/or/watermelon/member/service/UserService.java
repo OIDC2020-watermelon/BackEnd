@@ -7,8 +7,6 @@ import kr.or.watermelon.member.entity.User;
 import kr.or.watermelon.member.repo.UserJpaRepo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +21,6 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public SignupUserDto signup(SignupUserDto signupUserDto) {
-        // 결과데이터가 단일건인경우 getSingleResult를 이용해서 결과를 출력한다.
         User user = User.builder()
                 .uid(signupUserDto.getUid())
                 .name(signupUserDto.getName())
@@ -31,14 +28,11 @@ public class UserService {
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build();
         User signedUser = userJpaRepo.save(user);
-//        return UserDto.of(user);
         return modelMapper.map(signedUser, SignupUserDto.class);
     }
 
     public UserDto findUser(String email) {
         User user = userJpaRepo.findByUid(email).orElseThrow(CUserNotFoundException::new);
-        // 결과데이터가 단일건인경우 getSingleResult를 이용해서 결과를 출력한다.
-//        return UserDto.of(user);
         return modelMapper.map(user, UserDto.class);
     }
 
@@ -46,7 +40,6 @@ public class UserService {
         User user = userJpaRepo.findByUid(email).orElseThrow(CUserNotFoundException::new);
         user.setUpdate(userDto.getName(), userDto.getPhoneNo(), userDto.getDateOfBirth(), userDto.getGender());
         User modifiedUser = userJpaRepo.save(user);
-//        return UserDto.of(modifiedUser);
         return modelMapper.map(modifiedUser, UserDto.class);
     }
 
