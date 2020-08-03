@@ -6,11 +6,9 @@ import io.swagger.annotations.ApiParam;
 import kr.or.watermelon.member.advice.exception.CEmailSigninFailedException;
 import kr.or.watermelon.member.advice.exception.CUserNotFoundException;
 import kr.or.watermelon.member.config.security.JwtTokenProvider;
-import kr.or.watermelon.member.dto.UserDto;
+import kr.or.watermelon.member.dto.SignupUserDto;
 import kr.or.watermelon.member.entity.User;
-import kr.or.watermelon.member.model.response.CommonResult;
 import kr.or.watermelon.member.model.response.SingleResult;
-import kr.or.watermelon.member.model.social.KakaoProfile;
 import kr.or.watermelon.member.model.social.NaverProfile;
 import kr.or.watermelon.member.repo.UserJpaRepo;
 import kr.or.watermelon.member.service.ResponseService;
@@ -52,8 +50,8 @@ public class SignController {
 
     @ApiOperation(value = "가입", notes = "회원가입을 한다.")
     @PostMapping(value = "/signup")
-    public SingleResult<UserDto> signup(@RequestBody UserDto userDto) {
-        return responseService.getSingleResult(userService.signup(userDto));
+    public SingleResult<SignupUserDto> signup(@RequestBody SignupUserDto signupUserDto) {
+        return responseService.getSingleResult(userService.signup(signupUserDto));
     }
 
     @ApiOperation(value = "소셜 계정 로그인 / 소셜 계정 회원가입", notes = "가입된 회원의 경우 소셜 계정으로 로그인을 한다 / 그렇지 않은 경우 소셜 계정으로 회원가입을 한다.")
@@ -68,17 +66,16 @@ public class SignController {
             User presentUser = userJpaRepo.findByUidAndProvider(String.valueOf(account.getEmail()), provider).orElseThrow(CUserNotFoundException::new);
             return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(presentUser.getUid()), presentUser.getRoles()));
         } else {
-
-            User inUser = User.builder()
-                    .uid(String.valueOf(account.getEmail()))
+            User newUser = User.builder()
+                    .uid(String.valueOf(String.valueOf(account.getEmail())))
                     .name(String.valueOf(account.getName()))
                     .ageRange(String.valueOf(account.getAge()))
                     .gender(String.valueOf(account.getGender()))
                     .provider(provider)
                     .roles(Collections.singletonList("ROLE_USER"))
                     .build();
-            User newUser = userJpaRepo.save(inUser);
-            return responseService.getSingleResult(newUser.toString());
+            userJpaRepo.save(newUser);
+            return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(newUser.getUid()), newUser.getRoles()));
         }
     }
 
