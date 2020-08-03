@@ -21,8 +21,6 @@ public class UserDto {
     private String dateOfBirth;
     @ApiModelProperty(value = "성별")
     private String gender;
-    @ApiModelProperty(value = "사용자 역할", required = false)
-    private List<String> roles = new ArrayList<>();
 
 //    // Entity -> DTO
 //    public static UserDto of(User user) {

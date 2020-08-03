@@ -40,6 +40,8 @@ public class User implements UserDetails {
     @Column(length = 100)
     private String ageRange;
     @Column(length = 100)
+    private String age;
+    @Column(length = 100)
     private String gender;
     @Column(length = 100)
     private String provider;
