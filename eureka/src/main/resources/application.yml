@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: eureka-server
+
+server:
+    port: 8761
+
+eureka:
+  server:
+    enable-self-preservation: false # 자기 보호 모드(네트워크 장애가 발생하여도 서비스 해제를 방지하는 모드) 비활성화
+                                    # 네트워크 장애가 발생하여 서비스와 통신이 되지 않아도 해당 서비스를 해제되는 것을 방지하는 모드 (운영 환경에서는 활성화, 개발시에는 비활성화)
+  client:
+    register-with-eureka: false
+    fetch-registry: false
