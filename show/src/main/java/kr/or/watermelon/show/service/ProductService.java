@@ -6,8 +6,6 @@ import kr.or.watermelon.show.entity.Product;
 import kr.or.watermelon.show.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,17 +20,17 @@ public class ProductService {
     private final ModelMapper modelMapper;
 
 
-    public List<ProductForListDto> searchProductsReleased(String keyword, Category category, Pageable pageable) {
-        Page<Product> products;
+    public List<ProductForListDto> searchProductsReleased(String keyword, Category category) {
+        List<Product> products;
         LocalDateTime now = LocalDateTime.now();
         if (keyword == null && category == null) {
-            products = productRepository.findByReleaseStartTimeBeforeAndReleaseEndTimeAfter(now, now, pageable);
+            products = productRepository.findByReleaseStartTimeBeforeAndReleaseEndTimeAfter(now, now);
         } else if (keyword == null) {
-            products = productRepository.findByCategoryAndReleaseStartTimeBeforeAndReleaseEndTimeAfter(category, now, now, pageable);
+            products = productRepository.findByCategoryAndReleaseStartTimeBeforeAndReleaseEndTimeAfter(category, now, now);
         } else if (category == null) {
-            products = productRepository.findByTitleContainingAndReleaseStartTimeBeforeAndReleaseEndTimeAfter(keyword, now, now, pageable);
+            products = productRepository.findByTitleContainingAndReleaseStartTimeBeforeAndReleaseEndTimeAfter(keyword, now, now);
         } else {
-            products = productRepository.findByTitleContainingAndCategoryAndReleaseStartTimeBeforeAndReleaseEndTimeAfter(keyword, category, now, now, pageable);
+            products = productRepository.findByTitleContainingAndCategoryAndReleaseStartTimeBeforeAndReleaseEndTimeAfter(keyword, category, now, now);
         }
 
         return products.stream()

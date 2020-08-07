@@ -8,9 +8,6 @@ import kr.or.watermelon.show.dto.ProductForListDto;
 import kr.or.watermelon.show.entity.Category;
 import kr.or.watermelon.show.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,9 +27,8 @@ public class ProductController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "category", allowableValues = "CONCERT,PLAY,CLASSIC_DANCE,EXHIBITION_EVENT"),
     })
-    public List<ProductForListDto> searchProductsReleased(String keyword, Category category,
-                                                          @PageableDefault(sort = "createdDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
-        return productService.searchProductsReleased(keyword, category, pageable);
+    public List<ProductForListDto> searchProductsReleased(String keyword, Category category) {
+        return productService.searchProductsReleased(keyword, category);
     }
 
 
