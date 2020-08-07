@@ -17,5 +17,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findByTitleContainingAndReleaseStartTimeBeforeAndReleaseEndTimeAfter(String keyword, LocalDateTime now, LocalDateTime now1);
 
-    List<Product> findByNameContaining(String keyword);
+    List<Product> findByTitleContaining(String keyword);
 }

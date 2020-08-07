@@ -39,7 +39,7 @@ public class ProductService {
     }
 
     public List<ProductForListDto> searchProducts(String keyword) {
-        List<Product> products = productRepository.findByNameContaining(keyword);
+        List<Product> products = productRepository.findByTitleContaining(keyword);
         return products.stream()
                 .map(p -> modelMapper.map(p, ProductForListDto.class))
                 .collect(Collectors.toList());
