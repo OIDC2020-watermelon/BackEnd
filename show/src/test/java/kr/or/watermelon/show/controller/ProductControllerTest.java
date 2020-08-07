@@ -44,7 +44,7 @@ public class ProductControllerTest extends AbstractContainerBaseTest {
         productFactory.saveItems(ProductFactory.getReservableProductBuilder()::category,
                 Arrays.asList(Category.CONCERT, Category.CONCERT, Category.CLASSIC_DANCE));
 
-        mockMvc.perform(get("/products/search/released?category=concert"))
+        mockMvc.perform(get("/products/released/search?category=concert"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", is(2)));
     }
