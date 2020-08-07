@@ -9,5 +9,5 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly = true)
 public interface ThemeRepository extends JpaRepository<Theme, Long> {
-    Page<Theme> findByThemeType(ThemeType themeType, Pageable pageable);
+    Page<Theme> findByType(ThemeType type, Pageable pageable);
 }

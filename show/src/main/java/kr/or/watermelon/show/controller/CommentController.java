@@ -1,8 +1,10 @@
 package kr.or.watermelon.show.controller;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import kr.or.watermelon.show.dto.CommentDto;
+import kr.or.watermelon.show.entity.CommentType;
 import kr.or.watermelon.show.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -23,10 +25,12 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @GetMapping("/products/{id}/comments")
-    @ApiOperation(value = "", hidden = true)
-    public List<CommentDto> getProductComments(@PathVariable Long id,
+    @GetMapping("/products/{id}/comments/{type}")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "type", required = true, allowableValues = "REVIEW,EXPECTATION,QNA"),
+    })
+    public List<CommentDto> getProductComments(@PathVariable Long id, @PathVariable CommentType type,
                                                @PageableDefault(sort = "createdDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
-        return commentService.getCommentsByProductId(id, pageable);
+        return commentService.getCommentsByProductId(id, type, pageable);
     }
 }

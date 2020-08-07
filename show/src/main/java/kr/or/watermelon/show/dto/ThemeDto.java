@@ -5,11 +5,7 @@ import lombok.Data;
 
 @Data
 public class ThemeDto {
-    private ThemeType themeType;
+    private ThemeType type;
 
     private ProductForListDto product;
-
-    public String getThemeType() {
-        return themeType.name();
-    }
 }
