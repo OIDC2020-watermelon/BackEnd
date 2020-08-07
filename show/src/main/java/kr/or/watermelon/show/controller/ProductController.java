@@ -22,8 +22,8 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping("/search")
-    @ApiOperation(value = "[공연예매페이지(p22):공연 리스트 가져오기")
+    @GetMapping("/search/released")
+    @ApiOperation(value = "[공연예매페이지(p22): 판매 중, 공연 리스트 가져오기")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "category", allowableValues = "CONCERT,PLAY,CLASSIC_DANCE,EXHIBITION_EVENT"),
     })
@@ -32,7 +32,7 @@ public class ProductController {
     }
 
 
-    @GetMapping("/")
+    @GetMapping("/search")
     @ApiOperation(value = "[공연검색페이지(p27): 공연 검색 리스트 가져오기")
     public List<ProductForListDto> searchArtists(String keyword) {
         return productService.searchProducts(keyword);
