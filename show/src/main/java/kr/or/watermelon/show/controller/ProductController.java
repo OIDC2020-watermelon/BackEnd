@@ -8,9 +8,6 @@ import kr.or.watermelon.show.dto.ProductForListDto;
 import kr.or.watermelon.show.entity.Category;
 import kr.or.watermelon.show.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,20 +22,19 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping("/search")
-    @ApiOperation(value = "[공연예매페이지(p22):공연 리스트 가져오기")
+    @GetMapping("/search/released")
+    @ApiOperation(value = "[공연예매페이지(p22): 판매 중, 공연 리스트 가져오기")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "category", allowableValues = "CONCERT,PLAY,CLASSIC_DANCE,EXHIBITION_EVENT"),
     })
-    public List<ProductForListDto> searchProductsReleased(String keyword, Category category,
-                                                          @PageableDefault(sort = "createdDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
-        return productService.searchProductsReleased(keyword, category, pageable);
+    public List<ProductForListDto> searchProductsReleased(String keyword, Category category) {
+        return productService.searchProductsReleased(keyword, category);
     }
 
 
-    @GetMapping("/")
-    @ApiOperation(value = "[공연검색페이지(p27):전체 공연 리스트 다 가져오기")
-    public List<ProductForListDto> getAllProducts() {
-        return productService.getProducts();
+    @GetMapping("/search")
+    @ApiOperation(value = "[공연검색페이지(p27): 공연 검색 리스트 가져오기")
+    public List<ProductForListDto> searchArtists(String keyword) {
+        return productService.searchProducts(keyword);
     }
 }

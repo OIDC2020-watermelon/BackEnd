@@ -5,9 +5,6 @@ import io.swagger.annotations.ApiOperation;
 import kr.or.watermelon.show.dto.PlaceDto;
 import kr.or.watermelon.show.service.PlaceService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,8 +25,7 @@ public class PlaceController {
 
     @GetMapping("/search")
     @ApiOperation(value = "[공연검색페이지(p26)]:공연장 검색 리스트 가져오기")
-    public List<PlaceDto> searchPlaces(@RequestParam(defaultValue = "") String keyword,
-                                       @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable) {
-        return placeService.searchPlaces(keyword, pageable);
+    public List<PlaceDto> searchPlaces(@RequestParam(defaultValue = "") String keyword) {
+        return placeService.searchPlaces(keyword);
     }
 }
