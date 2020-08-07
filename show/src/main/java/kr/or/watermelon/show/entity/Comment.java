@@ -24,7 +24,10 @@ public class Comment {
     @ManyToOne
     private Product product;
 
-    private Long userId;//TODO 유저POD을 통해 User클래스로 변경해야함
+    private Long userId;
+
+    @Enumerated(EnumType.ORDINAL)
+    private CommentType type;
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
@@ -35,4 +38,7 @@ public class Comment {
 
     @UpdateTimestamp
     private LocalDateTime modifiedDateTime;
+
+    public static class CommentBuilder implements CustomBuilder {
+    }
 }

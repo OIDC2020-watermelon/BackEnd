@@ -1,6 +1,7 @@
 package kr.or.watermelon.show.config;
 
 import kr.or.watermelon.show.converter.CategoryConverter;
+import kr.or.watermelon.show.converter.CommentTypeConverter;
 import kr.or.watermelon.show.converter.ReqReleaseStatusConverter;
 import kr.or.watermelon.show.converter.ThemeTypeConverter;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addConverter(new CategoryConverter());
         registry.addConverter(new ReqReleaseStatusConverter());
         registry.addConverter(new ThemeTypeConverter());
+        registry.addConverter(new CommentTypeConverter());
     }
 
     @Override
