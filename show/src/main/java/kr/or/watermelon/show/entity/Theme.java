@@ -18,7 +18,7 @@ public class Theme {
     private Long id;
 
     @Enumerated(EnumType.ORDINAL)
-    private ThemeType themeType;
+    private ThemeType type;
 
     @ManyToOne
     private Product product;

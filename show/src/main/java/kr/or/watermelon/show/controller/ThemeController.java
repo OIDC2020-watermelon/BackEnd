@@ -27,13 +27,13 @@ public class ThemeController {
     private final ThemeService themeService;
 
 
-    @GetMapping("/products/themes/{themeType}")
+    @GetMapping("/products/themes/{type}")
     @ApiOperation(value = "[메인페이지(p21)]: 테마별 상품 리스트 가져오기")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "themeType", required = true, allowableValues = "HOT_ISSUE,NEW,COMMING_SOON"),
+            @ApiImplicitParam(name = "type", required = true, allowableValues = "HOT_ISSUE,NEW,COMMING_SOON"),
     })
-    public List<ProductForListDto> getProductsByTheme(@PathVariable ThemeType themeType,
+    public List<ProductForListDto> getProductsByTheme(@PathVariable ThemeType type,
                                                       @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable) {
-        return themeService.getProductsByTheme(themeType, pageable);
+        return themeService.getProductsByTheme(type, pageable);
     }
 }

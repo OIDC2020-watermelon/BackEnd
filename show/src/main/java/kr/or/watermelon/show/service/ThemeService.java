@@ -20,8 +20,8 @@ public class ThemeService {
     private final ThemeRepository themeRepository;
     private final ModelMapper modelMapper;
 
-    public List<ProductForListDto> getProductsByTheme(ThemeType themeType, Pageable pageable) {
-        Page<Theme> themes = themeRepository.findByThemeType(themeType, pageable);
+    public List<ProductForListDto> getProductsByTheme(ThemeType type, Pageable pageable) {
+        Page<Theme> themes = themeRepository.findByType(type, pageable);
         return themes.stream()
                 .map(t -> modelMapper.map(t.getProduct(), ProductForListDto.class))
                 .collect(Collectors.toList());

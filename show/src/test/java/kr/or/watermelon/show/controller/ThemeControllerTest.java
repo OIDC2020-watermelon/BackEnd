@@ -39,7 +39,7 @@ public class ThemeControllerTest extends AbstractContainerBaseTest {
     void getProductsByTheme() throws Exception {
         Product product = productFactory.saveItem(Product.builder()::title, "");
         List<ThemeType> themeTypes = Arrays.asList(ThemeType.NEW, ThemeType.NEW, ThemeType.COMMING_SOON);
-        themeFactory.saveItems(Theme.builder().product(product)::themeType, themeTypes);
+        themeFactory.saveItems(Theme.builder().product(product)::type, themeTypes);
 
         mockMvc.perform(get("/products/themes/NEW"))
                 .andExpect(status().isOk())
