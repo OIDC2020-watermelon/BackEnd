@@ -37,8 +37,8 @@ public class ProductController {
 
 
     @GetMapping("/")
-    @ApiOperation(value = "[공연검색페이지(p27):전체 공연 리스트 다 가져오기")
-    public List<ProductForListDto> getAllProducts() {
-        return productService.getProducts();
+    @ApiOperation(value = "[공연검색페이지(p27): 공연 검색 리스트 가져오기")
+    public List<ProductForListDto> searchArtists(String keyword) {
+        return productService.searchProducts(keyword);
     }
 }

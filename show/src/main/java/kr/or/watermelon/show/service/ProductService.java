@@ -40,8 +40,8 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public List<ProductForListDto> getProducts() {
-        List<Product> products = productRepository.findAll();
+    public List<ProductForListDto> searchProducts(String keyword) {
+        List<Product> products = productRepository.findByNameContaining(keyword);
         return products.stream()
                 .map(p -> modelMapper.map(p, ProductForListDto.class))
                 .collect(Collectors.toList());
