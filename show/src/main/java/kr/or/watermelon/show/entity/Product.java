@@ -69,6 +69,7 @@ public class Product {
     public List<String> getArtistNames() {
         return artists.stream()
                 .map(a -> a.getName())
+                .limit(3)
                 .collect(Collectors.toList());
     }
 
