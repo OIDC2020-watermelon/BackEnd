@@ -41,7 +41,7 @@ public class ThemeControllerTest extends AbstractContainerBaseTest {
         List<ThemeType> themeTypes = Arrays.asList(ThemeType.NEW, ThemeType.NEW, ThemeType.COMMING_SOON);
         themeFactory.saveItems(Theme.builder().product(product)::type, themeTypes);
 
-        mockMvc.perform(get("/products/themes/NEW"))
+        mockMvc.perform(get("/show/products/themes/NEW"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$", Every.everyItem(hasKey("title"))));
