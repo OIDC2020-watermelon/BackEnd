@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: service-zuul
+server:
+  port: 8801
+
+eureka:
+  instance:
+    instance-id: zuul-inst001
+  client:
+    service-url:
+      defaultZone: http://49.50.173.72:8761/eureka/ # http://localhost:8761/eureka/
+    enabled: true
+ribbon:
+  ConnectTimeout: 5000    # Client에서 서버로 요청시 서버와의 Connection 맺기 까지의 delay time
+  ReadTimeout: 2000       # Connection 맺은 후 response 받기 까지 delay time
+#  SocketTimeout: 500     # Response 데이터의 packet 들을 받을 때 서로 다른 패킷을 받기 까지의 delay time (참고: http://tomining.tistory.com/164)
+
+zuul:
+  ignoredServices: '*'  # routes에 정의되지 않은 모든 요청은 무시 함
+  sensitive-headers:    # header의 모든 정보를 bypass 함
+  routes:
+    service-show:
+      path: /show/**
+      strip-prefix: false
+    service-member:
+      path: /auth/**
+      strip-prefix: false
+    service-reservation:
+      path: /reservation/**
+      strip-prefix: false        #true인 경우 path를 제거 후 각 서비스에 포워딩
