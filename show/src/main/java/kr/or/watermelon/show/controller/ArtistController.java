@@ -13,7 +13,7 @@ import java.util.List;
 @Api(tags = {"아티스트API"})
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/artists")
+@RequestMapping("/show/artists")
 public class ArtistController {
 
     private final ArtistService artistService;

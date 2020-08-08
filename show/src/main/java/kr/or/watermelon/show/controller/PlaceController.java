@@ -12,7 +12,7 @@ import java.util.List;
 @Api(tags = {"공연장API"})
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/places")
+@RequestMapping("/show/places")
 public class PlaceController {
 
     private final PlaceService placeService;

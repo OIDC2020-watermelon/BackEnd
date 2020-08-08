@@ -21,7 +21,7 @@ import java.util.List;
 @Api(tags = {"테마API"})
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/")
+@RequestMapping("/show")
 public class ThemeController {
 
     private final ThemeService themeService;

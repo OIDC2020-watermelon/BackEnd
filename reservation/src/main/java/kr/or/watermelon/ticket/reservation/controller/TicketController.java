@@ -12,7 +12,7 @@ import java.util.List;
 
 @Api(tags = {"Ticket API"})
 @CrossOrigin
-@RequestMapping(value = "/api/ticket")
+@RequestMapping(value = "/reservation/ticket")
 @RestController
 public class TicketController {
     @Autowired

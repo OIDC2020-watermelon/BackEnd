@@ -20,7 +20,7 @@ import java.util.List;
 @Api(tags = "댓글API", hidden = true)
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/")
+@RequestMapping("/show")
 public class CommentController {
 
     private final CommentService commentService;

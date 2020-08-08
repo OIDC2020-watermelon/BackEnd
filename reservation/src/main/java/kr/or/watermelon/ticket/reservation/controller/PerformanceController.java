@@ -16,7 +16,7 @@ import java.util.List;
 
 @Api(tags = {"Performance API"})
 @CrossOrigin
-@RequestMapping(value = "/api/performance")
+@RequestMapping(value = "/reservation/performance")
 @RestController
 public class PerformanceController {
     @Autowired
