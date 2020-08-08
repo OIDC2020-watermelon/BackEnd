@@ -3,6 +3,7 @@ package kr.or.watermelon.member;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +23,7 @@ public class MemberApplication {
     }
 
     @Bean
+    @LoadBalanced
     public RestTemplate getRestTemplate() {
         return new RestTemplate();
     }
