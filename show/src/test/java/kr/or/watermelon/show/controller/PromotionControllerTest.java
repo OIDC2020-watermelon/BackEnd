@@ -35,7 +35,7 @@ public class PromotionControllerTest extends AbstractContainerBaseTest {
         List<String> promotionImgUrls = Arrays.asList("promotion_img_url_1", "promotion_img_url_2");
         promotionFactory.savePromotions(Promotion.builder()::promotionImgUrl, promotionImgUrls);
 
-        mockMvc.perform(get("/promotions/"))
+        mockMvc.perform(get("/show/promotions/"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$..promotionImgUrl", equalTo(promotionImgUrls)));

@@ -33,7 +33,7 @@ public class PlaceControllerTest extends AbstractContainerBaseTest {
     void getPlace() throws Exception {
         Place yes24 = placeFactory.saveItem(Place.builder()::name, "yes24");
 
-        mockMvc.perform(get("/places/" + yes24.getId()))
+        mockMvc.perform(get("/show/places/" + yes24.getId()))
                 .andExpect(jsonPath("$.name", equalTo("yes24")));
     }
 
@@ -43,7 +43,7 @@ public class PlaceControllerTest extends AbstractContainerBaseTest {
         placeFactory.saveItems(Place.builder()::name, Collections.nCopies(2, "yes24"));
         placeFactory.saveItem(Place.builder()::name, "interpark_hall");
 
-        mockMvc.perform(get("/places/search?keyword=yes24"))
+        mockMvc.perform(get("/show/places/search?keyword=yes24"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", equalTo(2)))
                 .andExpect(jsonPath("$..name", Every.everyItem(containsString("yes24"))));

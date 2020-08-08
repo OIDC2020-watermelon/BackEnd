@@ -33,7 +33,7 @@ public class ArtistControllerTest extends AbstractContainerBaseTest {
     void getArtist() throws Exception {
         Artist tyga = artistFactory.saveItem(Artist.builder()::name, "tyga");
 
-        mockMvc.perform(get("/artists/" + tyga.getId()))
+        mockMvc.perform(get("/show/artists/" + tyga.getId()))
                 .andExpect(jsonPath("$.name", equalTo(tyga.getName())));
     }
 
@@ -43,7 +43,7 @@ public class ArtistControllerTest extends AbstractContainerBaseTest {
         artistFactory.saveArtists(Artist.builder()::name, Collections.nCopies(2, "cl"));
         artistFactory.saveItem(Artist.builder()::name, "g-dragon");
 
-        mockMvc.perform(get("/artists/search?keyword=cl"))
+        mockMvc.perform(get("/show/artists/search?keyword=cl"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", equalTo(2)))
                 .andExpect(jsonPath("$..name", Every.everyItem(containsString("cl"))));

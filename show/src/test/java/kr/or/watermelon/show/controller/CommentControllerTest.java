@@ -39,7 +39,7 @@ public class CommentControllerTest extends AbstractContainerBaseTest {
         List<CommentType> commentTypes = Arrays.asList(CommentType.QNA, CommentType.QNA, CommentType.EXPECTATION);
         commentFactory.saveItems(Comment.builder().product(product)::type, commentTypes);
 
-        mockMvc.perform(get("/products/" + product.getId() + "/comments/QNA"))
+        mockMvc.perform(get("/show/products/" + product.getId() + "/comments/QNA"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
     }

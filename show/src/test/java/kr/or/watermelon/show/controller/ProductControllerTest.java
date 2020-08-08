@@ -32,7 +32,7 @@ public class ProductControllerTest extends AbstractContainerBaseTest {
         productFactory.saveItems(ProductFactory.getReservableProductBuilder()::title,
                 Arrays.asList("iu-concert1", "iu-concert2", "g-dragon-concert"));
 
-        mockMvc.perform(get("/products/search?keyword=iu"))
+        mockMvc.perform(get("/show/products/search?keyword=iu"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", is(2)))
                 .andExpect(jsonPath("$..title", Every.everyItem(containsString("iu"))));
@@ -44,7 +44,7 @@ public class ProductControllerTest extends AbstractContainerBaseTest {
         productFactory.saveItems(ProductFactory.getReservableProductBuilder()::category,
                 Arrays.asList(Category.CONCERT, Category.CONCERT, Category.CLASSIC_DANCE));
 
-        mockMvc.perform(get("/products/released/search?category=concert"))
+        mockMvc.perform(get("/show/products/released/search?category=concert"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", is(2)));
     }
