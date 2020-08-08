@@ -15,7 +15,7 @@ import java.util.List;
 @Api(tags = {"프로모션API"})
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/promotions")
+@RequestMapping("/show/promotions")
 public class PromotionController {
 
     private final PromotionService promotionService;
