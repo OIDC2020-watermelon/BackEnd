@@ -17,7 +17,7 @@ import java.util.List;
 @Api(tags = {"상품API"})
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/products")
+@RequestMapping("/show/products")
 public class ProductController {
 
     private final ProductService productService;

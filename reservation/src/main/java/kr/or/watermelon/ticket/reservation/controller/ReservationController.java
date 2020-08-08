@@ -14,7 +14,7 @@ import java.util.List;
 
 @Api(tags = {"Reservation API"})
 @CrossOrigin
-@RequestMapping(value = "/api/reservation")
+@RequestMapping(value = "/reservation")
 @RestController
 public class ReservationController {
     @Autowired
