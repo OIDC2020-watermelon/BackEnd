@@ -8,6 +8,8 @@ import java.util.List;
 @Data
 public class ArtistForListDto {
 
+    private Long id;
+
     private String name;
 
     private String occupation;
