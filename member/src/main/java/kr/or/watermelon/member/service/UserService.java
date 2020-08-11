@@ -32,7 +32,7 @@ public class UserService {
         return modelMapper.map(signedUser, SignupUserDto.class);
     }
 
-    public UserDto getUser(String email) {
+    public UserDto getUserByUid(String email) {
         User user = userJpaRepo.findByUid(email).orElseThrow(CUserNotFoundException::new);
         return modelMapper.map(user, UserDto.class);
     }
@@ -40,6 +40,11 @@ public class UserService {
     public UserIdDto getUserId(String email) {
         User user = userJpaRepo.findByUid(email).orElseThrow(CUserNotFoundException::new);
         return modelMapper.map(user, UserIdDto.class);
+    }
+
+    public UserDto getUserById(Long id) {
+        User user = userJpaRepo.findById(id).orElseThrow(CUserNotFoundException::new);
+        return modelMapper.map(user, UserDto.class);
     }
 
     public UserDto modify(String email, UserDto userDto) {

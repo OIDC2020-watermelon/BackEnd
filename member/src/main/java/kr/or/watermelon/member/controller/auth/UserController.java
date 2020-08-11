@@ -31,16 +31,7 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         // 결과데이터가 단일건인경우 getSingleResult를 이용해서 결과를 출력한다.
-        return responseService.getSingleResult(userService.getUser(email));
-    }
-    @ApiOperation(value = "회원 아이디 단건 조회 (다른 서비스들 호출)", notes = "인증받은 사용자의 아이디를 조회한다")
-    @GetMapping(value = "/userId")
-    public UserIdDto getUserId() {
-        // SecurityContext에서 인증받은 회원의 정보를 얻어온다.
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        // 결과데이터가 단일건인경우 getSingleResult를 이용해서 결과를 출력한다.
-        return userService.getUserId(email);
+        return responseService.getSingleResult(userService.getUserByUid(email));
     }
 
     @ApiImplicitParams({
@@ -65,5 +56,20 @@ public class UserController {
         userService.delete(authentication.getName());
         // 성공 결과 정보만 필요한경우 getSuccessResult()를 이용하여 결과를 출력한다.
         return responseService.getSuccessResult();
+    }
+
+    @ApiOperation(value = "회원 아이디 단건 조회 (다른 서비스들 호출)", notes = "인증받은 사용자의 아이디를 조회한다")
+    @GetMapping(value = "/userId")
+    public UserIdDto getUserId() {
+        // SecurityContext에서 인증받은 회원의 정보를 얻어온다.
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return userService.getUserId(email);
+    }
+
+    @ApiOperation(value = "회원 단건 조회 (다른 서비스들 호출)", notes = "인증받은 사용자의 회원 정보를 조회한다")
+    @GetMapping(value = "/user/{id}")
+    public UserDto getUserById(Long id) {
+        return userService.getUserById(id);
     }
 }
