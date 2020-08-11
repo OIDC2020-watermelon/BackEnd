@@ -49,6 +49,7 @@ eureka:
   instance:
     instance-id: inst001
     preferIpAddress: true
+    hostname: localhost #27.96.135.244
   client:
     service-url:
       defaultZone: http://49.50.173.72:8761/eureka/ # http://localhost:8761/eureka/
