@@ -2,9 +2,6 @@ server:
   port: 8081
 
 spring:
-  application:
-    name: service-member
-
   datasource:
 #    url: jdbc:mysql://localhost:3306/userdb?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
     url: jdbc:mysql://49.50.160.38:3306/userdb?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
@@ -42,7 +39,11 @@ spring:
         token: https://nid.naver.com/oauth2.0/token
         profile: https://openapi.naver.com/v1/nid/me
   url:
-    base: http://27.96.135.244:8080  # http://localhost:8080
+    base: http://27.96.135.244:8081
+#    base:  http://localhost:8081
+
+  application:
+    name: service-member
 
 eureka:
   instance:
