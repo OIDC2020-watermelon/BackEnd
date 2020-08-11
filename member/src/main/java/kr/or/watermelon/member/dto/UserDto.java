@@ -14,6 +14,8 @@ import java.util.List;
 @ApiModel(value = "UserDto", description = "사용자")
 public class UserDto {
 
+    @ApiModelProperty(value = "아이디(pkey)")
+    private long id;
     @ApiModelProperty(value = "아이디(이메일)")
     private String uid;
     @ApiModelProperty(value = "이름")
