@@ -52,6 +52,7 @@ public class ReservationService {
                                     .cancelableDate(cancelableDate)
                                     .pay(reservationInfo.getPay())
                                     .userId(reservationInfo.getUserId())
+                                    .pieces(reservationInfo.getTicketList().length)
                                     .build();
 
         Reservation newReservation = reservationRepository.save(reservation);
