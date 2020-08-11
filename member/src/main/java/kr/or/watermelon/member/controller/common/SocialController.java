@@ -49,7 +49,6 @@ public class SocialController {
      */
     @GetMapping
     public ModelAndView socialLogin(ModelAndView mav) {
-
         StringBuilder kakaoLoginUrl = new StringBuilder()
                 .append(env.getProperty("spring.social.kakao.url.login"))
                 .append("?client_id=").append(kakaoClientId)
@@ -66,11 +65,10 @@ public class SocialController {
                 .append(env.getProperty("spring.social.naver.url.login"))
                 .append("?response_type=code")
                 .append("&client_id=").append(naverClientId)
-                .append("&redirect_uri=").append("http://localhost:8080").append(naverRedirect)
+                .append("&redirect_uri=").append(baseUrl).append(naverRedirect)
                 .append("&state=").append(state);
 
         mav.addObject("naverLoginUrl", naverLoginUrl);
-
         mav.setViewName("social/login");
         return mav;
     }
