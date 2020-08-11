@@ -24,7 +24,7 @@ public class MemberApplication {
 
     @Bean
     @LoadBalanced
-    public RestTemplate getRestTemplate() {
+    public RestTemplate restTemplate() {
         return new RestTemplate();
     }
 
