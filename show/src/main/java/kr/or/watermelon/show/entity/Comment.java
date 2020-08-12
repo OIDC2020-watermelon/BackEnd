@@ -41,4 +41,11 @@ public class Comment {
 
     public static class CommentBuilder implements CustomBuilder {
     }
+
+    // 수정시 데이터 처리
+    public Comment setUpdate(String content, LocalDateTime modifiedDateTime) {
+        this.content = content;
+        this.modifiedDateTime = modifiedDateTime;
+        return this;
+    }
 }
