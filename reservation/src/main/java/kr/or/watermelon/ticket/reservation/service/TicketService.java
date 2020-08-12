@@ -24,7 +24,10 @@ public class TicketService {
     @Transactional
     public List<TicketDto> cancel(Long reservationId) {
         List<Ticket> ticketList = ticketRepository.findByReservationId(reservationId);
-        ticketList.forEach(ticket -> ticket.setSold(false));
+        ticketList.forEach(ticket -> {
+                    ticket.setSold(false);
+                    ticket.setReservation(null);
+        });
         List<Ticket> canceledTickets = ticketRepository.saveAll(ticketList);
 
         return canceledTickets
