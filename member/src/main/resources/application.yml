@@ -1,6 +1,5 @@
 server:
   port: 8081
-  address: http://localhost
 
 spring:
   datasource:
@@ -50,6 +49,7 @@ spring:
 eureka:
   instance:
     instance-id: inst001
+    hostname: 10.36.2.116
   client:
     service-url:
       defaultZone: http://49.50.173.72:8761/eureka/ # http://localhost:8761/eureka/
