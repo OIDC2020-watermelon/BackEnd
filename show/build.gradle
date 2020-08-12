@@ -44,6 +44,9 @@ dependencies {
     testCompile "org.testcontainers:postgresql:1.14.3"
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+    compile('org.elasticsearch:elasticsearch:6.3.0')
+    compile('org.elasticsearch.client:elasticsearch-rest-high-level-client:6.3.0')
+    compile('org.elasticsearch.client:elasticsearch-rest-client:6.3.0')
 }
 
 dependencyManagement {
