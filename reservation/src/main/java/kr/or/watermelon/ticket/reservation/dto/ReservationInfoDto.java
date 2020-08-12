@@ -20,6 +20,5 @@ public class ReservationInfoDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss", timezone = "Asia/Seoul")
     private LocalTime startAt;
     private int pay;
-    private Long userId;
     private Long[] ticketList;
 }
