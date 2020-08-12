@@ -1,5 +1,6 @@
 server:
   port: 8081
+  address: http://10.36.2.116
 
 spring:
   datasource:
@@ -45,9 +46,6 @@ spring:
   application:
     name: service-member
 
-  cloud:
-    client:
-      hostname: localhost
 
 eureka:
   instance:
