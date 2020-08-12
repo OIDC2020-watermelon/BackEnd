@@ -38,7 +38,7 @@ public class ElasticRepository {
         LocalDateTime releaseStartTime = product.getReleaseStartTime();
         LocalDateTime releaseEndTime = product.getReleaseEndTime();
         while (releaseStartTime.isBefore(releaseEndTime)) {
-            LocalDateTime nextStartTime = releaseStartTime.plusHours(Long.valueOf(1));
+            LocalDateTime nextStartTime = releaseStartTime.plusDays(Long.valueOf(1));
             aggQuery.addRange(releaseStartTime.toString(), nextStartTime.toString());
             releaseStartTime = nextStartTime;
         }
