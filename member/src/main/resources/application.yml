@@ -1,6 +1,6 @@
 server:
   port: 8081
-  address: http://10.36.2.116
+  address: http://localhost
 
 spring:
   datasource:
