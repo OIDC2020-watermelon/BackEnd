@@ -1,9 +1,13 @@
 package kr.or.watermelon.ticket.reservation.service;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import kr.or.watermelon.ticket.reservation.domain.Ticket;
 import kr.or.watermelon.ticket.reservation.dto.ReservationDto;
 import kr.or.watermelon.ticket.reservation.domain.Reservation;
 import kr.or.watermelon.ticket.reservation.dto.ReservationInfoDto;
+import kr.or.watermelon.ticket.reservation.dto.UserIdDto;
+import kr.or.watermelon.ticket.reservation.proxy.UserServiceProxy;
 import kr.or.watermelon.ticket.reservation.repository.ReservationRepository;
 import kr.or.watermelon.ticket.reservation.repository.TicketRepository;
 import org.modelmapper.ModelMapper;
@@ -14,6 +18,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -25,7 +30,7 @@ public class ReservationService {
     private TicketRepository ticketRepository;
     @Autowired
     private ModelMapper modelMapper;
-
+    
     public List<ReservationDto> getAll(Long userId) {
         List<Reservation> reservations = reservationRepository.findByUserId(userId);
         return reservations
@@ -40,7 +45,7 @@ public class ReservationService {
     }
 
     @Transactional
-    public ReservationDto add(ReservationInfoDto reservationInfo) {
+    public ReservationDto add(UserIdDto user, ReservationInfoDto reservationInfo) {
         String serialNumber = UUID.randomUUID().toString().replaceAll("-", "");
         LocalDate cancelableDate = reservationInfo.getAvailableDate().minusDays(3);
 
@@ -51,7 +56,7 @@ public class ReservationService {
                                     .serialNumber(serialNumber)
                                     .cancelableDate(cancelableDate)
                                     .pay(reservationInfo.getPay())
-                                    .userId(reservationInfo.getUserId())
+                                    .userId(user.getId())
                                     .pieces(reservationInfo.getTicketList().length)
                                     .build();
 
