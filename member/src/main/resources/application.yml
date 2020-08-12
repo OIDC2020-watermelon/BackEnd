@@ -45,10 +45,13 @@ spring:
   application:
     name: service-member
 
+  cloud:
+    client:
+      hostname: localhost
+
 eureka:
   instance:
     instance-id: inst001
-    hostname: http://localhost
   client:
     service-url:
       defaultZone: http://49.50.173.72:8761/eureka/ # http://localhost:8761/eureka/
