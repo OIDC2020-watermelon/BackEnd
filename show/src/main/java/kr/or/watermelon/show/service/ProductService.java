@@ -4,8 +4,8 @@ import kr.or.watermelon.show.dto.BucketDto;
 import kr.or.watermelon.show.dto.ProductForListDto;
 import kr.or.watermelon.show.entity.Category;
 import kr.or.watermelon.show.entity.Product;
-import kr.or.watermelon.show.repository.ElasticRepository;
 import kr.or.watermelon.show.repository.ProductRepository;
+import kr.or.watermelon.show.repository.elasticsearch.EReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
-    private final ElasticRepository elasticRepository;
+    private final EReservationRepository elasticRepository;
 
     public List<ProductForListDto> searchProductsReleased(String keyword, Category category) {
         List<Product> products;
