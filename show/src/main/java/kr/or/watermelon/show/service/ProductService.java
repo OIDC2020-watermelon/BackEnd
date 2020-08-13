@@ -2,10 +2,11 @@ package kr.or.watermelon.show.service;
 
 import kr.or.watermelon.show.dto.BucketDto;
 import kr.or.watermelon.show.dto.ProductForListDto;
+import kr.or.watermelon.show.dto.TrafficTypeDto;
 import kr.or.watermelon.show.entity.Category;
 import kr.or.watermelon.show.entity.Product;
-import kr.or.watermelon.show.repository.ElasticRepository;
 import kr.or.watermelon.show.repository.ProductRepository;
+import kr.or.watermelon.show.repository.elasticsearch.EReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,7 +22,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
-    private final ElasticRepository elasticRepository;
+    private final EReservationRepository elasticRepository;
 
     public List<ProductForListDto> searchProductsReleased(String keyword, Category category) {
         List<Product> products;
@@ -49,10 +49,14 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public List<BucketDto> getProductAnalysis(Long id) throws IOException {
-        Optional<Product> productOptional = productRepository.findById(id);
-        List<BucketDto> bucketDtos = elasticRepository.countProductReservationLog(productOptional.get());
-        return bucketDtos;
+    public List<BucketDto> getReservationTraffic(Long id, TrafficTypeDto trafficType) throws IOException {
+        Product product = productRepository.getOne(id);
+        List<BucketDto> buckets;
+        if (trafficType == TrafficTypeDto.RESERVATION) {
+            buckets = elasticRepository.countLogByServiceAndInterceptor(product, "interceptor.ReservationInterceptor");
+        } else {
+            buckets = elasticRepository.countLogByServiceAndInterceptor(product, "interceptor.PerformanceInterceptor");
+        }
+        return buckets;
     }
-
 }
