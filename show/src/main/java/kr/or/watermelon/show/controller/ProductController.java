@@ -41,7 +41,7 @@ public class ProductController {
         return productService.searchProducts(keyword);
     }
 
-    @GetMapping("/analysis/{id}")
+    @GetMapping("/{id}/traffic")
     @ApiOperation(value = "[관리자페이지(p35): 트래픽 통계 가져오기")
     public List<BucketDto> getProductAnalysis(@PathVariable Long id) throws IOException {
         return productService.getProductAnalysis(id);
