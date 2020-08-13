@@ -11,10 +11,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
+    private final ReservationInterceptor reservationInterceptor;
     private final PerformanceInterceptor performanceInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(reservationInterceptor)
+                .addPathPatterns("/reservation");
+
         registry.addInterceptor(performanceInterceptor)
                 .addPathPatterns("/reservation/performance/*");
     }
