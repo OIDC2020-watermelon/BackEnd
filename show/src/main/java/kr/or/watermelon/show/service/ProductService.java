@@ -1,6 +1,7 @@
 package kr.or.watermelon.show.service;
 
 import kr.or.watermelon.show.dto.BucketDto;
+import kr.or.watermelon.show.dto.ProductDto;
 import kr.or.watermelon.show.dto.ProductForListDto;
 import kr.or.watermelon.show.dto.TrafficTypeDto;
 import kr.or.watermelon.show.entity.Category;
@@ -58,5 +59,10 @@ public class ProductService {
             buckets = elasticRepository.countLogByServiceAndInterceptor(product, "interceptor.PerformanceInterceptor");
         }
         return buckets;
+    }
+
+    public ProductDto getProductById(Long id) {
+        Product product = productRepository.getOne(id);
+        return modelMapper.map(product, ProductDto.class);
     }
 }
