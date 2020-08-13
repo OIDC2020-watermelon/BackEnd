@@ -2,6 +2,7 @@ package kr.or.watermelon.show.service;
 
 import kr.or.watermelon.show.dto.BucketDto;
 import kr.or.watermelon.show.dto.ProductForListDto;
+import kr.or.watermelon.show.dto.TrafficTypeDto;
 import kr.or.watermelon.show.entity.Category;
 import kr.or.watermelon.show.entity.Product;
 import kr.or.watermelon.show.repository.ProductRepository;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,10 +49,14 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public List<BucketDto> getProductAnalysis(Long id) throws IOException {
-        Optional<Product> productOptional = productRepository.findById(id);
-        List<BucketDto> bucketDtos = elasticRepository.countProductReservationLog(productOptional.get());
-        return bucketDtos;
+    public List<BucketDto> getReservationTraffic(Long id, TrafficTypeDto trafficType) throws IOException {
+        Product product = productRepository.getOne(id);
+        List<BucketDto> buckets;
+        if (trafficType == TrafficTypeDto.RESERVATION) {
+            buckets = elasticRepository.countLogByServiceAndInterceptor(product, "interceptor.ReservationInterceptor");
+        } else {
+            buckets = elasticRepository.countLogByServiceAndInterceptor(product, "interceptor.PerformanceInterceptor");
+        }
+        return buckets;
     }
-
 }

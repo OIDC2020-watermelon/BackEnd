@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import kr.or.watermelon.show.dto.BucketDto;
 import kr.or.watermelon.show.dto.ProductForListDto;
+import kr.or.watermelon.show.dto.TrafficTypeDto;
 import kr.or.watermelon.show.entity.Category;
 import kr.or.watermelon.show.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +44,11 @@ public class ProductController {
 
     @GetMapping("/{id}/traffic")
     @ApiOperation(value = "[관리자페이지(p35): 트래픽 통계 가져오기")
-    public List<BucketDto> getProductAnalysis(@PathVariable Long id) throws IOException {
-        return productService.getProductAnalysis(id);
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "trafficType", allowableValues = "RESERVATION,ACCESS"),
+    })
+    public List<BucketDto> getProductAnalysis(@PathVariable Long id, TrafficTypeDto trafficType) throws IOException {
+        return productService.getReservationTraffic(id, trafficType);
     }
+
 }

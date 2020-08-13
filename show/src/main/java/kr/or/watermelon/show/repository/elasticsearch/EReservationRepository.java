@@ -25,19 +25,20 @@ import java.util.stream.Collectors;
 public class EReservationRepository {
 
     private static final String indices = "logstash-*";
+    private static final String SERVICE = "reservation";
     private static final String PACKAGE_NAME = "kr.or.watermelon.ticket";
-    private static final String SERVICE_NAME = "reservation";
     private final RestHighLevelClient client;
     private final ModelMapper modelMapper;
 
-    public List<BucketDto> countProductReservationLog(Product product) throws IOException {
+    public List<BucketDto> countLogByServiceAndInterceptor(Product product, String interceptor) throws IOException {
         SearchRequest sr = new SearchRequest().indices(indices);
 
         int unitDay = 1;
         String aggName = "range_by_@timestamp";
-        String interceptorToFind = String.join(".", PACKAGE_NAME, SERVICE_NAME, "interceptor.ReservationInterceptor");
+        String interceptorToFind = String.join(".", PACKAGE_NAME, SERVICE, interceptor);
         DateRangeAggregationBuilder aggQuery = getAggRangeQueryBuilder(unitDay, product.getReleaseStartTime(), product.getReleaseEndTime(), aggName);
-        BoolQueryBuilder boolQuery = reservationQuery()
+        BoolQueryBuilder boolQuery = QueryBuilders.boolQuery()
+                .must(QueryBuilders.matchQuery("service", SERVICE))
                 .must(QueryBuilders.matchQuery("logger_name", interceptorToFind))
                 .must(QueryBuilders.matchQuery("product_id", product.getId()));
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder().query(boolQuery).aggregation(aggQuery);
@@ -49,11 +50,6 @@ public class EReservationRepository {
         return buckets.stream()
                 .map(b -> modelMapper.map(b, BucketDto.class))
                 .collect(Collectors.toList());
-    }
-
-    private BoolQueryBuilder reservationQuery() {
-        return QueryBuilders.boolQuery()
-                .must(QueryBuilders.matchQuery("service", SERVICE_NAME));
     }
 
     private DateRangeAggregationBuilder getAggRangeQueryBuilder(int day, LocalDateTime releaseStartTime, LocalDateTime releaseEndTime, String aggName) {
@@ -68,6 +64,4 @@ public class EReservationRepository {
         }
         return aggQuery;
     }
-
-
 }
