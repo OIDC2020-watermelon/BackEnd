@@ -7,7 +7,8 @@ import org.modelmapper.PropertyMap;
 public class ProductMapper extends PropertyMap<ProductInfoDto, Product> {
     @Override
     protected void configure() {
-        map().setPlace(null);
-        map().setArtists(null);
+        map().setPlace(source.makeNewPlace());
+        map().setArtists(source.makeNewArtists());
+        map().setId(null);
     }
 }

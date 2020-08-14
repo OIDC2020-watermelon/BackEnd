@@ -1,9 +1,7 @@
 package kr.or.watermelon.show.service;
 
 import kr.or.watermelon.show.dto.*;
-import kr.or.watermelon.show.entity.Artist;
 import kr.or.watermelon.show.entity.Category;
-import kr.or.watermelon.show.entity.Place;
 import kr.or.watermelon.show.entity.Product;
 import kr.or.watermelon.show.proxy.ReservationServiceProxy;
 import kr.or.watermelon.show.repository.ArtistRepository;
@@ -14,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -67,18 +64,13 @@ public class ProductService {
         return buckets;
     }
 
-    //TODO Transactional 공부
-    @Transactional
+    //TODO Transactional 공부,JPA영속성 공부
     public ProductInfoDto createProduct(ProductInfoDto productInfo) {
-        List<Artist> artists = artistRepository.findAllById(productInfo.getArtistIds());
-        Place place = placeRepository.getOne(productInfo.getPlaceId());
         Product product = modelMapper.map(productInfo, Product.class);
-        product.setArtists(artists);
-        product.setPlace(place);
-        product = productRepository.save(product);
+        Product productSaved = productRepository.save(product);
 
         PerformanceInfoDto performanceInfoDto = modelMapper.map(productInfo, PerformanceInfoDto.class);
-        performanceInfoDto.setProductId(product.getId());
+        performanceInfoDto.setProductId(productSaved.getId());
         performanceInfoDto.setAvailableDate(productInfo.getAvailableDates().get(0).toString());
         reservationServiceProxy.add(performanceInfoDto);
         return productInfo;
