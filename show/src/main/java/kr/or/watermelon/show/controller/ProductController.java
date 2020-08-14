@@ -6,14 +6,12 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import kr.or.watermelon.show.dto.BucketDto;
 import kr.or.watermelon.show.dto.ProductForListDto;
+import kr.or.watermelon.show.dto.ProductInfoDto;
 import kr.or.watermelon.show.dto.TrafficTypeDto;
 import kr.or.watermelon.show.entity.Category;
 import kr.or.watermelon.show.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -49,6 +47,12 @@ public class ProductController {
     })
     public List<BucketDto> getProductAnalysis(@PathVariable Long id, TrafficTypeDto trafficType) throws IOException {
         return productService.getReservationTraffic(id, trafficType);
+    }
+
+    @PostMapping("/")
+    @ApiOperation(value = "[관리자페이지(p35): 공연 생성하기")
+    public ProductInfoDto createProduct(@RequestBody ProductInfoDto productInfo) throws IOException {
+        return productService.createProduct(productInfo);
     }
 
 }
