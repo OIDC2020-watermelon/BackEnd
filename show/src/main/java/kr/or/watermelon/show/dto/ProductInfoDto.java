@@ -1,16 +1,21 @@
 package kr.or.watermelon.show.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import kr.or.watermelon.show.entity.Artist;
 import kr.or.watermelon.show.entity.Category;
+import kr.or.watermelon.show.entity.Place;
 import kr.or.watermelon.show.entity.RRatedType;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Data
+@Getter
+@Setter
 public class ProductInfoDto {
 
     private String title;
@@ -41,4 +46,14 @@ public class ProductInfoDto {
     private int vipPrice;
 
     private int sPrice;
+
+    public List<Artist> makeNewArtists() {
+        return artistIds.stream()
+                .map(id -> Artist.builder().id(id).build())
+                .collect(Collectors.toList());
+    }
+
+    public Place makeNewPlace() {
+        return Place.builder().id(placeId).build();
+    }
 }
