@@ -1,17 +1,20 @@
 package kr.or.watermelon.show.service;
 
-import kr.or.watermelon.show.dto.BucketDto;
-import kr.or.watermelon.show.dto.ProductDto;
-import kr.or.watermelon.show.dto.ProductForListDto;
-import kr.or.watermelon.show.dto.TrafficTypeDto;
+import kr.or.watermelon.show.dto.*;
+import kr.or.watermelon.show.entity.Artist;
 import kr.or.watermelon.show.entity.Category;
+import kr.or.watermelon.show.entity.Place;
 import kr.or.watermelon.show.entity.Product;
+import kr.or.watermelon.show.proxy.ReservationServiceProxy;
+import kr.or.watermelon.show.repository.ArtistRepository;
+import kr.or.watermelon.show.repository.PlaceRepository;
 import kr.or.watermelon.show.repository.ProductRepository;
 import kr.or.watermelon.show.repository.elasticsearch.EReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,6 +27,9 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
     private final EReservationRepository elasticRepository;
+    private final ReservationServiceProxy reservationServiceProxy;
+    private final ArtistRepository artistRepository;
+    private final PlaceRepository placeRepository;
 
     public List<ProductForListDto> searchProductsReleased(String keyword, Category category) {
         List<Product> products;
@@ -59,6 +65,23 @@ public class ProductService {
             buckets = elasticRepository.countLogByServiceAndInterceptor(product, "interceptor.PerformanceInterceptor");
         }
         return buckets;
+    }
+
+    //TODO Transactional 공부
+    @Transactional
+    public ProductInfoDto createProduct(ProductInfoDto productInfo) {
+        List<Artist> artists = artistRepository.findAllById(productInfo.getArtistIds());
+        Place place = placeRepository.getOne(productInfo.getPlaceId());
+        Product product = modelMapper.map(productInfo, Product.class);
+        product.setArtists(artists);
+        product.setPlace(place);
+        product = productRepository.save(product);
+
+        PerformanceInfoDto performanceInfoDto = modelMapper.map(productInfo, PerformanceInfoDto.class);
+        performanceInfoDto.setProductId(product.getId());
+        performanceInfoDto.setAvailableDate(productInfo.getAvailableDates().get(0).toString());
+        reservationServiceProxy.add(performanceInfoDto);
+        return productInfo;
     }
 
     public ProductDto getProductById(Long id) {
