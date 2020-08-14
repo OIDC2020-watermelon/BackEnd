@@ -83,4 +83,9 @@ public class ProductService {
         reservationServiceProxy.add(performanceInfoDto);
         return productInfo;
     }
+
+    public ProductDto getProductById(Long id) {
+        Product product = productRepository.getOne(id);
+        return modelMapper.map(product, ProductDto.class);
+    }
 }

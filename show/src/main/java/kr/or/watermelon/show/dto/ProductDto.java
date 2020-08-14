@@ -30,7 +30,7 @@ public class ProductDto {
 
     private PlaceDto place;
 
-    private List<ArtistForListDto> artists;
+    private List<ArtistForProductDto> artists;
 
 
 }

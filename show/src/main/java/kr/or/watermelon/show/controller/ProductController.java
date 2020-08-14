@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import kr.or.watermelon.show.dto.BucketDto;
+import kr.or.watermelon.show.dto.ProductDto;
 import kr.or.watermelon.show.dto.ProductForListDto;
 import kr.or.watermelon.show.dto.ProductInfoDto;
 import kr.or.watermelon.show.dto.TrafficTypeDto;
@@ -38,6 +39,12 @@ public class ProductController {
     @ApiOperation(value = "[공연검색페이지(p27): 공연 검색 리스트 가져오기")
     public List<ProductForListDto> searchProducts(String keyword) {
         return productService.searchProducts(keyword);
+    }
+
+    @GetMapping("/{id}")
+    @ApiOperation(value = "[공연상세보기페이지(p28): 공연 상세보기")
+    public ProductDto getProduct(@PathVariable Long id) {
+        return productService.getProductById(id);
     }
 
     @GetMapping("/{id}/traffic")
