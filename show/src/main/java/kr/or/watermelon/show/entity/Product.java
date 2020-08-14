@@ -32,10 +32,10 @@ public class Product {
     private Integer runningTime;
 
     @Length(max = 8200)
-    private String imgUrl = "http://dummyimage.com/250x250.jpg/ff4444/ffffff";
+    private String imgUrl = "http://ticketimage.interpark.com/Play/image/large/19/19018229_p.gif";
 
     @Length(max = 8200)
-    private String thumbnailImgUrl = "http://dummyimage.com/150x150.jpg/dddddd/000000";
+    private String thumbnailImgUrl = "http://ticketimage.interpark.com/TCMS3.0/PL/TOP_2/2001/200120034842_15012361.gif";
 
     @CreatedDate
     private LocalDateTime createdDateTime;
