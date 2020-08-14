@@ -32,10 +32,10 @@ public class Product {
     private Integer runningTime;
 
     @Length(max = 8200)
-    private String imgUrl;
+    private String imgUrl = "http://dummyimage.com/250x250.jpg/ff4444/ffffff";
 
     @Length(max = 8200)
-    private String thumbnailImgUrl;
+    private String thumbnailImgUrl = "http://dummyimage.com/150x150.jpg/dddddd/000000";
 
     @CreatedDate
     private LocalDateTime createdDateTime;
