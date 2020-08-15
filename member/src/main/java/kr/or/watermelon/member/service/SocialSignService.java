@@ -1,6 +1,5 @@
 package kr.or.watermelon.member.service;
 
-import kr.or.watermelon.member.advice.exception.CUserNotFoundException;
 import kr.or.watermelon.member.entity.User;
 import kr.or.watermelon.member.model.social.KakaoProfile;
 import kr.or.watermelon.member.model.social.NaverProfile;
@@ -24,9 +23,9 @@ public class SocialSignService {
     public User signupByNaver(String provider, String accessToken) {
         NaverProfile naverProfile = naverService.getNaverProfile(accessToken);
         NaverProfile.Response naverAccount = naverProfile.getResponse();
-        Optional<User> naverUser = userJpaRepo.findByUidAndProvider(String.valueOf(naverAccount.getEmail()), provider);
+        Optional<User> naverUser = userJpaRepo.findByUidAndProvider(naverAccount.getEmail(), provider);
         if (naverUser.isPresent()) {
-            return userJpaRepo.findByUidAndProvider(String.valueOf(naverAccount.getEmail()), provider).orElseThrow(CUserNotFoundException::new);
+            return naverUser.get();
         } else {
             User newUser = User.builder()
                     .uid(String.valueOf(String.valueOf(naverAccount.getEmail())))
@@ -46,7 +45,7 @@ public class SocialSignService {
         KakaoProfile.Kakao_account kakaoAccount = kakaoProfile.getKakao_account();
         Optional<User> kakaoUser = userJpaRepo.findByUidAndProvider(String.valueOf(kakaoAccount.getEmail()), provider);
         if (kakaoUser.isPresent()) {
-            return userJpaRepo.findByUidAndProvider(String.valueOf(kakaoAccount.getEmail()), provider).orElseThrow(CUserNotFoundException::new);
+            return kakaoUser.get();
         } else {
             User newUser = User.builder()
                     .uid(String.valueOf(kakaoAccount.getEmail()))
