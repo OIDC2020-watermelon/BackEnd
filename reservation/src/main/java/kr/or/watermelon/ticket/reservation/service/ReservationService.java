@@ -1,13 +1,12 @@
 package kr.or.watermelon.ticket.reservation.service;
 
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
+import kr.or.watermelon.ticket.reservation.domain.Performance;
 import kr.or.watermelon.ticket.reservation.domain.Ticket;
 import kr.or.watermelon.ticket.reservation.dto.ReservationDto;
 import kr.or.watermelon.ticket.reservation.domain.Reservation;
 import kr.or.watermelon.ticket.reservation.dto.ReservationInfoDto;
 import kr.or.watermelon.ticket.reservation.dto.UserIdDto;
-import kr.or.watermelon.ticket.reservation.proxy.UserServiceProxy;
+import kr.or.watermelon.ticket.reservation.repository.PerformanceRepository;
 import kr.or.watermelon.ticket.reservation.repository.ReservationRepository;
 import kr.or.watermelon.ticket.reservation.repository.TicketRepository;
 import org.modelmapper.ModelMapper;
@@ -18,7 +17,6 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -28,6 +26,8 @@ public class ReservationService {
     private ReservationRepository reservationRepository;
     @Autowired
     private TicketRepository ticketRepository;
+    @Autowired
+    private PerformanceRepository performanceRepository;
     @Autowired
     private ModelMapper modelMapper;
     
@@ -47,22 +47,26 @@ public class ReservationService {
     @Transactional
     public ReservationDto add(UserIdDto user, ReservationInfoDto reservationInfo) {
         String serialNumber = UUID.randomUUID().toString().replaceAll("-", "");
-        LocalDate cancelableDate = reservationInfo.getAvailableDate().minusDays(3);
+
+        Performance performance = performanceRepository.findById(reservationInfo.getPerformanceId()).orElse(null);
+
+        List<Ticket> tickets = ticketRepository.findAllById(Arrays.asList(reservationInfo.getTicketList()));
+        int pay = tickets.stream().mapToInt(Ticket::getPrice).sum();
+
+        LocalDate cancelableDate = performance.getAvailableDate().minusDays(1);
 
         Reservation reservation = Reservation.builder()
                                     .name(reservationInfo.getName())
-                                    .availableDate(reservationInfo.getAvailableDate())
-                                    .startAt(reservationInfo.getStartAt())
+                                    .availableDate(performance.getAvailableDate())
+                                    .startAt(performance.getStartAt())
                                     .serialNumber(serialNumber)
                                     .cancelableDate(cancelableDate)
-                                    .pay(reservationInfo.getPay())
+                                    .pay(pay)
                                     .userId(user.getId())
                                     .pieces(reservationInfo.getTicketList().length)
                                     .build();
 
         Reservation newReservation = reservationRepository.save(reservation);
-
-        List<Ticket> tickets = ticketRepository.findAllById(Arrays.asList(reservationInfo.getTicketList()));
 
         tickets.forEach(ticket -> {
             ticket.setSold(true);
