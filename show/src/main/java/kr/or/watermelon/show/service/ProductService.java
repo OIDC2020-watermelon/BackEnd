@@ -79,4 +79,13 @@ public class ProductService {
         Product product = productRepository.getOne(id);
         return modelMapper.map(product, ProductDto.class);
     }
+
+    @Transactional
+    public void deleteProduct(UUID serial) {
+        Optional<Product> product = productRepository.findBySerial(serial);
+        product.ifPresent(p -> {
+            reservationServiceProxy.delete(p.getId());
+            productRepository.delete(p);
+        });
+    }
 }

@@ -11,4 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface ReservationServiceProxy {
     @PostMapping(value = "/reservation/performance")
     PerformanceDto add(@RequestBody PerformanceInfoDto performanceInfo);
+
+    @DeleteMapping("/reservation/performance/{productId}")
+    void delete(@PathVariable Long productId);
 }
