@@ -21,7 +21,7 @@ public class Scheduler {
     private final JobLauncher jobLauncher;
     private final Job updateProductPodJob;
 
-    @Scheduled(cron = "0 0 3 * * ? *")
+    @Scheduled(cron = "0 0 3 * * ?")
     public void updateProductPod() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
         LocalDateTime now = LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis()),
                 TimeZone.getDefault().toZoneId());
