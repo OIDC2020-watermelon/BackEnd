@@ -15,7 +15,6 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,10 +29,11 @@ public class EReservationRepository {
     private final RestHighLevelClient client;
     private final ModelMapper modelMapper;
 
-    public List<BucketDto> countLogByServiceAndInterceptor(Product product, String interceptor) throws IOException {
-        SearchRequest sr = new SearchRequest().indices(indices);
+    public List<BucketDto> countRangeLog(Product product, String interceptor, long unitDay) throws Exception {
+        if (!product.getReleaseStartTime().isBefore(product.getReleaseEndTime()))
+            return null;
 
-        int unitDay = 1;
+        SearchRequest sr = new SearchRequest().indices(indices);
         String aggName = "range_by_@timestamp";
         String interceptorToFind = String.join(".", PACKAGE_NAME, SERVICE, interceptor);
         DateRangeAggregationBuilder aggQuery = getAggRangeQueryBuilder(unitDay, product.getReleaseStartTime(), product.getReleaseEndTime(), aggName);
@@ -52,13 +52,17 @@ public class EReservationRepository {
                 .collect(Collectors.toList());
     }
 
-    private DateRangeAggregationBuilder getAggRangeQueryBuilder(int day, LocalDateTime releaseStartTime, LocalDateTime releaseEndTime, String aggName) {
+    private DateRangeAggregationBuilder getAggRangeQueryBuilder(Long day, LocalDateTime releaseStartTime, LocalDateTime releaseEndTime, String aggName) throws Exception {
+        if (day <= 0) {
+            throw new Exception("UNIT DAY는 무조건 양수여야합니다.");//TODO EXCEPTION공부하기
+        }
+
         DateRangeAggregationBuilder aggQuery = AggregationBuilders
                 .dateRange(aggName)
                 .field("@timestamp");
 
-        while (releaseStartTime.isBefore(releaseEndTime)) {
-            LocalDateTime nextStartTime = releaseStartTime.plusDays(Long.valueOf(day));
+        while (releaseEndTime.isAfter(releaseStartTime)) {
+            LocalDateTime nextStartTime = releaseStartTime.plusDays(day);
             aggQuery.addRange(releaseStartTime.toString(), nextStartTime.toString());
             releaseStartTime = nextStartTime;
         }

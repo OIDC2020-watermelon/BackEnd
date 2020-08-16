@@ -4,11 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import kr.or.watermelon.show.dto.BucketDto;
-import kr.or.watermelon.show.dto.ProductDto;
-import kr.or.watermelon.show.dto.ProductForListDto;
-import kr.or.watermelon.show.dto.ProductInfoDto;
-import kr.or.watermelon.show.dto.TrafficTypeDto;
+import kr.or.watermelon.show.dto.*;
 import kr.or.watermelon.show.entity.Category;
 import kr.or.watermelon.show.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +48,7 @@ public class ProductController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "trafficType", allowableValues = "RESERVATION,ACCESS"),
     })
-    public List<BucketDto> getProductAnalysis(@PathVariable Long id, TrafficTypeDto trafficType) throws IOException {
+    public List<BucketDto> getProductAnalysis(@PathVariable Long id, TrafficTypeDto trafficType) throws Exception {
         return productService.getReservationTraffic(id, trafficType);
     }
 
