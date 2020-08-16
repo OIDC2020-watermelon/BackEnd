@@ -86,7 +86,11 @@ public class PerformanceService {
     }
 
     @Transactional
-    public void delete(Long performanceId) {
-        performanceRepository.deleteById(performanceId);
+    public void delete(Long productId) {
+        List<Performance> performances = performanceRepository.findByProductId(productId);
+        performances.forEach(p->{
+            ticketRepository.deleteALlByPerformanceId(p.getId());//TODO 쿼리 최적화 필요
+            performanceRepository.delete(p);
+        });
     }
 }

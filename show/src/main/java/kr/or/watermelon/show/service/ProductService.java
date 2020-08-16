@@ -12,8 +12,11 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,7 +67,7 @@ public class ProductService {
     }
 
     //TODO Transactional 공부,JPA영속성 공부
-    public ProductInfoDto createProduct(ProductInfoDto productInfo) {
+    public UUID createProduct(ProductInfoDto productInfo) {
         Product product = modelMapper.map(productInfo, Product.class);
         Product productSaved = productRepository.save(product);
 
@@ -72,11 +75,20 @@ public class ProductService {
         performanceInfoDto.setProductId(productSaved.getId());
         performanceInfoDto.setAvailableDate(productInfo.getAvailableDates().get(0).toString());
         reservationServiceProxy.add(performanceInfoDto);
-        return productInfo;
+        return productSaved.getSerial();
     }
 
     public ProductDto getProductById(Long id) {
         Product product = productRepository.getOne(id);
         return modelMapper.map(product, ProductDto.class);
+    }
+
+    @Transactional
+    public void deleteProduct(UUID serial) {
+        Optional<Product> product = productRepository.findBySerial(serial);
+        product.ifPresent(p -> {
+            reservationServiceProxy.delete(p.getId());
+            productRepository.delete(p);
+        });
     }
 }

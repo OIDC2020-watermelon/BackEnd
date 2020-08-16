@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @Api(tags = {"상품API"})
 @RestController
@@ -54,8 +55,13 @@ public class ProductController {
 
     @PostMapping("/")
     @ApiOperation(value = "[관리자페이지(p35): 공연 생성하기")
-    public ProductInfoDto createProduct(@RequestBody ProductInfoDto productInfo) throws IOException {
+    public UUID createProduct(@RequestBody ProductInfoDto productInfo) throws IOException {
         return productService.createProduct(productInfo);
     }
 
+    @DeleteMapping("/{serial}")
+    @ApiOperation(value = "[관리자페이지(p35): 공연 삭제하기")
+    public void deleteProduct(@PathVariable UUID serial) throws IOException {
+        productService.deleteProduct(serial);
+    }
 }

@@ -7,4 +7,7 @@ import java.util.List;
 
 public interface PerformanceRepository extends JpaRepository<Performance, Long> {
     List<Performance> findByProductId(Long productId);
+
+    List<Long> deleteAllByProductId(Long productId);
+
 }
