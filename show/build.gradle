@@ -49,6 +49,8 @@ dependencies {
     compile('org.elasticsearch:elasticsearch:6.3.0')
     compile('org.elasticsearch.client:elasticsearch-rest-high-level-client:6.3.0')
     compile('org.elasticsearch.client:elasticsearch-rest-client:6.3.0')
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+    testImplementation 'org.springframework.batch:spring-batch-test'
 }
 
 dependencyManagement {
