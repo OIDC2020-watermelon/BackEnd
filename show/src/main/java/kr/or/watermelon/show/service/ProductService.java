@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,13 +52,13 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public List<BucketDto> getReservationTraffic(Long id, TrafficTypeDto trafficType) throws IOException {
+    public List<BucketDto> getReservationTraffic(Long id, TrafficTypeDto trafficType) throws Exception {
         Product product = productRepository.getOne(id);
         List<BucketDto> buckets;
         if (trafficType == TrafficTypeDto.RESERVATION) {
-            buckets = elasticRepository.countLogByServiceAndInterceptor(product, "interceptor.ReservationInterceptor");
+            buckets = elasticRepository.countRangeLog(product, "interceptor.ReservationInterceptor", 1);
         } else {
-            buckets = elasticRepository.countLogByServiceAndInterceptor(product, "interceptor.PerformanceInterceptor");
+            buckets = elasticRepository.countRangeLog(product, "interceptor.PerformanceInterceptor", 1);
         }
         return buckets;
     }

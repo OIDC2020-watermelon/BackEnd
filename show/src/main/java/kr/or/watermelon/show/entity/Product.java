@@ -1,10 +1,10 @@
 package kr.or.watermelon.show.entity;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -37,10 +37,10 @@ public class Product {
     @Length(max = 8200)
     private String thumbnailImgUrl = "http://ticketimage.interpark.com/TCMS3.0/PL/TOP_2/2001/200120034842_15012361.gif";
 
-    @CreatedDate
+    @CreationTimestamp
     private LocalDateTime createdDateTime;
 
-    @LastModifiedDate
+    @UpdateTimestamp
     private LocalDateTime modifiedDateTime;
 
     private LocalDateTime releaseStartTime;
@@ -63,6 +63,8 @@ public class Product {
     @OneToMany(mappedBy = "product")
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();
+
+    private Integer pod;
 
     public List<String> getArtistNames() {
         return artists.stream()
