@@ -4,15 +4,17 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import kr.or.watermelon.show.dto.*;
+import kr.or.watermelon.show.dto.ProductDto;
+import kr.or.watermelon.show.dto.ProductForListDto;
 import kr.or.watermelon.show.entity.Category;
 import kr.or.watermelon.show.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @Api(tags = {"상품API"})
 @RestController
@@ -31,7 +33,6 @@ public class ProductController {
         return productService.searchProductsReleased(keyword, category);
     }
 
-
     @GetMapping("/search")
     @ApiOperation(value = "[공연검색페이지(p27): 공연 검색 리스트 가져오기")
     public List<ProductForListDto> searchProducts(String keyword) {
@@ -44,24 +45,4 @@ public class ProductController {
         return productService.getProductById(id);
     }
 
-    @GetMapping("/{id}/traffic")
-    @ApiOperation(value = "[관리자페이지(p35): 트래픽 통계 가져오기")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "trafficType", allowableValues = "RESERVATION,ACCESS"),
-    })
-    public List<BucketDto> getProductAnalysis(@PathVariable Long id, TrafficTypeDto trafficType) throws Exception {
-        return productService.getReservationTraffic(id, trafficType);
-    }
-
-    @PostMapping("/")
-    @ApiOperation(value = "[관리자페이지(p35): 공연 생성하기")
-    public UUID createProduct(@RequestBody ProductInfoDto productInfo) throws IOException {
-        return productService.createProduct(productInfo);
-    }
-
-    @DeleteMapping("/{serial}")
-    @ApiOperation(value = "[관리자페이지(p35): 공연 삭제하기")
-    public void deleteProduct(@PathVariable UUID serial) throws IOException {
-        productService.deleteProduct(serial);
-    }
 }
