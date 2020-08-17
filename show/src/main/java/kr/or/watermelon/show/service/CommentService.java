@@ -64,7 +64,7 @@ public class CommentService {
         }
         Map<String, String> response = new HashMap<String, String>();
         commentRepository.deleteById(commentId);
-        response.put("comment id", String.valueOf(commentId));
+        response.put("id", String.valueOf(commentId));
         response.put("result", "200");
         response.put("msg", "ok");
         return response;
