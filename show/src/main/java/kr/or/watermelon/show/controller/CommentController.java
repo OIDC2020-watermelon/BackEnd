@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Api(tags = "댓글API", hidden = true)
+@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/show")
