@@ -18,13 +18,10 @@ public class ReservationInterceptor extends HandlerInterceptorAdapter {
     private static final Logger logger = LoggerFactory.getLogger(ReservationInterceptor.class);
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-//        TODO 수정
-//        Map pathVariables = (Map) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-//        String productId = pathVariables.get("productId").toString();
-        try (AutoCloseable ignored = MDC.putCloseable("product_id","1")) {
-            logger.info("product_id={}", "1");
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        Long productId = (Long) request.getSession().getAttribute("productId");
+        try (AutoCloseable ignored = MDC.putCloseable("product_id",productId.toString())) {
+            logger.info("product_id={}",productId.toString());
         }
-        return true;
     }
 }

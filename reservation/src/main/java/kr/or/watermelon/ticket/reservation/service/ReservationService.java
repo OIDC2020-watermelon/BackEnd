@@ -75,7 +75,9 @@ public class ReservationService {
 
         ticketRepository.saveAll(tickets);
 
-        return modelMapper.map(newReservation, ReservationDto.class);
+        ReservationDto reservationDto = modelMapper.map(newReservation, ReservationDto.class);
+        reservationDto.setProductId(performance.getProductId());
+        return reservationDto;
     }
 
     public ReservationDto cancel(Long reservationId) {

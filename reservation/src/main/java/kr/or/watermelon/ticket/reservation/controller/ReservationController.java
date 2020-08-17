@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Api(tags = {"Reservation API"})
@@ -28,20 +29,21 @@ public class ReservationController {
     @Autowired
     private UserServiceProxy userServiceProxy;
 
-    @ApiOperation(value="예매하기", notes="예매를 진행합니다.")
+    @ApiOperation(value = "예매하기", notes = "예매를 진행합니다.")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 jwt token", required = true, dataType = "String", paramType = "header")
     })
-    public ReservationDto add(@RequestHeader("X-AUTH-TOKEN") String xAuthToken, @RequestBody ReservationInfoDto reservationInfo) {
+    public ReservationDto add(@RequestHeader("X-AUTH-TOKEN") String xAuthToken, @RequestBody ReservationInfoDto reservationInfo, HttpSession session) {
         UserIdDto user = userServiceProxy.getUserId(xAuthToken);
         ReservationDto reservationDto = reservationService.add(user, reservationInfo);
+        session.setAttribute("productId", reservationDto.getProductId());
 
         return reservationDto;
     }
 
-    @ApiOperation(value="예매 리스트", notes="사용자가 예매한 목록을 조회합니다.")
+    @ApiOperation(value = "예매 리스트", notes = "사용자가 예매한 목록을 조회합니다.")
     @GetMapping("/user/{userId}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 jwt token", required = true, dataType = "String", paramType = "header")
@@ -51,13 +53,13 @@ public class ReservationController {
         return reservationService.getAll(user.getId());
     }
 
-    @ApiOperation(value="예매 상세", notes="예매 상세")
+    @ApiOperation(value = "예매 상세", notes = "예매 상세")
     @GetMapping("/{reservationId}")
     public ReservationDto getOne(@PathVariable Long reservationId) {
         return reservationService.getOne(reservationId);
     }
 
-    @ApiOperation(value="예매 취소", notes="예매를 취소합니다.")
+    @ApiOperation(value = "예매 취소", notes = "예매를 취소합니다.")
     @DeleteMapping("/{reservationId}")
     public ReservationDto cancel(@PathVariable Long reservationId) {
         ReservationDto reservationDto = reservationService.cancel(reservationId);
