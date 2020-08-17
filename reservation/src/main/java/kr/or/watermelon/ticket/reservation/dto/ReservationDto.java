@@ -26,4 +26,5 @@ public class ReservationDto {
     private int pieces;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDateTime createdAt;
+    private Long productId;
 }
