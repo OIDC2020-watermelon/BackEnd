@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import kr.or.watermelon.show.dto.CommentDto;
 import kr.or.watermelon.show.dto.ReqCommentDto;
-import kr.or.watermelon.show.dto.UserIdDto;
+import kr.or.watermelon.show.dto.SimpleUserDto;
 import kr.or.watermelon.show.entity.CommentType;
 import kr.or.watermelon.show.proxy.UserServiceProxy;
 import kr.or.watermelon.show.service.CommentService;
@@ -45,7 +45,7 @@ public class CommentController {
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 jwt token", required = true, dataType = "String", paramType = "header")
     })
     public CommentDto registerComment(@RequestHeader("X-AUTH-TOKEN") String xAuthToken, @PathVariable Long id, @PathVariable CommentType type, @RequestBody ReqCommentDto reqCommentDto) {
-        UserIdDto user = userServiceProxy.getUserId(xAuthToken);
+        SimpleUserDto user = userServiceProxy.getSimpleUser(xAuthToken);
         return commentService.registerComment(id, user, type, reqCommentDto);
     }
 
@@ -54,7 +54,7 @@ public class CommentController {
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 jwt token", required = true, dataType = "String", paramType = "header")
     })
     public CommentDto modifyComment(@RequestHeader("X-AUTH-TOKEN") String xAuthToken, @PathVariable Long commentId, @RequestBody ReqCommentDto reqCommentDto) {
-        UserIdDto user = userServiceProxy.getUserId(xAuthToken);
+        SimpleUserDto user = userServiceProxy.getSimpleUser(xAuthToken);
         return commentService.modifyComment(user, commentId, reqCommentDto);
     }
 
@@ -63,7 +63,7 @@ public class CommentController {
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 jwt token", required = true, dataType = "String", paramType = "header")
     })
     public Map<String, String> deleteComment(@RequestHeader("X-AUTH-TOKEN") String xAuthToken, @PathVariable Long commentId) {
-        UserIdDto user = userServiceProxy.getUserId(xAuthToken);
+        SimpleUserDto user = userServiceProxy.getSimpleUser(xAuthToken);
         return commentService.deleteComment(user, commentId);
     }
 }

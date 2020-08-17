@@ -2,7 +2,7 @@ package kr.or.watermelon.show.service;
 
 import kr.or.watermelon.show.dto.CommentDto;
 import kr.or.watermelon.show.dto.ReqCommentDto;
-import kr.or.watermelon.show.dto.UserIdDto;
+import kr.or.watermelon.show.dto.SimpleUserDto;
 import kr.or.watermelon.show.entity.Comment;
 import kr.or.watermelon.show.entity.CommentType;
 import kr.or.watermelon.show.entity.Product;
@@ -33,7 +33,7 @@ public class CommentService {
         return commentResponses;
     }
 
-    public CommentDto registerComment(Long productId, UserIdDto user, CommentType type, ReqCommentDto reqCommentDto) {
+    public CommentDto registerComment(Long productId, SimpleUserDto user, CommentType type, ReqCommentDto reqCommentDto) {
         Comment comment = Comment.builder()
                 .product(Product.builder().id(productId).build())
                 .userId(user.getId())
@@ -42,10 +42,12 @@ public class CommentService {
                 .createdDateTime(reqCommentDto.getCreatedDateTime())
                 .build();
         Comment newComment = commentRepository.save(comment);
-        return modelMapper.map(newComment, CommentDto.class);
+        CommentDto commentDto = modelMapper.map(newComment, CommentDto.class);
+        commentDto.setUserName(user.getName());
+        return commentDto;
     }
 
-    public CommentDto modifyComment(UserIdDto user, Long commentId, ReqCommentDto reqCommentDto) {
+    public CommentDto modifyComment(SimpleUserDto user, Long commentId, ReqCommentDto reqCommentDto) {
         Comment comment = commentRepository.getOne(commentId);
         if(!comment.getUserId().equals(user.getId())) { // 인증받은 댓글 수정 요청한 사용자와 댓글 작성자가 같은지 확인
             throw new IllegalArgumentException("The current user cannot modify this commment");
@@ -55,7 +57,7 @@ public class CommentService {
         return modelMapper.map(modifiedComment, CommentDto.class);
     }
 
-    public Map<String, String> deleteComment(UserIdDto user, Long commentId) {
+    public Map<String, String> deleteComment(SimpleUserDto user, Long commentId) {
         Comment comment = commentRepository.getOne(commentId);
         if(!comment.getUserId().equals(user.getId())) { // 인증받은 댓글 수정 요청한 사용자와 댓글 작성자가 같은지 확인
             throw new IllegalArgumentException("The current user cannot delete this commment");

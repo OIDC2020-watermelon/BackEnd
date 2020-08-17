@@ -10,9 +10,11 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-@ApiModel(value = "UserIdDto", description = "사용자 아이디(pkey)")
-public class UserIdDto {
+@ApiModel(value = "SimpleUserDto", description = "사용자 아이디(pkey) & 이름 ")
+public class SimpleUserDto {
 
     @ApiModelProperty(value = "아이디(pkey)")
     private long id;
+    @ApiModelProperty(value = "이름")
+    private String name;
 }
