@@ -20,14 +20,20 @@ zuul:
   ignoredServices: '*'  # routes에 정의되지 않은 모든 요청은 무시 함
   sensitive-headers:    # header의 모든 정보를 bypass 함
   routes:
-    service-show:
+    show:
       path: /show/**
+      serviceId: service-show
       strip-prefix: false
-    service-member:
+    show-admin:
+      path: /admin/show/**
+      serviceId: service-show
+      strip-prefix: false
+    member:
       path: /auth/**
+      serviceId: service-member
       strip-prefix: false
-    service-reservation:
+    reservation:
       path: /reservation/**
+      serviceId: service-reservation
       strip-prefix: false        #true인 경우 path를 제거 후 각 서비스에 포워딩
   ignored-headers: Access-Control-Allow-Credentials, Access-Control-Allow-Origin    # Duplicate CORS headers 방지
-  
