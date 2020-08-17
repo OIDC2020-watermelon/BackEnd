@@ -29,3 +29,5 @@ zuul:
     service-reservation:
       path: /reservation/**
       strip-prefix: false        #true인 경우 path를 제거 후 각 서비스에 포워딩
+  ignored-headers: Access-Control-Allow-Credentials, Access-Control-Allow-Origin    # Duplicate CORS headers 방지
+  
