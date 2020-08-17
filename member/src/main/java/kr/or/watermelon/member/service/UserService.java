@@ -6,6 +6,7 @@ import kr.or.watermelon.member.advice.exception.CUserNotFoundException;
 import kr.or.watermelon.member.dto.SignupUserDto;
 import kr.or.watermelon.member.dto.SimpleUserDto;
 import kr.or.watermelon.member.dto.UserDto;
+import kr.or.watermelon.member.dto.UserRolesDto;
 import kr.or.watermelon.member.entity.User;
 import kr.or.watermelon.member.model.response.SingleResult;
 import kr.or.watermelon.member.repo.UserJpaRepo;
@@ -48,14 +49,19 @@ public class UserService {
         return modelMapper.map(user, UserDto.class);
     }
 
+    public UserDto getUserById(Long id) {
+        User user = userJpaRepo.findById(id).orElseThrow(CUserNotFoundException::new);
+        return modelMapper.map(user, UserDto.class);
+    }
+
     public SimpleUserDto getSimpleUser(String email) {
         User user = userJpaRepo.findByUid(email).orElseThrow(CUserNotFoundException::new);
         return modelMapper.map(user, SimpleUserDto.class);
     }
 
-    public UserDto getUserById(Long id) {
-        User user = userJpaRepo.findById(id).orElseThrow(CUserNotFoundException::new);
-        return modelMapper.map(user, UserDto.class);
+    public UserRolesDto getUserRoles(String email) {
+        User user = userJpaRepo.findByUid(email).orElseThrow(CUserNotFoundException::new);
+        return modelMapper.map(user, UserRolesDto.class);
     }
 
     public UserDto modify(String email, UserDto userDto) {
