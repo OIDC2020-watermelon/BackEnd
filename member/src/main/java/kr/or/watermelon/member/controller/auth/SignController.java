@@ -3,7 +3,10 @@ package kr.or.watermelon.member.controller.auth;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import kr.or.watermelon.member.advice.exception.CEmailSigninFailedException;
 import kr.or.watermelon.member.config.security.JwtTokenProvider;
+import kr.or.watermelon.member.dto.SignupUserDto;
+import kr.or.watermelon.member.dto.UserDto;
 import kr.or.watermelon.member.entity.User;
 import kr.or.watermelon.member.model.response.SingleResult;
 import kr.or.watermelon.member.service.ResponseService;
@@ -42,23 +45,18 @@ public class SignController {
         return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(signedUser.getUid()), signedUser.getRoles()));
     }
 
-    /*
-        @ApiOperation(value = "로그인", notes = "회원 로그인을 한다.")
+    @ApiOperation(value = "로그인", notes = "회원 로그인을 한다.")
     @PostMapping(value = "/signin")
     public SingleResult<String> signin(@ApiParam(value = "회원ID: 이메일", required = true) @RequestParam String email,
                                        @ApiParam(value = "비밀번호", required = true) @RequestParam String password) {
-
-        User user = userJpaRepo.findByUid(email).orElseThrow(CEmailSigninFailedException::new);
-        if (!passwordEncoder.matches(password, user.getPassword()))
-            throw new CEmailSigninFailedException();
-
-        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getUid()), user.getRoles()));
+        UserDto signeduser = userService.signin(email, password);
+        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(signeduser.getUid()), signeduser.getRoles()));
     }
-
+    /*
     @ApiOperation(value = "가입", notes = "회원가입을 한다.")
     @PostMapping(value = "/signup")
     public SingleResult<SignupUserDto> signup(@RequestBody SignupUserDto signupUserDto) {
         return responseService.getSingleResult(userService.signup(signupUserDto));
     }
-     */
+    */
 }
