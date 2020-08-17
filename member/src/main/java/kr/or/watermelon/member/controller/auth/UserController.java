@@ -1,6 +1,6 @@
 package kr.or.watermelon.member.controller.auth;
 
-import kr.or.watermelon.member.dto.UserIdDto;
+import kr.or.watermelon.member.dto.SimpleUserDto;
 import kr.or.watermelon.member.dto.UserDto;
 import kr.or.watermelon.member.model.response.CommonResult;
 import kr.or.watermelon.member.model.response.SingleResult;
@@ -60,11 +60,11 @@ public class UserController {
 
     @ApiOperation(value = "회원 아이디 단건 조회 (다른 서비스들 호출)", notes = "인증받은 사용자의 아이디를 조회한다")
     @GetMapping(value = "/userId")
-    public UserIdDto getUserId() {
+    public SimpleUserDto getSimpleUser() {
         // SecurityContext에서 인증받은 회원의 정보를 얻어온다.
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        return userService.getUserId(email);
+        return userService.getSimpleUser(email);
     }
 
     @ApiOperation(value = "회원 단건 조회 (다른 서비스들 호출)", notes = "인증받은 사용자의 회원 정보를 조회한다")

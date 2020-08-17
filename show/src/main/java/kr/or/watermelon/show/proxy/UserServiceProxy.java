@@ -1,6 +1,6 @@
 package kr.or.watermelon.show.proxy;
 
-import kr.or.watermelon.show.dto.UserIdDto;
+import kr.or.watermelon.show.dto.SimpleUserDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -9,5 +9,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 @FeignClient(name = "service-member")
 public interface UserServiceProxy {
     @GetMapping(value = "/auth/userId")
-    public UserIdDto getUserId(@RequestHeader("X-AUTH-TOKEN") String xAuthToken);
+    public SimpleUserDto getSimpleUser(@RequestHeader("X-AUTH-TOKEN") String xAuthToken);
 }
+
