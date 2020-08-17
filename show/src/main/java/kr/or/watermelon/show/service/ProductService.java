@@ -55,7 +55,10 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public List<BucketDto> getReservationTraffic(Long id, TrafficTypeDto trafficType) throws Exception {
+    public List<BucketDto> getReservationTraffic(UserRolesDto user, Long id, TrafficTypeDto trafficType) throws Exception {
+        if (!user.getRoles().contains("ROLE_ADMIN")) {
+            throw new IllegalArgumentException("The current user has no authority");
+        }
         Product product = productRepository.getOne(id);
         List<BucketDto> buckets;
         if (trafficType == TrafficTypeDto.RESERVATION) {
@@ -67,7 +70,11 @@ public class ProductService {
     }
 
     //TODO Transactional 공부,JPA영속성 공부
-    public UUID createProduct(ProductInfoDto productInfo) {
+    public UUID createProduct(UserRolesDto user, ProductInfoDto productInfo) {
+        if (!user.getRoles().contains("ROLE_ADMIN")) {
+            throw new IllegalArgumentException("The current user has no authority");
+        }
+
         Product product = modelMapper.map(productInfo, Product.class);
         Product productSaved = productRepository.save(product);
 
@@ -84,7 +91,10 @@ public class ProductService {
     }
 
     @Transactional
-    public void deleteProduct(UUID serial) {
+    public void deleteProduct(UserRolesDto user, UUID serial) {
+        if (!user.getRoles().contains("ROLE_ADMIN")) {
+            throw new IllegalArgumentException("The current user has no authority");
+        }
         Optional<Product> product = productRepository.findBySerial(serial);
         product.ifPresent(p -> {
             reservationServiceProxy.delete(p.getId());
