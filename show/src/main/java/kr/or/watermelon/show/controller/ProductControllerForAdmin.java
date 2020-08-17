@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Api(tags = {"상품API - 관리자용"})
+@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/admin/show/products")
