@@ -10,15 +10,15 @@
 
 - Common: [Spring boot](https://www.typescriptlang.org/)
 
-- Build tool: [gradle](https://gradle.org/)
+- Build tool: [Gradle](https://gradle.org/)
 
-- ORM: [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
-
-- Log: [slf4j](http://www.slf4j.org/), [Elasticsearch](https://www.elastic.co/kr/products/elasticsearch), [Logstash](https://www.elastic.co/kr/products/logstash), [Redis](https://redis.io/)
+- Log: [Slf4j](http://www.slf4j.org/), [Elasticsearch](https://www.elastic.co/kr/products/elasticsearch), [Logstash](https://www.elastic.co/kr/products/logstash), [Redis](https://redis.io/)
 
 - Infra: [MSA(Zuul+Eureka)](https://medium.com/@yesesyo/%EA%B0%80%EB%B3%8D%EA%B2%8C-%EB%A7%88%EC%9D%B4%ED%81%AC%EB%A1%9C%EC%84%9C%EB%B9%84%EC%8A%A4-%EA%B5%AC%EC%B6%95%ED%95%B4%EB%B3%B4%EA%B8%B0-2-6b417aedaec)
 
 - Test: [Testcontainers](https://testcontainers.org/), [Junit5](https://junit.org/junit5/docs/current/user-guide/)
+
+- etc: [Spring Batch](https://spring.io/projects/spring-batch), [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
 
 ---
 
