@@ -78,7 +78,7 @@ service elasticsearch start
 wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
 echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
 apt-get install logstash
-vi /etc/logstash/conf.d/spring.conf
+vi /etc/logstash/conf.d/elkr.conf
 //아래 코드를 elkr.conf에 입력
 input {
     tcp {
