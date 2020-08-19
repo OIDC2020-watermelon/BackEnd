@@ -3,8 +3,10 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id "io.franzbecker.gradle-lombok" version "3.0.0"
     id 'java'
+    id 'application'
 }
 
+mainClassName = "ShowApplication"
 group = 'kr.or.watermelon'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'

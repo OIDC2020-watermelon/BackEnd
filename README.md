@@ -24,7 +24,7 @@
 
 # Get Started
 
-ubuntu-18.04와 java8 환경에서 실행하였습니다.
+ubuntu-18.04와 jdk1.8환경에서 실행하였습니다.
 
 ### Gateway server
 ```bash
@@ -59,7 +59,7 @@ java -jar ./build/libs/reservation-0.0.1-SNAPSHOT.jar
 ### Show server
 ```bash
 # database type: postgresql, database: postgres, username: postgres, password: oidc2020
-# docker가 설치되어있어야 합니다.
+# 테스트 진행시 docker가 설치되어있어야 하고 이로 인해 빌드가 실패해도  서버는 실행가능합니다.
 cd show
 ./gradlew build
 java -jar ./build/libs/show-0.0.1-SNAPSHOT.jar
@@ -67,7 +67,6 @@ java -jar ./build/libs/show-0.0.1-SNAPSHOT.jar
 
 ### Elasticsearch server
 ```bash
-// Elasticsearch
 wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
 echo "deb https://artifacts.elastic.co/packages/6.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-6.x.list
 apt-get update
@@ -76,10 +75,11 @@ service elasticsearch start
 ```
 ### Logstash server
 ```bash
-// Logstash
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
 apt-get install logstash
 vi /etc/logstash/conf.d/spring.conf
-//아래 코드를 spring.conf에 입력
+//아래 코드를 elkr.conf에 입력
 input {
     tcp {
         port => 4560
