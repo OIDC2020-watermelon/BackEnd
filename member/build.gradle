@@ -3,10 +3,8 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
     id "org.sonarqube" version "2.7"
-    id 'application'
 }
 
-mainClassName=MemberApplication
 group = 'kr.or.watermelon.member'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
